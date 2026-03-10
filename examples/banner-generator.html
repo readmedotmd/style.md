@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>style.md Banner &amp; Icon Generator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Space Mono', monospace;
+      background: #E8E8E8;
+      color: #1A1A1A;
+      padding: 40px;
+    }
+    h1 { font-size: 24px; color: #1A1A1A; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; font-weight: 700; }
+    h2 {
+      font-size: 11px; color: #FF5500; text-transform: uppercase;
+      letter-spacing: 0.12em; margin: 24px 0 12px; padding-bottom: 8px;
+      border-bottom: 2px solid #1A1A1A; font-weight: 700;
+    }
+    .subtitle { font-size: 12px; color: #888; margin-bottom: 32px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .tabs { display: flex; gap: 0; margin-bottom: 32px; }
+    .tab {
+      padding: 10px 24px; background: #FFFFFF; border: 2px solid #1A1A1A; cursor: pointer;
+      text-transform: uppercase; letter-spacing: 0.06em; font-size: 12px;
+      font-family: inherit; font-weight: 700; color: #888;
+      box-shadow: 3px 3px 0 #1A1A1A;
+    }
+    .tab:first-child { border-radius: 4px 0 0 4px; }
+    .tab:last-child { border-radius: 0 4px 4px 0; border-left: 0; }
+    .tab--active { background: #FF5500; color: #fff; border-color: #1A1A1A; }
+    .tab:not(.tab--active):hover { background: #F0F0F0; color: #1A1A1A; }
+    .panels { display: flex; gap: 40px; }
+    .panel-left {
+      flex: 0 0 340px; background: #FFFFFF; border: 2px solid #1A1A1A;
+      border-radius: 6px; padding: 24px; box-shadow: 4px 4px 0 #1A1A1A;
+    }
+    .panel-right { flex: 1; min-width: 0; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.08em; font-weight: 700; color: #1A1A1A; margin-bottom: 6px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 8px 12px; background: #FFFFFF; border: 2px solid #1A1A1A;
+      border-radius: 3px; color: #1A1A1A; font-family: 'Space Mono', monospace; font-size: 13px;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: #FF5500; box-shadow: 3px 3px 0 #FF5500;
+    }
+    .form-group select { cursor: pointer; }
+    .form-row { display: flex; gap: 12px; }
+    .form-row .form-group { flex: 1; }
+    .color-input { display: flex; align-items: center; gap: 8px; }
+    .color-input input[type="color"] { width: 36px; height: 36px; border: 2px solid #1A1A1A; border-radius: 3px; padding: 2px; cursor: pointer; background: #FFFFFF; }
+    .color-input input[type="text"] { flex: 1; }
+    .preview-area {
+      background: #FFFFFF; border: 2px solid #1A1A1A; border-radius: 6px;
+      padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 16px;
+      box-shadow: 4px 4px 0 #1A1A1A;
+    }
+    .preview-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.08em; align-self: flex-start; font-weight: 700; }
+    .preview-area svg { max-width: 100%; height: auto; }
+    .btn {
+      padding: 10px 20px; border: 2px solid #1A1A1A; border-radius: 3px;
+      background: #FFFFFF; color: #1A1A1A; font-family: 'Space Mono', monospace;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      cursor: pointer; box-shadow: 3px 3px 0 #1A1A1A; transition: all 0.1s;
+    }
+    .btn:hover { background: #F0F0F0; }
+    .btn:active { box-shadow: 1px 1px 0 #1A1A1A; transform: translate(2px, 2px); }
+    .btn--primary { background: #FF5500; color: #fff; border-color: #1A1A1A; }
+    .btn--primary:hover { background: #E64D00; }
+    .btn-row { display: flex; gap: 8px; margin-top: 16px; }
+    .checkbox-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; cursor: pointer; }
+    .checkbox-row input { accent-color: #FF5500; }
+    .checkbox-row span { font-size: 12px; color: #666; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<h1>style.md generators</h1>
+<p class="subtitle">Industrial monospace banner &amp; icon generator</p>
+
+<div class="tabs">
+  <button class="tab tab--active" onclick="switchTab('banner')">Banner</button>
+  <button class="tab" onclick="switchTab('icon')">App Icon</button>
+</div>
+
+<!-- ==================== BANNER TAB ==================== -->
+<div id="tab-banner">
+  <div class="panels">
+    <div class="panel-left">
+      <h2>Content</h2>
+      <div class="form-group">
+        <label>Project Name</label>
+        <input type="text" id="b-name" value="store.md" oninput="renderBanner()">
+      </div>
+      <div class="form-group">
+        <label>Tagline</label>
+        <input type="text" id="b-tagline" value="Key-value storage interface for Go" oninput="renderBanner()">
+      </div>
+      <div class="form-group">
+        <label>Description (optional)</label>
+        <input type="text" id="b-desc" value="One interface. Six backends. Built-in sync." oninput="renderBanner()">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Version</label>
+          <input type="text" id="b-version" value="v0.1.0" oninput="renderBanner()">
+        </div>
+        <div class="form-group">
+          <label>Tags (comma-separated)</label>
+          <input type="text" id="b-tags" value="by README.md, MIT" oninput="renderBanner()">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Size</label>
+        <select id="b-size" onchange="renderBanner()">
+          <option value="900x280">900 × 280 (GitHub)</option>
+          <option value="1800x560" selected>1800 × 560 (GitHub 2×)</option>
+          <option value="1280x640">1280 × 640 (Social)</option>
+          <option value="800x200">800 × 200 (Compact)</option>
+        </select>
+      </div>
+
+      <h2>Style</h2>
+      <div class="form-group">
+        <label>Accent Color</label>
+        <div class="color-input">
+          <input type="color" id="b-accent-picker" value="#FF5500" oninput="document.getElementById('b-accent').value=this.value;renderBanner()">
+          <input type="text" id="b-accent" value="#FF5500" oninput="document.getElementById('b-accent-picker').value=this.value;renderBanner()">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Layout</label>
+        <select id="b-layout" onchange="renderBanner()">
+          <option value="card" selected>Card Panel</option>
+          <option value="terminal">Terminal Window</option>
+          <option value="minimal">Minimal</option>
+        </select>
+      </div>
+      <div class="checkbox-row" onclick="this.querySelector('input').click()">
+        <input type="checkbox" id="b-statusdots" checked onchange="renderBanner()" onclick="event.stopPropagation()">
+        <span>Status Dots</span>
+      </div>
+      <div class="checkbox-row" onclick="this.querySelector('input').click()">
+        <input type="checkbox" id="b-badge" checked onchange="renderBanner()" onclick="event.stopPropagation()">
+        <span>Version Badge</span>
+      </div>
+      <div class="checkbox-row" onclick="this.querySelector('input').click()">
+        <input type="checkbox" id="b-tags-show" checked onchange="renderBanner()" onclick="event.stopPropagation()">
+        <span>Tags</span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn--primary" onclick="downloadSVG('banner')">Download SVG</button>
+        <button class="btn" onclick="copySVG('banner')">Copy SVG</button>
+      </div>
+    </div>
+    <div class="panel-right">
+      <div class="preview-area">
+        <div class="preview-label">Preview</div>
+        <div id="banner-preview"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ICON TAB ==================== -->
+<div id="tab-icon" class="hidden">
+  <div class="panels">
+    <div class="panel-left">
+      <h2>Content</h2>
+      <div class="form-group">
+        <label>Mode</label>
+        <select id="i-mode" onchange="toggleIconMode();renderIcon()">
+          <option value="text" selected>Text</option>
+          <option value="icon">Remix Icon</option>
+        </select>
+      </div>
+      <div id="i-text-fields">
+        <div class="form-group">
+          <label>Label (1-4 chars)</label>
+          <input type="text" id="i-label" value="St" maxlength="4" oninput="renderIcon()">
+        </div>
+      </div>
+      <div id="i-icon-fields" class="hidden">
+        <div class="form-group">
+          <label>Icon</label>
+          <select id="i-icon" onchange="renderIcon()" style="height:auto;">
+          </select>
+        </div>
+      </div>
+
+      <h2>Style</h2>
+      <div class="form-group">
+        <label>Size</label>
+        <select id="i-size" onchange="renderIcon()">
+          <option value="512">512 × 512</option>
+          <option value="256">256 × 256</option>
+          <option value="128">128 × 128</option>
+          <option value="1024" selected>1024 × 1024</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Accent Color</label>
+        <div class="color-input">
+          <input type="color" id="i-accent-picker" value="#FF5500" oninput="document.getElementById('i-accent').value=this.value;renderIcon()">
+          <input type="text" id="i-accent" value="#FF5500" oninput="document.getElementById('i-accent-picker').value=this.value;renderIcon()">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Corner Radius</label>
+        <select id="i-radius" onchange="renderIcon()">
+          <option value="0">0px (Square)</option>
+          <option value="small">3px</option>
+          <option value="medium" selected>6px</option>
+          <option value="large">8px</option>
+          <option value="xl">12px</option>
+        </select>
+      </div>
+      <div class="checkbox-row" onclick="this.querySelector('input').click()">
+        <input type="checkbox" id="i-shadow" checked onchange="renderIcon()" onclick="event.stopPropagation()">
+        <span>Hard Shadow</span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn--primary" onclick="downloadSVG('icon')">Download SVG</button>
+        <button class="btn" onclick="downloadPNG()">Download PNG</button>
+        <button class="btn" onclick="copySVG('icon')">Copy SVG</button>
+      </div>
+    </div>
+    <div class="panel-right">
+      <div class="preview-area">
+        <div class="preview-label">Preview</div>
+        <div id="icon-preview" style="display:flex;gap:24px;align-items:end;flex-wrap:wrap;justify-content:center;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== CONSTANTS =====================
+var C = {
+  pageBg: '#FFFFFF',
+  surface: '#FFFFFF',
+  dark: '#2D333B',
+  border: '#000000',
+  muted: '#888888',
+  dotRed: '#FF3B30',
+  dotYellow: '#FFCC00',
+  dotGreen: '#34C759',
+  shadowAlpha: 'rgba(0,0,0,0.25)',
+  font: "'Space Mono', 'Courier New', monospace"
+};
+
+// ===================== TAB SWITCHING =====================
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('tab--active'); });
+  document.getElementById('tab-banner').classList.add('hidden');
+  document.getElementById('tab-icon').classList.add('hidden');
+  if (tab === 'banner') {
+    document.querySelectorAll('.tab')[0].classList.add('tab--active');
+    document.getElementById('tab-banner').classList.remove('hidden');
+  } else {
+    document.querySelectorAll('.tab')[1].classList.add('tab--active');
+    document.getElementById('tab-icon').classList.remove('hidden');
+  }
+}
+
+// ===================== BANNER GENERATOR =====================
+function renderBanner() {
+  var name = document.getElementById('b-name').value || 'project.md';
+  var tagline = document.getElementById('b-tagline').value;
+  var desc = document.getElementById('b-desc').value;
+  var version = document.getElementById('b-version').value;
+  var accent = document.getElementById('b-accent').value;
+  var layout = document.getElementById('b-layout').value;
+  var tags = document.getElementById('b-tags').value.split(',').map(function(t) { return t.trim(); }).filter(Boolean);
+  var showDots = document.getElementById('b-statusdots').checked;
+  var showBadge = document.getElementById('b-badge').checked;
+  var showTags = document.getElementById('b-tags-show').checked;
+
+  var dims = document.getElementById('b-size').value.split('x');
+  var w = parseInt(dims[0]), h = parseInt(dims[1]);
+  var scale = h / 280;
+
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">\n';
+  svg += '  <defs><style>@import url(\'https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;display=swap\');</style></defs>\n';
+
+  // Page background
+  svg += '  <rect width="' + w + '" height="' + h + '" fill="' + C.pageBg + '"/>\n';
+
+  if (layout === 'card') {
+    svg += renderCardBanner(w, h, scale, name, tagline, desc, version, accent, tags, showDots, showBadge, showTags);
+  } else if (layout === 'terminal') {
+    svg += renderTerminalBanner(w, h, scale, name, tagline, desc, version, accent, tags, showDots, showBadge, showTags);
+  } else {
+    svg += renderMinimalBanner(w, h, scale, name, tagline, desc, version, accent, tags, showBadge, showTags);
+  }
+
+  svg += '</svg>';
+  document.getElementById('banner-preview').innerHTML = svg;
+  window._bannerSVG = svg;
+}
+
+function renderCardBanner(w, h, scale, name, tagline, desc, version, accent, tags, showDots, showBadge, showTags) {
+  var s = '';
+  var pad = Math.round(24 * scale);
+  var cardX = pad;
+  var cardY = pad;
+  var cardW = w - pad * 2;
+  var cardH = h - pad * 2;
+  var borderW = Math.max(4, Math.round(4 * scale));
+  var shadowOff = Math.round(5 * scale);
+  var r = Math.round(6 * scale);
+
+  // Helper: path with rounded top corners, square bottom corners
+  function topRoundRect(x, y, w, h, r) {
+    return 'M' + (x + r) + ',' + y +
+      ' L' + (x + w - r) + ',' + y +
+      ' Q' + (x + w) + ',' + y + ' ' + (x + w) + ',' + (y + r) +
+      ' L' + (x + w) + ',' + (y + h) +
+      ' L' + x + ',' + (y + h) +
+      ' L' + x + ',' + (y + r) +
+      ' Q' + x + ',' + y + ' ' + (x + r) + ',' + y +
+      ' Z';
+  }
+
+  // Management-style: dark header ~40% with muted label + large orange title
+  var headerH = Math.round(cardH * 0.38);
+
+  // Card shadow (black)
+  s += '  <rect x="' + (cardX + shadowOff) + '" y="' + (cardY + shadowOff) + '" width="' + cardW + '" height="' + cardH + '" rx="' + r + '" fill="' + C.border + '"/>\n';
+
+  // Clip path for card shape
+  s += '  <clipPath id="card-clip"><rect x="' + cardX + '" y="' + cardY + '" width="' + cardW + '" height="' + cardH + '" rx="' + r + '"/></clipPath>\n';
+
+  // Card body (white fill, no stroke yet)
+  s += '  <rect x="' + cardX + '" y="' + cardY + '" width="' + cardW + '" height="' + cardH + '" rx="' + r + '" fill="' + C.surface + '"/>\n';
+
+  // Dark header — clipped to card shape, height up to header border line
+  s += '  <rect x="' + cardX + '" y="' + cardY + '" width="' + cardW + '" height="' + headerH + '" fill="' + C.dark + '" clip-path="url(#card-clip)"/>\n';
+
+  // Header content: small muted label + large orange title (management style)
+  var headerPadX = cardX + Math.round(28 * scale);
+  var labelSize = Math.round(10 * scale);
+  var titleSize = Math.round(28 * scale);
+  var labelY = cardY + Math.round(headerH * 0.35);
+  var titleY = cardY + Math.round(headerH * 0.72);
+
+  // Small muted label (tagline or "PROJECT")
+  var labelText = tagline ? tagline.toUpperCase() : 'PROJECT';
+  s += '  <text x="' + headerPadX + '" y="' + labelY + '" font-family="' + C.font + '" font-size="' + labelSize + '" fill="#888888" font-weight="700" letter-spacing="2">' + escXml(labelText) + '</text>\n';
+
+  // Large orange title (project name) — format as NAME.ext (uppercase name, lowercase extension)
+  var nameParts = name.split('.');
+  var displayName = nameParts.length > 1
+    ? nameParts.slice(0, -1).join('.').toUpperCase() + '.' + nameParts[nameParts.length - 1].toLowerCase()
+    : name.toUpperCase();
+  s += '  <text x="' + headerPadX + '" y="' + titleY + '" font-family="' + C.font + '" font-size="' + titleSize + '" fill="' + accent + '" font-weight="700" letter-spacing="1">' + escXml(displayName) + '</text>\n';
+
+  // Version / count badge in header (right side, like "TOTAL: 01")
+  if (showBadge && version) {
+    var badgeFontSize = Math.round(10 * scale);
+    var countSize = Math.round(24 * scale);
+    var badgeRightX = cardX + cardW - Math.round(28 * scale);
+    s += '  <text x="' + badgeRightX + '" y="' + labelY + '" font-family="' + C.font + '" font-size="' + badgeFontSize + '" fill="#888888" font-weight="700" letter-spacing="2" text-anchor="end">VERSION</text>\n';
+    s += '  <text x="' + badgeRightX + '" y="' + titleY + '" font-family="' + C.font + '" font-size="' + countSize + '" fill="' + C.surface + '" font-weight="700" letter-spacing="1" text-anchor="end">' + escXml(version.toUpperCase()) + '</text>\n';
+  }
+
+  // Status dots in header — vertically centered with title text
+  if (showDots) {
+    var dotR = Math.round(4 * scale);
+    var dotY2 = titleY - Math.round(titleSize * 0.35);
+    var dotStart = headerPadX + displayName.length * Math.round(19 * scale) + Math.round(20 * scale);
+    s += '  <circle cx="' + dotStart + '" cy="' + dotY2 + '" r="' + dotR + '" fill="' + C.dotGreen + '"/>\n';
+  }
+
+  // White body content area
+  var contentX = cardX + Math.round(28 * scale);
+  var contentTop = cardY + headerH + Math.round(16 * scale);
+
+  // Description line
+  if (desc) {
+    var descSize = Math.round(12 * scale);
+    var descY = contentTop + descSize;
+    s += '  <text x="' + contentX + '" y="' + descY + '" font-family="' + C.font + '" font-size="' + descSize + '" fill="' + C.muted + '" letter-spacing="0.5">' + escXml(desc) + '</text>\n';
+  }
+
+  // Tags row in body area (bottom left)
+  if (showTags && tags.length > 0) {
+    var tagFontSize = Math.round(10 * scale);
+    var tagH = Math.round(22 * scale);
+    var tagY = cardY + cardH - Math.round(22 * scale);
+    var tagR = Math.round(3 * scale);
+    var tagGap = Math.round(8 * scale);
+    var tagBgs = [accent, '#007AFF', '#34C759', '#FFCC00', '#AF52DE', '#FF3B30'];
+    var tagFgs = ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#1A1A1A', '#FFFFFF', '#FFFFFF'];
+    var tagX = contentX;
+    for (var ti = 0; ti < tags.length; ti++) {
+      var tagText = formatUpperWithExt(tags[ti]);
+      var tagBg = tagBgs[ti % tagBgs.length];
+      var tagFg = tagFgs[ti % tagFgs.length];
+      var tagW = Math.max(tagText.length * Math.round(8 * scale) + Math.round(20 * scale), Math.round(70 * scale));
+      s += '  <rect x="' + tagX + '" y="' + (tagY - tagH) + '" width="' + tagW + '" height="' + tagH + '" rx="' + tagR + '" fill="' + tagBg + '" stroke="' + C.border + '" stroke-width="' + borderW + '"/>\n';
+      s += '  <text x="' + (tagX + tagW / 2) + '" y="' + (tagY - tagH / 2 + tagFontSize * 0.35) + '" font-family="' + C.font + '" font-size="' + tagFontSize + '" fill="' + tagFg + '" text-anchor="middle" font-weight="700" letter-spacing="1">' + escXml(tagText) + '</text>\n';
+      tagX += tagW + tagGap;
+    }
+  }
+
+  // Orange accent bar at bottom — clipped to card shape
+  var barH = Math.round(6 * scale);
+  s += '  <rect x="' + cardX + '" y="' + (cardY + cardH - barH) + '" width="' + cardW + '" height="' + barH + '" fill="' + accent + '" clip-path="url(#card-clip)"/>\n';
+
+  // Card border — rendered LAST so it sits on top of everything
+  s += '  <rect x="' + cardX + '" y="' + cardY + '" width="' + cardW + '" height="' + cardH + '" rx="' + r + '" fill="none" stroke="' + C.border + '" stroke-width="' + borderW + '"/>\n';
+  // Header bottom border on top
+  s += '  <line x1="' + cardX + '" y1="' + (cardY + headerH) + '" x2="' + (cardX + cardW) + '" y2="' + (cardY + headerH) + '" stroke="' + C.border + '" stroke-width="' + borderW + '"/>\n';
+
+  return s;
+}
+
+function renderTerminalBanner(w, h, scale, name, tagline, desc, version, accent, tags, showDots, showBadge, showTags) {
+  var s = '';
+  var pad = Math.round(20 * scale);
+  var cardX = pad;
+  var cardY = pad;
+  var cardW = w - pad * 2;
+  var cardH = h - pad * 2;
+  var headerH = Math.round(32 * scale);
+  var borderW = Math.max(2, Math.round(2 * scale));
+  var shadowOff = Math.round(5 * scale);
+  var r = Math.round(6 * scale);
+
+  // Shadow
+  s += '  <rect x="' + (cardX + shadowOff) + '" y="' + (cardY + shadowOff) + '" width="' + cardW + '" height="' + cardH + '" rx="' + r + '" fill="' + C.dark + '"/>\n';
+
+  // Terminal body — dark
+  s += '  <rect x="' + cardX + '" y="' + cardY + '" width="' + cardW + '" height="' + cardH + '" rx="' + r + '" fill="' + C.dark + '" stroke="' + C.border + '" stroke-width="' + borderW + '"/>\n';
+
+  // Header bar
+  s += '  <line x1="' + cardX + '" y1="' + (cardY + headerH) + '" x2="' + (cardX + cardW) + '" y2="' + (cardY + headerH) + '" stroke="#333333" stroke-width="' + borderW + '"/>\n';
+
+  // Status dots
+  if (showDots) {
+    var dotR = Math.round(5 * scale);
+    var dotY = cardY + Math.round(headerH / 2);
+    var dotStart = cardX + Math.round(16 * scale);
+    var dotGap = Math.round(16 * scale);
+    s += '  <circle cx="' + dotStart + '" cy="' + dotY + '" r="' + dotR + '" fill="' + C.dotRed + '"/>\n';
+    s += '  <circle cx="' + (dotStart + dotGap) + '" cy="' + dotY + '" r="' + dotR + '" fill="' + C.dotYellow + '"/>\n';
+    s += '  <circle cx="' + (dotStart + dotGap * 2) + '" cy="' + dotY + '" r="' + dotR + '" fill="' + C.dotGreen + '"/>\n';
+  }
+
+  // Header title
+  var headerTextSize = Math.round(10 * scale);
+  s += '  <text x="' + (w / 2) + '" y="' + (cardY + headerH / 2 + headerTextSize * 0.35) + '" font-family="' + C.font + '" font-size="' + headerTextSize + '" fill="#666666" font-weight="700" text-anchor="middle" letter-spacing="2">' + escXml(name.toUpperCase()) + ' — TERMINAL</text>\n';
+
+  // Terminal content
+  var lineH = Math.round(20 * scale);
+  var cX = cardX + Math.round(24 * scale);
+  var cY = cardY + headerH + Math.round(24 * scale);
+  var fontSize = Math.round(13 * scale);
+  var promptChar = '▸';
+
+  // Prompt line with project name
+  s += '  <text x="' + cX + '" y="' + cY + '" font-family="' + C.font + '" font-size="' + fontSize + '" fill="' + accent + '" font-weight="700">' + promptChar + ' ' + escXml(name) + '</text>\n';
+  cY += lineH;
+
+  // Tagline
+  if (tagline) {
+    s += '  <text x="' + cX + '" y="' + cY + '" font-family="' + C.font + '" font-size="' + fontSize + '" fill="#AAAAAA"># ' + escXml(tagline) + '</text>\n';
+    cY += lineH;
+  }
+
+  // Blank line
+  cY += Math.round(8 * scale);
+
+  // Description
+  if (desc) {
+    s += '  <text x="' + cX + '" y="' + cY + '" font-family="' + C.font + '" font-size="' + Math.round(11 * scale) + '" fill="#666666">' + escXml(desc) + '</text>\n';
+    cY += lineH;
+  }
+
+  // Version and status badges at bottom
+  var badgeY = cardY + cardH - Math.round(20 * scale);
+  var badgeH = Math.round(20 * scale);
+  var badgeFontSize = Math.round(10 * scale);
+
+  if (showBadge && version) {
+    var vw = version.length * Math.round(8 * scale) + Math.round(20 * scale);
+    s += '  <rect x="' + cX + '" y="' + (badgeY - badgeH) + '" width="' + vw + '" height="' + badgeH + '" rx="3" fill="none" stroke="' + accent + '" stroke-width="' + borderW + '"/>\n';
+    s += '  <text x="' + (cX + vw / 2) + '" y="' + (badgeY - badgeH / 2 + badgeFontSize * 0.35) + '" font-family="' + C.font + '" font-size="' + badgeFontSize + '" fill="' + accent + '" text-anchor="middle" font-weight="700" letter-spacing="1">' + escXml(version) + '</text>\n';
+  }
+
+  if (showTags && tags.length > 0) {
+    var txPos = showBadge ? cX + (version.length * Math.round(8 * scale) + Math.round(20 * scale)) + Math.round(8 * scale) : cX;
+    for (var ti = 0; ti < tags.length; ti++) {
+      var tagText = formatUpperWithExt(tags[ti]);
+      var tw = tagText.length * Math.round(8 * scale) + Math.round(20 * scale);
+      s += '  <rect x="' + txPos + '" y="' + (badgeY - badgeH) + '" width="' + tw + '" height="' + badgeH + '" rx="3" fill="none" stroke="' + accent + '" stroke-width="' + borderW + '"/>\n';
+      s += '  <text x="' + (txPos + tw / 2) + '" y="' + (badgeY - badgeH / 2 + badgeFontSize * 0.35) + '" font-family="' + C.font + '" font-size="' + badgeFontSize + '" fill="' + accent + '" text-anchor="middle" font-weight="700" letter-spacing="1">' + escXml(tagText) + '</text>\n';
+      txPos += tw + Math.round(8 * scale);
+    }
+  }
+
+  // Cursor blink
+  s += '  <rect x="' + cX + '" y="' + (cY - fontSize) + '" width="' + Math.round(8 * scale) + '" height="' + Math.round(16 * scale) + '" fill="' + accent + '" opacity="0.7"/>\n';
+
+  return s;
+}
+
+function renderMinimalBanner(w, h, scale, name, tagline, desc, version, accent, tags, showBadge, showTags) {
+  var s = '';
+  var borderW = Math.max(2, Math.round(2 * scale));
+
+  // Accent left bar
+  var barW = Math.round(6 * scale);
+  s += '  <rect x="0" y="0" width="' + barW + '" height="' + h + '" fill="' + accent + '"/>\n';
+
+  // Bottom border
+  s += '  <line x1="0" y1="' + (h - borderW / 2) + '" x2="' + w + '" y2="' + (h - borderW / 2) + '" stroke="' + C.dark + '" stroke-width="' + borderW + '"/>\n';
+
+  // Content
+  var contentX = barW + Math.round(40 * scale);
+  var titleSize = Math.round(48 * scale);
+  var titleY = Math.round(h * 0.42) + titleSize * 0.3;
+
+  s += '  <text x="' + contentX + '" y="' + titleY + '" font-family="' + C.font + '" font-size="' + titleSize + '" font-weight="700" fill="' + C.dark + '" letter-spacing="-1">' + escXml(name) + '</text>\n';
+
+  if (tagline) {
+    var tagSize = Math.round(13 * scale);
+    s += '  <text x="' + contentX + '" y="' + (titleY + Math.round(24 * scale)) + '" font-family="' + C.font + '" font-size="' + tagSize + '" fill="' + accent + '" font-weight="700" letter-spacing="2">' + escXml(tagline.toUpperCase()) + '</text>\n';
+  }
+
+  if (desc) {
+    var descSize = Math.round(11 * scale);
+    var descY = titleY + Math.round(46 * scale);
+    s += '  <text x="' + contentX + '" y="' + descY + '" font-family="' + C.font + '" font-size="' + descSize + '" fill="' + C.muted + '">' + escXml(desc) + '</text>\n';
+  }
+
+  // Version badge right side
+  if (showBadge && version) {
+    var badgeFontSize = Math.round(10 * scale);
+    var vw = version.length * Math.round(8 * scale) + Math.round(20 * scale);
+    var vx = w - Math.round(40 * scale) - vw;
+    var vy = Math.round(h / 2) - Math.round(11 * scale);
+    var badgeH = Math.round(22 * scale);
+    s += '  <rect x="' + vx + '" y="' + vy + '" width="' + vw + '" height="' + badgeH + '" rx="3" fill="none" stroke="' + C.dark + '" stroke-width="' + borderW + '"/>\n';
+    s += '  <text x="' + (vx + vw / 2) + '" y="' + (vy + badgeH / 2 + badgeFontSize * 0.35) + '" font-family="' + C.font + '" font-size="' + badgeFontSize + '" fill="' + C.dark + '" text-anchor="middle" font-weight="700" letter-spacing="1">' + escXml(version.toUpperCase()) + '</text>\n';
+  }
+
+  return s;
+}
+
+// ===================== REMIX ICONS (24x24 viewBox paths) =====================
+var REMIX_ICONS = {
+  'database-2': 'M21 9.5V12.5C21 14.985 16.971 17 12 17C7.029 17 3 14.985 3 12.5V9.5C3 11.985 7.029 14 12 14C16.971 14 21 11.985 21 9.5ZM3 14.5C3 16.985 7.029 19 12 19C16.971 19 21 16.985 21 14.5V17.5C21 19.985 16.971 22 12 22C7.029 22 3 19.985 3 17.5V14.5ZM12 12C16.971 12 21 9.985 21 7.5C21 5.015 16.971 3 12 3C7.029 3 3 5.015 3 7.5C3 9.985 7.029 12 12 12Z',
+  'code-s-slash': 'M24 12L18.343 17.657L16.929 16.243L21.172 12L16.929 7.757L18.343 6.343L24 12ZM2.828 12L7.071 16.243L5.657 17.657L0 12L5.657 6.343L7.071 7.757L2.828 12ZM9.788 21H7.66L14.212 3H16.34L9.788 21Z',
+  'terminal-box': 'M2 4C2 3.448 2.448 3 3 3H21C21.552 3 22 3.448 22 4V20C22 20.552 21.552 21 21 21H3C2.448 21 2 20.552 2 20V4ZM4 5V19H20V5H4ZM11.293 15.121L7.757 11.586L9.172 10.172L12.707 13.707L11.293 15.121ZM14 15H18V17H14V15Z',
+  'git-branch': 'M7.105 15.21A3.001 3.001 0 1 0 5 15.17V8.83a3.001 3.001 0 1 0 2 0V12C8.775 10.772 10.7 10 13 10a1 1 0 0 0 1-1V8.83a3.001 3.001 0 1 0 2 0V9a3 3 0 0 1-3 3c-1.856 0-3.583.618-4.895 1.21ZM6 17a1 1 0 1 0 0 2 1 1 0 0 0 0-2ZM6 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z',
+  'settings-3': 'M3.34 17a10.018 10.018 0 0 1-.978-2.326 3 3 0 0 0 .002-5.347A9.99 9.99 0 0 1 4.865 4.99a3 3 0 0 0 4.631-2.674 9.99 9.99 0 0 1 5.007.002 3 3 0 0 0 4.632 2.672A9.99 9.99 0 0 1 20.66 7c.456.747.838 1.542 1.138 2.376a2.99 2.99 0 0 0-.002 5.247c-.3.835-.683 1.631-1.14 2.378a3 3 0 0 0-4.63 2.673 9.99 9.99 0 0 1-5.007-.002 3 3 0 0 0-4.631-2.672A10.018 10.018 0 0 1 3.34 17ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
+  'rocket-2': 'M5.33 15.929A13.064 13.064 0 0 1 5 13c0-5.088 2.903-9.436 7-11.182C16.097 3.564 19 7.912 19 13c0 1.01-.114 1.991-.33 2.929l2.02 1.796a.5.5 0 0 1 .097.63l-2.458 4.096a.5.5 0 0 1-.577.213l-2.765-.921a.5.5 0 0 1-.332-.38L14.2 19H9.8l-.455 2.361a.5.5 0 0 1-.332.381l-2.765.921a.5.5 0 0 1-.577-.214L3.213 18.354a.5.5 0 0 1 .098-.631l2.02-1.794ZM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z',
+  'send-plane': 'M1.946 9.315c-.522-.174-.527-.455.01-.634L21.044 2.32c.529-.176.832.12.684.638L16.764 21.44c-.15.529-.455.547-.68.045L12 14l6-8-8 6-8.054-2.685Z',
+  'shield-check': 'M12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976L12 1Zm-1.452 12.134-1.966-1.966-1.414 1.414 3.38 3.38 5.656-5.656-1.414-1.414-4.242 4.242Z',
+  'cpu': 'M6 18H18V6H6V18ZM14 2H16V6H14V2ZM14 18H16V22H14V18ZM2 14V16H6V14H2ZM18 14V16H22V14H18ZM8 2H10V6H8V2ZM8 18H10V22H8V18ZM2 8V10H6V8H2ZM18 8V10H22V8H18Z',
+  'cloud': 'M17 21H7A6 6 0 0 1 5.008 9.339a7 7 0 1 1 13.984 0A6 6 0 0 1 17 21Z',
+  'flask': 'M16 2V6.529L20.216 14.78A5 5 0 0 1 15.723 22H8.277A5 5 0 0 1 3.784 14.78L8 6.528V2H16ZM14 2V7L10 15H8L14 2Z',
+  'puzzle-2': 'M4 8V2H20V8H18.005C18.002 6.895 17.107 6 16.003 6C14.898 6 14.003 6.895 14 7.999V8H10V7.999C9.997 6.895 9.102 6 7.997 6C6.893 6 5.998 6.895 5.995 7.999V8H4ZM14 10V16H14.001C14.004 14.895 14.899 14 16.003 14C17.108 14 18.003 14.895 18.005 16H20V10H14ZM12 10H4V16H5.995C5.998 14.895 6.893 14 7.997 14C9.102 14 9.997 14.895 10 16H12V10ZM4 18V22H20V18H18.005C18.002 19.105 17.107 20 16.003 20C14.898 20 14.003 19.105 14 18H10C9.997 19.105 9.102 20 7.997 20C6.893 20 5.998 19.105 5.995 18H4Z',
+  'store-2': 'M22 20V22H2V20H3V13.242a5.965 5.965 0 0 1-1-.998V6l2.019-5.048A1 1 0 0 1 4.948 0h14.104a1 1 0 0 1 .929.632L22 6v6.243c-.346.38-.737.717-1.165 1V20H22ZM18 20H6V13.964c.24.023.484.036.73.036.803 0 1.563-.16 2.27-.453V20H15V13.547a5.93 5.93 0 0 0 2.27.453c.246 0 .49-.013.73-.036V20Z',
+  'heart': 'M12.001 4.529a5.998 5.998 0 0 1 8.242.228 6 6 0 0 1 .236 8.236l-8.48 8.492-8.478-8.492a6 6 0 0 1 8.48-8.464Z',
+  'lightning': 'M13 10h7l-9 13v-9H4l9-13v9Z',
+  'eye': 'M12 2C17.523 2 22 6.477 22 12s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2Zm0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm0 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z',
+  'download': 'M3 19H21V21H3V19ZM13 13.172L19.071 7.1L20.485 8.514L12 17L3.515 8.515L4.929 7.1L11 13.17V2H13V13.172Z',
+  'folder-3': 'M22 11V20C22 20.552 21.552 21 21 21H3C2.448 21 2 20.552 2 20V4C2 3.448 2.448 3 3 3H10L12 5H21C21.552 5 22 5.448 22 6V7H4V11H22Z',
+  'notification-3': 'M20 17H22V19H2V17H4V10C4 5.582 7.582 2 12 2C16.418 2 20 5.582 20 10V17ZM9 21H15C15 22.657 13.657 24 12 24C10.343 24 9 22.657 9 21Z',
+  'chat-3': 'M7.291 20.824L2 22L3.176 16.709A9.965 9.965 0 0 1 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22C10.39 22 8.874 21.579 7.291 20.824Z',
+  'user': 'M4 22a8 8 0 1 1 16 0H4Zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6Z',
+  'lock': 'M18 8h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h2V7a6 6 0 1 1 12 0v1Zm-2 0V7a4 4 0 0 0-8 0v1h8Zm-5 6v2h4v-2h-4Z',
+  'key-2': 'M10.313 11.566l7.94-7.94 2.121 2.121-1.414 1.414 2.121 2.121-3.535 3.536-2.121-2.121-2.99 2.99a5.002 5.002 0 0 1-7.97 1.932 5 5 0 0 1 5.848-7.053ZM6.929 15.071a2 2 0 1 0 2.828-2.828 2 2 0 0 0-2.828 2.828Z',
+};
+
+// Populate icon dropdown
+(function() {
+  var sel = document.getElementById('i-icon');
+  Object.keys(REMIX_ICONS).forEach(function(name) {
+    var opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    sel.appendChild(opt);
+  });
+})();
+
+function toggleIconMode() {
+  var mode = document.getElementById('i-mode').value;
+  document.getElementById('i-text-fields').classList.toggle('hidden', mode !== 'text');
+  document.getElementById('i-icon-fields').classList.toggle('hidden', mode !== 'icon');
+}
+
+// ===================== ICON GENERATOR =====================
+function renderIcon() {
+  var mode = document.getElementById('i-mode').value;
+  var size = parseInt(document.getElementById('i-size').value);
+  var accent = document.getElementById('i-accent').value;
+  var radiusKey = document.getElementById('i-radius').value;
+  var showShadow = document.getElementById('i-shadow').checked;
+
+  var s = size;
+  var borderW = Math.max(4, Math.round(s * 0.035));
+  var shadowOff = Math.round(s * 0.04);
+
+  // Radius scaled to icon size (base values are for ~100px)
+  var radiusMap = { '0': 0, 'small': 0.03, 'medium': 0.06, 'large': 0.08, 'xl': 0.12 };
+  var r = Math.round(s * (radiusMap[radiusKey] || 0.06));
+
+  // Total canvas includes shadow offset
+  var totalSize = showShadow ? s + shadowOff : s;
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + totalSize + '" height="' + totalSize + '" viewBox="0 0 ' + totalSize + ' ' + totalSize + '">\n';
+  svg += '  <defs><style>@import url(\'https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;display=swap\');</style></defs>\n';
+
+  // Inset by half border so stroke isn't clipped
+  var half = borderW / 2;
+
+  // Hard shadow — same radius as the box
+  if (showShadow) {
+    svg += '  <rect x="' + shadowOff + '" y="' + shadowOff + '" width="' + s + '" height="' + s + '" rx="' + r + '" fill="' + C.dark + '"/>\n';
+  }
+
+  // Main square — accent filled, thick dark border
+  svg += '  <rect x="' + half + '" y="' + half + '" width="' + (s - borderW) + '" height="' + (s - borderW) + '" rx="' + r + '" fill="' + accent + '" stroke="' + C.border + '" stroke-width="' + borderW + '"/>\n';
+
+  var center = s / 2;
+
+  if (mode === 'text') {
+    var label = document.getElementById('i-label').value || 'St';
+    var fontSize = Math.round(s * (label.length <= 2 ? 0.5 : 0.35));
+    svg += '  <text x="' + center + '" y="' + center + '" font-family="' + C.font + '" font-size="' + fontSize + '" font-weight="700" fill="' + C.dark + '" text-anchor="middle" dominant-baseline="central">' + escXml(label) + '</text>\n';
+  } else {
+    var iconName = document.getElementById('i-icon').value;
+    var path = REMIX_ICONS[iconName];
+    if (path) {
+      // Scale 24x24 icon to fit inside the square with padding
+      var iconSize = Math.round(s * 0.55);
+      var iconScale = iconSize / 24;
+      var iconOffset = Math.round((s - iconSize) / 2);
+      svg += '  <g transform="translate(' + iconOffset + ',' + iconOffset + ') scale(' + iconScale + ')">\n';
+      svg += '    <path d="' + path + '" fill="' + C.dark + '"/>\n';
+      svg += '  </g>\n';
+    }
+  }
+
+  svg += '</svg>';
+
+  // Show at multiple sizes
+  var container = document.getElementById('icon-preview');
+  var previewSizes = [128, 64, 32];
+  var html = '<div style="text-align:center"><div style="width:256px;height:256px;display:inline-block">' + svg + '</div><div style="font-size:11px;color:#888;margin-top:8px;">' + size + ' × ' + size + '</div></div>';
+  previewSizes.forEach(function(ps) {
+    html += '<div style="text-align:center"><div style="width:' + ps + 'px;height:' + ps + 'px;display:inline-block">' + svg + '</div><div style="font-size:11px;color:#888;margin-top:8px;">' + ps + 'px</div></div>';
+  });
+  container.innerHTML = html;
+  window._iconSVG = svg;
+}
+
+// ===================== UTILITIES =====================
+function formatUpperWithExt(s) {
+  var lower = ['by', 'on', 'for', 'the', 'a', 'an', 'of', 'in', 'to'];
+  return s.trim().split(' ').map(function(word) {
+    var dotParts = word.split('.');
+    if (dotParts.length > 1) {
+      return dotParts.slice(0, -1).join('.').toUpperCase() + '.' + dotParts[dotParts.length - 1].toLowerCase();
+    }
+    if (lower.indexOf(word.toLowerCase()) >= 0) return word.toLowerCase();
+    return word.toUpperCase();
+  }).join(' ');
+}
+
+function escXml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function downloadSVG(type) {
+  var svg = type === 'banner' ? window._bannerSVG : window._iconSVG;
+  if (!svg) return;
+  var name = type === 'banner' ? document.getElementById('b-name').value : document.getElementById('i-label').value;
+  var blob = new Blob([svg], { type: 'image/svg+xml' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (name || type) + '-' + type + '.svg';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function copySVG(type) {
+  var svg = type === 'banner' ? window._bannerSVG : window._iconSVG;
+  if (!svg) return;
+  navigator.clipboard.writeText(svg).then(function() {
+    alert('SVG copied to clipboard');
+  });
+}
+
+function downloadPNG() {
+  var svg = window._iconSVG;
+  if (!svg) return;
+  var size = parseInt(document.getElementById('i-size').value);
+  var canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  var ctx = canvas.getContext('2d');
+  var img = new Image();
+  var blob = new Blob([svg], { type: 'image/svg+xml' });
+  var url = URL.createObjectURL(blob);
+  img.onload = function() {
+    ctx.drawImage(img, 0, 0, size, size);
+    URL.revokeObjectURL(url);
+    var a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = (document.getElementById('i-label').value || 'icon') + '-icon-' + size + '.png';
+    a.click();
+  };
+  img.src = url;
+}
+
+// Initialize
+renderBanner();
+renderIcon();
+</script>
+
+</body>
+</html>

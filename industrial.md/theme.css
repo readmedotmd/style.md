@@ -1,0 +1,373 @@
+/* industrial.md/theme.css — Industrial Monospace Theme
+ *
+ * Layers on top of core.md/styles.css. Targets the same data-* attributes
+ * and semantic HTML selectors. Load AFTER core.md/styles.css:
+ *
+ *   <link rel="stylesheet" href="core.md/styles.css">
+ *   <link rel="stylesheet" href="industrial.md/theme.css">
+ *
+ * Or dynamically swap via JavaScript for theme switching.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* ─── Token Overrides ─── */
+:root {
+  --core-font: 'Space Mono', monospace;
+  --core-font-mono: 'Space Mono', monospace;
+  --core-text: #1A1A1A;
+  --core-text-muted: #888888;
+  --core-bg: #FFFFFF;
+  --core-surface: #F5F5F5;
+  --core-border: #1A1A1A;
+  --core-accent: #FF5500;
+  --core-danger: #FF3333;
+  --core-success: #00CC66;
+  --core-warning: #FFCC00;
+  --core-radius: 4px;
+  --core-transition: 120ms ease;
+
+  /* Industrial-specific tokens */
+  --ind-dark: #2D333B;
+  --ind-dark-text: #FFFFFF;
+  --ind-dark-muted: #AAAAAA;
+  --ind-shadow-sm: 3px 3px 0 var(--core-border);
+  --ind-shadow-md: 4px 4px 0 var(--core-border);
+  --ind-shadow-lg: 6px 6px 0 var(--core-border);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --core-text: #E8E8E8;
+    --core-text-muted: #888888;
+    --core-bg: #1A1A1A;
+    --core-surface: #222222;
+    --core-border: #444444;
+    --core-accent: #FF5500;
+    --core-danger: #FF3333;
+    --core-success: #00CC66;
+    --core-warning: #FFCC00;
+    --ind-dark: #111111;
+    --ind-dark-text: #E8E8E8;
+    --ind-dark-muted: #777777;
+    --ind-shadow-sm: 3px 3px 0 rgba(0,0,0,0.5);
+    --ind-shadow-md: 4px 4px 0 rgba(0,0,0,0.5);
+    --ind-shadow-lg: 6px 6px 0 rgba(0,0,0,0.5);
+  }
+}
+
+[data-theme="dark"] {
+  --core-text: #E8E8E8;
+  --core-text-muted: #888888;
+  --core-bg: #1A1A1A;
+  --core-surface: #222222;
+  --core-border: #444444;
+  --core-accent: #FF5500;
+  --core-danger: #FF3333;
+  --core-success: #00CC66;
+  --core-warning: #FFCC00;
+  --ind-dark: #111111;
+  --ind-dark-text: #E8E8E8;
+  --ind-dark-muted: #777777;
+  --ind-shadow-sm: 3px 3px 0 rgba(0,0,0,0.5);
+  --ind-shadow-md: 4px 4px 0 rgba(0,0,0,0.5);
+  --ind-shadow-lg: 6px 6px 0 rgba(0,0,0,0.5);
+}
+
+/* ─── Global ─── */
+body {
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Buttons ─── */
+button[data-variant],
+button:not([data-variant]) {
+  border-width: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  box-shadow: var(--ind-shadow-sm);
+}
+
+button[data-variant]:hover,
+button:not([data-variant]):hover {
+  box-shadow: var(--ind-shadow-md);
+}
+
+button[data-variant]:active,
+button:not([data-variant]):active {
+  box-shadow: 1px 1px 0 var(--core-border);
+  transform: translate(2px, 2px);
+}
+
+button[data-variant="primary"] {
+  color: var(--ind-dark-text);
+}
+
+button[data-variant="danger"] {
+  color: var(--ind-dark-text);
+}
+
+button[data-variant="toolbar"] {
+  box-shadow: none;
+  border-color: var(--core-border);
+  text-transform: none;
+  letter-spacing: 0;
+}
+button[data-variant="toolbar"]:hover {
+  box-shadow: none;
+}
+button[data-variant="toolbar"]:active {
+  box-shadow: none;
+  transform: none;
+}
+
+button[data-size="small"] {
+  font-size: 11px;
+}
+
+/* ─── Text Inputs ─── */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="url"],
+input[type="tel"],
+input[type="number"] {
+  border-width: 2px;
+  font-family: 'Space Mono', monospace;
+}
+
+input:focus {
+  box-shadow: 3px 3px 0 var(--core-accent);
+}
+
+input[data-error="true"]:focus {
+  box-shadow: 3px 3px 0 var(--core-danger);
+}
+
+/* ─── Textarea ─── */
+textarea {
+  border-width: 2px;
+  font-family: 'Space Mono', monospace;
+}
+textarea:focus {
+  box-shadow: 3px 3px 0 var(--core-accent);
+}
+
+/* ─── Select ─── */
+select {
+  border-width: 2px;
+  font-family: 'Space Mono', monospace;
+}
+select:focus {
+  box-shadow: 3px 3px 0 var(--core-accent);
+}
+
+/* ─── Form Labels ─── */
+div > label:first-child {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+/* ─── Checkboxes ─── */
+label:has(input[type="checkbox"]) {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ─── Error/Success Messages ─── */
+div[role="alert"] {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+div[role="status"] {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+/* ─── Status Badges ─── */
+span[data-status] {
+  border: 2px solid var(--core-border);
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: 10px;
+  padding: 2px 8px;
+}
+
+span[data-status="running"]  { background: color-mix(in srgb, var(--core-success) 15%, transparent); color: var(--core-success); border-color: var(--core-success); }
+span[data-status="stopped"]  { background: var(--core-surface); color: var(--core-text-muted); }
+span[data-status="starting"] { background: color-mix(in srgb, var(--core-warning) 15%, transparent); color: var(--core-warning); border-color: var(--core-warning); }
+span[data-status="pending"]  { background: color-mix(in srgb, var(--core-accent) 15%, transparent); color: var(--core-accent); border-color: var(--core-accent); }
+span[data-status="error"]    { background: color-mix(in srgb, var(--core-danger) 15%, transparent); color: var(--core-danger); border-color: var(--core-danger); }
+
+/* Status dots stay circular */
+span[data-status]:empty {
+  width: 8px;
+  height: 8px;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+}
+
+/* ─── Diff Viewer ─── */
+div:has(> [data-diff]) {
+  border-width: 2px;
+  font-family: 'Space Mono', monospace;
+}
+
+[data-diff="header"] {
+  background: var(--ind-dark);
+  color: var(--core-accent);
+}
+
+/* ─── Data Table ─── */
+table {
+  border: 2px solid var(--core-border);
+  border-radius: var(--core-radius);
+  overflow: hidden;
+  font-family: 'Space Mono', monospace;
+}
+
+thead th {
+  background: var(--ind-dark);
+  color: var(--core-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 11px;
+  border-bottom-width: 2px;
+}
+
+tbody td {
+  border-bottom-width: 2px;
+  font-size: 12px;
+}
+
+/* ─── Tab Bar ─── */
+div:has(> button[data-active]) {
+  border-bottom-width: 2px;
+}
+
+div:has(> button[data-active]) > button {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+div:has(> button[data-active]) > button[data-active="true"] {
+  border-bottom-width: 3px;
+}
+
+/* ─── Active States ─── */
+[data-active="true"] {
+  font-weight: 700;
+}
+
+/* ─── Context Menu ─── */
+[data-danger="true"] {
+  font-weight: 700;
+}
+
+/* ─── Spinner ─── */
+div[data-size="small"]:empty,
+div[data-size="large"]:empty {
+  border-width: 3px;
+  border-top-color: var(--core-accent);
+}
+
+/* ─── Typography ─── */
+h1, h2, h3, h4, h5, h6 {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+code {
+  font-family: 'Space Mono', monospace;
+  border: 1px solid var(--core-border);
+  border-radius: 2px;
+}
+
+pre {
+  font-family: 'Space Mono', monospace;
+  border-width: 2px;
+  border-radius: var(--core-radius);
+}
+
+kbd {
+  font-family: 'Space Mono', monospace;
+  border-width: 2px;
+  box-shadow: 0 2px 0 var(--core-border);
+  border-radius: 2px;
+}
+
+blockquote {
+  border-left-width: 4px;
+  border-left-color: var(--core-accent);
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ─── Links ─── */
+a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 700;
+}
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ─── Lists ─── */
+ul { list-style-type: square; }
+
+/* ─── Images ─── */
+img[data-rounded] { border-radius: var(--core-radius); }
+img[data-avatar] { border: 2px solid var(--core-border); }
+
+/* ─── Divider ─── */
+hr {
+  border-top-width: 2px;
+  border-top-style: solid;
+}
+
+/* ─── Card ─── */
+[data-card] {
+  border-width: 2px;
+  border-radius: var(--core-radius);
+  box-shadow: var(--ind-shadow-sm);
+}
+[data-card]:hover {
+  box-shadow: var(--ind-shadow-md);
+}
+
+/* ─── Badge ─── */
+[data-badge] {
+  border-width: 2px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: 10px;
+}
+[data-badge="accent"]  { border-color: var(--core-accent); }
+[data-badge="success"] { border-color: var(--core-success); }
+[data-badge="danger"]  { border-color: var(--core-danger); }
+[data-badge="warning"] { border-color: var(--core-warning); }

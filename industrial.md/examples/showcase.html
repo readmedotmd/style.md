@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>industrial.md Component Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../core.md/styles.css">
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* Showcase-specific styles — Industrial Monospace */
+    * { font-family: 'Space Mono', monospace !important; }
+
+    .showcase { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .showcase h1 {
+      font-size: 32px; font-weight: 700; margin-bottom: 4px;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--text);
+    }
+    .showcase > p {
+      color: var(--muted); margin-bottom: 32px;
+      text-transform: uppercase; letter-spacing: 0.06em; font-size: 12px;
+    }
+    .theme-toggle {
+      position: fixed; top: 12px; right: 12px; z-index: 9999;
+      background: var(--dark); color: var(--dark-text); border: 2px solid var(--border);
+      padding: 6px 14px; font-family: 'Space Mono', monospace;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; cursor: pointer; border-radius: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+    .theme-toggle:hover { background: var(--accent); color: var(--dark-text); }
+    .section { margin-bottom: 48px; }
+    .section-title {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--accent); margin-bottom: 16px;
+      padding-bottom: 8px; border-bottom: 2px solid var(--border);
+    }
+    .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .col { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .card-demo {
+      background: var(--raised); border: 2px solid var(--border);
+      border-radius: 6px; padding: 20px; margin-bottom: 16px;
+      box-shadow: var(--shadow-md);
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .demo-label {
+      font-size: 11px; color: var(--muted); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;
+    }
+
+    /* App shell demo inline */
+    .app-shell-demo .app-shell { min-height: 320px; border: 2px solid var(--border); border-radius: 6px; overflow: hidden; box-shadow: var(--shadow-md); }
+    .app-shell-demo .navbar { position: relative; }
+    .app-shell-demo .sidebar { position: relative; width: 200px; }
+    /* Panel demo */
+    .panel-demo .panel { position: relative; width: 100%; animation: none; }
+    /* Modal demo inline */
+    .modal-demo .modal-backdrop { position: relative; inset: auto; min-height: 360px; border-radius: 6px; }
+    .modal-demo .modal { animation: none; }
+    /* Chat demo */
+    .chat-demo { max-width: 600px; }
+    .chat-demo .chat-input { position: relative; border-top: 2px solid var(--border); border-radius: 0 0 6px 6px; }
+    /* Search overlay demo */
+    .search-demo .search-overlay { position: relative; inset: auto; min-height: 360px; border-radius: 6px; padding-top: 24px; }
+    /* Context menu demo */
+    .context-demo { position: relative; min-height: 180px; background: var(--raised); border-radius: 6px; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); }
+    .context-demo .context-menu { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+    /* Industrial button overrides for showcase */
+    .showcase .btn {
+      text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;
+      border: 2px solid var(--border); border-radius: 4px;
+      box-shadow: 3px 3px 0 var(--border); font-size: 12px;
+    }
+    .showcase .btn:active { box-shadow: 1px 1px 0 var(--border); transform: translate(2px, 2px); }
+    .showcase .btn--primary { background: var(--accent); border-color: var(--border); color: var(--dark-text); }
+    .showcase .btn--danger { background: var(--danger); border-color: var(--border); color: var(--dark-text); }
+    .showcase .btn--toolbar { box-shadow: none; border: 2px solid var(--border); }
+    .showcase .text-input,
+    .showcase .textarea,
+    .showcase .select,
+    .showcase .search-input {
+      border: 2px solid var(--border); border-radius: 4px;
+      font-family: 'Space Mono', monospace !important;
+    }
+    .showcase .text-input:focus,
+    .showcase .textarea:focus,
+    .showcase .select:focus,
+    .showcase .search-input:focus {
+      border-color: var(--accent); outline: none;
+      box-shadow: 3px 3px 0 var(--accent);
+    }
+    .showcase .form-group__label {
+      text-transform: uppercase; letter-spacing: 0.08em;
+      font-weight: 700; font-size: 11px;
+    }
+    .showcase .status-badge {
+      text-transform: uppercase; letter-spacing: 0.06em;
+      font-weight: 700; font-size: 10px; border: 2px solid var(--border);
+      border-radius: 3px;
+    }
+    .showcase .label-badge {
+      text-transform: uppercase; letter-spacing: 0.06em;
+      font-weight: 700; font-size: 10px; border: 2px solid var(--border);
+      border-radius: 3px;
+    }
+    .showcase .tab-bar__tab {
+      text-transform: uppercase; letter-spacing: 0.08em;
+      font-weight: 700; font-size: 11px;
+    }
+    .showcase .nav-link {
+      text-transform: uppercase; letter-spacing: 0.06em;
+      font-weight: 700; font-size: 12px;
+    }
+    .showcase .data-table {
+      border: 2px solid var(--border); border-radius: 6px; overflow: hidden;
+    }
+    .showcase .data-table th {
+      background: var(--dark); color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      font-weight: 700; font-size: 11px;
+    }
+    .showcase .data-table td { border-top: 2px solid var(--border); }
+
+    /* Login card industrial override */
+    .login-card--industrial {
+      background: var(--raised); border: 2px solid var(--border);
+      border-radius: 8px; box-shadow: 6px 6px 0 var(--border);
+      overflow: hidden; max-width: 380px; width: 100%; margin: 0 auto;
+    }
+    .login-card--industrial .login-header {
+      background: var(--dark); padding: 24px; text-align: center;
+    }
+    .login-card--industrial .login-header span {
+      color: #888888; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      display: block; margin-bottom: 4px;
+    }
+    .login-card--industrial .login-header h2 {
+      color: var(--accent); font-size: 28px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; margin: 0;
+    }
+    .login-card--industrial .login-body { padding: 24px; }
+    .login-card--industrial .login-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 20px 0; color: var(--dark-muted); font-size: 10px;
+      text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;
+    }
+    .login-card--industrial .login-divider::before,
+    .login-card--industrial .login-divider::after {
+      content: ''; flex: 1; height: 2px; background: var(--bg);
+    }
+
+    /* Dark panel override */
+    .dark-panel {
+      background: var(--dark); border: 2px solid var(--border); border-radius: 6px;
+      padding: 16px; color: var(--dark-muted); box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+    }
+    .dark-panel .stat-value { color: var(--accent); font-weight: 700; }
+
+    /* Modal industrial overrides */
+    .showcase .modal {
+      border: 2px solid var(--border); border-radius: 8px;
+      box-shadow: 6px 6px 0 var(--border); overflow: hidden;
+    }
+    .showcase .modal__header {
+      background: var(--dark); border-bottom: none;
+    }
+    .showcase .modal__header-title {
+      color: var(--dark-text); text-transform: uppercase; letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    /* Color swatches */
+    .swatch { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .swatch__color {
+      width: 56px; height: 56px; border-radius: 4px; border: 2px solid var(--border);
+      box-shadow: 3px 3px 0 var(--border);
+    }
+    .swatch__label {
+      font-size: 9px; color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.06em; font-weight: 700; text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle">Dark</button>
+
+<script>
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) { html.removeAttribute('data-theme'); this.textContent = 'Dark'; }
+    else { html.setAttribute('data-theme', 'dark'); this.textContent = 'Light'; }
+  });
+</script>
+
+<div class="showcase">
+  <h1>industrial.md</h1>
+  <p>Industrial monospace theme &mdash; layered on core.md</p>
+
+  <!-- COLOR TOKENS -->
+  <div class="section">
+    <div class="section-title">Color Tokens</div>
+    <div class="demo-label">Core Palette</div>
+    <div class="row">
+      <div class="swatch"><div class="swatch__color" style="background:#FF5500;"></div><span class="swatch__label">Orange<br>#FF5500</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#1A1A1A;"></div><span class="swatch__label">Black<br>#1A1A1A</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#2D333B;"></div><span class="swatch__label">Dark<br>#2D333B</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#E8E8E8;"></div><span class="swatch__label">Gray<br>#E8E8E8</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#FFFFFF;"></div><span class="swatch__label">White<br>#FFFFFF</span></div>
+    </div>
+    <div class="demo-label" style="margin-top:16px;">Semantic Colors</div>
+    <div class="row">
+      <div class="swatch"><div class="swatch__color" style="background:#FF3333;"></div><span class="swatch__label">Red<br>#FF3333</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#00CC66;"></div><span class="swatch__label">Green<br>#00CC66</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#3399FF;"></div><span class="swatch__label">Blue<br>#3399FF</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#FFCC00;"></div><span class="swatch__label">Yellow<br>#FFCC00</span></div>
+    </div>
+  </div>
+
+  <!-- HARD SHADOWS -->
+  <div class="section">
+    <div class="section-title">Hard Shadows &amp; Borders</div>
+    <div class="row">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:80px;height:48px;border-radius:4px;background:var(--raised);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);"></div>
+        <span class="swatch__label">Small</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:80px;height:48px;border-radius:4px;background:var(--raised);border:2px solid var(--border);box-shadow:4px 4px 0 var(--border);"></div>
+        <span class="swatch__label">Medium</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:80px;height:48px;border-radius:4px;background:var(--raised);border:2px solid var(--border);box-shadow:6px 6px 0 var(--border);"></div>
+        <span class="swatch__label">Large</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="col">
+      <h1>Heading 1</h1>
+      <h2>Heading 2</h2>
+      <h3>Heading 3</h3>
+      <h4>Heading 4</h4>
+    </div>
+    <p>This is a paragraph with <strong>bold text</strong>, <em>italic text</em>, <code>inline code</code>, <mark>highlighted text</mark>, and a keyboard shortcut <kbd>Ctrl</kbd> + <kbd>K</kbd>.</p>
+    <div style="margin-top:16px;">
+      <blockquote>This is a blockquote — used for callouts, quotes, or important notes.</blockquote>
+    </div>
+  </div>
+
+  <!-- LINKS & LISTS -->
+  <div class="section">
+    <div class="section-title">Links &amp; Lists</div>
+    <div class="grid-2">
+      <div>
+        <div class="demo-label">Links</div>
+        <p>Visit the <a href="#">documentation</a> or check the <a href="#">changelog</a> for details.</p>
+      </div>
+      <div>
+        <div class="demo-label">Unordered List</div>
+        <ul>
+          <li>First item</li>
+          <li>Second item with more detail</li>
+          <li>Third item</li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:16px;">
+      <div>
+        <div class="demo-label">Ordered List</div>
+        <ol>
+          <li>Clone the repository</li>
+          <li>Install dependencies</li>
+          <li>Run the dev server</li>
+        </ol>
+      </div>
+      <div>
+        <div class="demo-label">Code Block</div>
+        <pre><code>func main() {
+    fmt.Println("hello, world")
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAYOUT PRIMITIVES -->
+  <div class="section">
+    <div class="section-title">Layout Primitives</div>
+
+    <div class="demo-label">Stack (vertical)</div>
+    <div data-stack="md" style="margin-bottom:24px;">
+      <div data-card>Stack item 1</div>
+      <div data-card>Stack item 2</div>
+      <div data-card>Stack item 3</div>
+    </div>
+
+    <div class="demo-label">HStack (horizontal)</div>
+    <div data-hstack="md" style="margin-bottom:24px;">
+      <div data-card>Item 1</div>
+      <div data-card>Item 2</div>
+      <div data-spacer></div>
+      <div data-card>Pushed right</div>
+    </div>
+
+    <div class="demo-label">Grid (3 columns)</div>
+    <div data-grid="3" style="margin-bottom:24px;">
+      <div data-card style="text-align:center;">Col 1</div>
+      <div data-card style="text-align:center;">Col 2</div>
+      <div data-card style="text-align:center;">Col 3</div>
+    </div>
+  </div>
+
+  <!-- CARDS & BADGES -->
+  <div class="section">
+    <div class="section-title">Cards &amp; Badges</div>
+
+    <div class="demo-label">Cards</div>
+    <div data-grid="2" style="margin-bottom:24px;">
+      <div data-card>
+        <h4 style="margin-bottom:8px;">Default Card</h4>
+        <p style="font-size:12px;color:var(--core-text-muted);">A simple bordered container for grouping related content.</p>
+      </div>
+      <div data-card="surface">
+        <h4 style="margin-bottom:8px;">Surface Card</h4>
+        <p style="font-size:12px;color:var(--core-text-muted);">Uses the surface background color for subtle emphasis.</p>
+      </div>
+    </div>
+
+    <div class="demo-label">Badges</div>
+    <div class="row">
+      <span data-badge>Default</span>
+      <span data-badge="accent">Accent</span>
+      <span data-badge="success">Success</span>
+      <span data-badge="danger">Danger</span>
+      <span data-badge="warning">Warning</span>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Divider</div>
+    <p style="margin-bottom:8px;">Content above the divider.</p>
+    <hr>
+    <p style="margin-top:8px;">Content below the divider.</p>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="section">
+    <div class="section-title">Buttons</div>
+    <div class="row">
+      <button class="btn">Default</button>
+      <button class="btn btn--primary">Primary</button>
+      <button class="btn btn--danger">Danger</button>
+      <button class="btn btn--small">Small</button>
+      <button class="btn btn--toolbar">Toolbar</button>
+      <button class="btn" disabled>Disabled</button>
+    </div>
+    <div class="row">
+      <button class="btn btn--primary btn--small">+ New Project</button>
+      <button class="btn btn--danger btn--small">X Delete</button>
+      <button class="btn btn--toolbar">[=]</button>
+      <button class="btn btn--toolbar">&#8635;</button>
+      <button class="btn btn--toolbar">&#10005;</button>
+    </div>
+  </div>
+
+  <!-- FORMS -->
+  <div class="section">
+    <div class="section-title">Form Components</div>
+    <div class="grid-2">
+      <div>
+        <div class="form-group">
+          <label class="form-group__label">Username</label>
+          <input class="text-input" type="text" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+          <label class="form-group__label">Password</label>
+          <input class="text-input" type="password" placeholder="Enter password">
+        </div>
+        <div class="form-group">
+          <label class="form-group__label">Email (Error)</label>
+          <input class="text-input text-input--error" type="email" value="invalid" style="border-color:var(--danger);">
+          <div class="error-message">Please enter a valid email address.</div>
+        </div>
+      </div>
+      <div>
+        <div class="form-group">
+          <label class="form-group__label">Environment</label>
+          <select class="select">
+            <option>Production</option>
+            <option>Staging</option>
+            <option>Development</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-group__label">Description</label>
+          <textarea class="textarea" rows="3" placeholder="Enter description..."></textarea>
+        </div>
+        <div class="success-message">Settings saved successfully.</div>
+      </div>
+    </div>
+
+    <div class="demo-label">Checkboxes &amp; Feature Toggles</div>
+    <div class="col" style="max-width:400px;">
+      <label class="checkbox">
+        <input class="checkbox__input" type="checkbox" checked>
+        <span class="checkbox__label" style="text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Enable notifications</span>
+      </label>
+      <label class="checkbox">
+        <input class="checkbox__input" type="checkbox">
+        <span class="checkbox__label" style="text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Auto-save drafts</span>
+      </label>
+    </div>
+
+    <div class="col" style="max-width:480px;">
+      <div class="feature-row">
+        <div class="feature-row__info">
+          <div class="feature-row__name" style="text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:12px;">Browser Access</div>
+          <div class="feature-row__description">Allow agent to browse the web</div>
+        </div>
+        <input class="checkbox__input" type="checkbox" checked>
+      </div>
+      <div class="feature-row">
+        <div class="feature-row__info">
+          <div class="feature-row__name" style="text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:12px;">VS Code Integration</div>
+          <div class="feature-row__description">Enable IDE integration</div>
+        </div>
+        <input class="checkbox__input" type="checkbox">
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS & BADGES -->
+  <div class="section">
+    <div class="section-title">Status &amp; Badges</div>
+
+    <div class="demo-label">Status Badges</div>
+    <div class="row">
+      <span class="status-badge status-badge--running">Running</span>
+      <span class="status-badge status-badge--stopped">Stopped</span>
+      <span class="status-badge status-badge--starting">Starting</span>
+      <span class="status-badge status-badge--pending">Pending</span>
+      <span class="status-badge status-badge--error">Error</span>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Status Dots</div>
+    <div class="row">
+      <div style="display:flex;align-items:center;gap:6px;"><span class="status-dot status-dot--running"></span><span style="font-size:12px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Running</span></div>
+      <div style="display:flex;align-items:center;gap:6px;"><span class="status-dot status-dot--stopped"></span><span style="font-size:12px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Stopped</span></div>
+      <div style="display:flex;align-items:center;gap:6px;"><span class="status-dot status-dot--starting"></span><span style="font-size:12px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Starting</span></div>
+      <div style="display:flex;align-items:center;gap:6px;"><span class="status-dot status-dot--error"></span><span style="font-size:12px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Error</span></div>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Label Badges</div>
+    <div class="row">
+      <span class="label-badge">&#9881; Browser</span>
+      <span class="label-badge">&lt;/&gt; VSCode</span>
+      <span class="label-badge">&#9881; Settings</span>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Tool Badge &amp; Thinking</div>
+    <div class="row">
+      <span class="tool-badge" style="border:2px solid var(--border);border-radius:3px;text-transform:uppercase;letter-spacing:0.04em;font-weight:700;font-size:11px;"><span class="tool-badge__spinner"></span> Using tool: read_file</span>
+    </div>
+    <div style="margin-top:8px;">
+      <div class="thinking">
+        <div class="spinner spinner--small"></div>
+        <span style="text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:11px;">Thinking...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPINNERS -->
+  <div class="section">
+    <div class="section-title">Spinners</div>
+    <div class="row">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div class="spinner spinner--small"></div>
+        <span class="swatch__label">Small</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div class="spinner"></div>
+        <span class="swatch__label">Default</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div class="spinner spinner--large"></div>
+        <span class="swatch__label">Large</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <div class="section">
+    <div class="section-title">Navigation</div>
+
+    <div class="demo-label">Nav Links</div>
+    <div style="width:220px;display:flex;flex-direction:column;gap:2px;margin-bottom:16px;">
+      <button class="nav-link nav-link--active"><span class="nav-link__icon">&#9656;</span> Chat</button>
+      <button class="nav-link"><span class="nav-link__icon">&#9656;</span> Cluster</button>
+      <button class="nav-link"><span class="nav-link__icon">&#9656;</span> Settings</button>
+    </div>
+
+    <div class="demo-label">Tab Bar</div>
+    <div class="tab-bar" style="margin-bottom:16px;">
+      <button class="tab-bar__tab tab-bar__tab--active">Diff</button>
+      <button class="tab-bar__tab">Status</button>
+      <button class="tab-bar__tab">Review</button>
+    </div>
+  </div>
+
+  <!-- DATA DISPLAY -->
+  <div class="section">
+    <div class="section-title">Data Display</div>
+
+    <div class="demo-label">Cluster Stats Bar</div>
+    <div class="dark-panel" style="margin-bottom:16px;">
+      <div class="cluster-stats" style="display:flex;gap:24px;">
+        <div class="cluster-stats__item" style="color:var(--dark-muted);text-transform:uppercase;letter-spacing:0.06em;font-size:11px;font-weight:700;">
+          &#9632; Nodes: <span class="stat-value">3</span>
+        </div>
+        <div class="cluster-stats__item" style="color:var(--dark-muted);text-transform:uppercase;letter-spacing:0.06em;font-size:11px;font-weight:700;">
+          &#9632; CPU: <span class="stat-value">42%</span>
+        </div>
+        <div class="cluster-stats__item" style="color:var(--dark-muted);text-transform:uppercase;letter-spacing:0.06em;font-size:11px;font-weight:700;">
+          &#9632; Memory: <span class="stat-value">6.2 GB</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-label">Data Table</div>
+    <table class="data-table" style="margin-bottom:16px;">
+      <thead><tr><th>Name</th><th>Status</th><th>CPU</th><th>Memory</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">node-01</td>
+          <td><span class="status-badge status-badge--running">Running</span></td>
+          <td>23%</td><td>2.1 GB</td>
+          <td style="color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Worker</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">node-02</td>
+          <td><span class="status-badge status-badge--running">Running</span></td>
+          <td>67%</td><td>3.8 GB</td>
+          <td style="color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Worker</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">node-03</td>
+          <td><span class="status-badge status-badge--starting">Starting</span></td>
+          <td>0%</td><td>0.3 GB</td>
+          <td style="color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Control</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="demo-label">Diff Viewer</div>
+    <div class="diff-viewer" style="margin-bottom:16px;">
+      <div class="diff-viewer__line diff-viewer__line--header">@@ -1,4 +1,4 @@</div>
+      <div class="diff-viewer__line"> func main() {</div>
+      <div class="diff-viewer__line diff-viewer__line--remove">-    fmt.Println("hello")</div>
+      <div class="diff-viewer__line diff-viewer__line--add">+    fmt.Println("hello, world")</div>
+      <div class="diff-viewer__line"> }</div>
+    </div>
+
+    <div class="demo-label">Empty State</div>
+    <div class="card-demo">
+      <div class="empty-state">
+        <div class="empty-state__heading" style="text-transform:uppercase;letter-spacing:0.1em;font-weight:700;">Welcome to Devbox</div>
+        <div class="empty-state__description">Get started by creating a new project or connecting to an existing repository.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP SHELL -->
+  <div class="section">
+    <div class="section-title">App Shell</div>
+    <div class="app-shell-demo">
+      <div class="app-shell">
+        <nav class="navbar">
+          <span class="navbar__brand">Devbox</span>
+          <div class="navbar__nav">
+            <button class="nav-link nav-link--active">Dashboard</button>
+            <button class="nav-link">Settings</button>
+          </div>
+        </nav>
+        <div class="app-shell__body">
+          <aside class="sidebar sidebar--open">
+            <div class="sidebar__list">
+              <button class="nav-link nav-link--active"><span class="nav-link__icon">&#9656;</span> Chat</button>
+              <button class="nav-link"><span class="nav-link__icon">&#9656;</span> Cluster</button>
+              <button class="nav-link"><span class="nav-link__icon">&#9656;</span> Settings</button>
+            </div>
+          </aside>
+          <main class="app-shell__main" style="padding:16px;">
+            <h2 style="text-transform:uppercase;letter-spacing:0.08em;font-weight:700;font-size:16px;margin-bottom:8px;">Dashboard</h2>
+            <p style="color:var(--muted);font-size:13px;">Overview of your project.</p>
+          </main>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="section">
+    <div class="section-title">Modal</div>
+    <div class="modal-demo">
+      <div class="modal-backdrop">
+        <div class="modal" style="max-width:420px;width:100%;">
+          <div class="modal__header">
+            <span class="modal__header-title">Create New Project</span>
+          </div>
+          <div class="modal__body">
+            <div class="form-group">
+              <label class="form-group__label">Project Name</label>
+              <input class="text-input" type="text" placeholder="my-project">
+            </div>
+            <div class="form-group">
+              <label class="form-group__label">Repository URL</label>
+              <input class="text-input" type="text" placeholder="https://github.com/...">
+            </div>
+          </div>
+          <div class="modal__footer">
+            <button class="btn">Cancel</button>
+            <button class="btn btn--primary">Create</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="section">
+    <div class="section-title">Chat</div>
+    <div class="chat-demo">
+      <div class="message message--user">
+        <div class="message__bubble">How do I deploy to production?</div>
+      </div>
+      <div class="message message--assistant">
+        <div class="message__bubble">To deploy your application to production, follow these steps:<br><br>1. Ensure all tests pass<br>2. Build the application<br>3. Push to the main branch</div>
+      </div>
+      <div class="message message--user">
+        <div class="message__bubble">Thanks! Can you show the config?</div>
+      </div>
+      <div class="chat-input" style="margin-top:16px;border:2px solid var(--border);border-radius:6px;">
+        <div class="chat-input__wrapper">
+          <textarea class="chat-input__textarea" placeholder="Type a message..." rows="2"></textarea>
+          <div class="chat-input__toolbar">
+            <div class="chat-input__toolbar-spacer"></div>
+            <button class="btn btn--primary btn--small">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH OVERLAY -->
+  <div class="section">
+    <div class="section-title">Search Overlay</div>
+    <div class="search-demo">
+      <div class="search-overlay">
+        <div class="search-overlay__panel">
+          <div class="tab-bar">
+            <button class="tab-bar__tab tab-bar__tab--active">Filenames</button>
+            <button class="tab-bar__tab">In Files</button>
+            <button class="tab-bar__tab">Skills</button>
+          </div>
+          <input class="search-input" type="text" placeholder="Search files...">
+          <div class="search-overlay__results">
+            <div style="padding:8px 12px;font-size:13px;background:var(--raised);border-bottom:1px solid var(--border);">src/main.go</div>
+            <div style="padding:8px 12px;font-size:13px;border-bottom:1px solid var(--border);">src/config.go</div>
+            <div style="padding:8px 12px;font-size:13px;">src/handler.go</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTEXT MENU -->
+  <div class="section">
+    <div class="section-title">Context Menu</div>
+    <div class="context-demo">
+      <div class="context-menu">
+        <button class="context-menu__item">Edit</button>
+        <button class="context-menu__item">Duplicate</button>
+        <button class="context-menu__item">Move to...</button>
+        <button class="context-menu__item context-menu__item--danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN PAGE -->
+  <div class="section">
+    <div class="section-title">Login Page</div>
+    <div style="background:var(--surface);border-radius:6px;padding:48px;display:flex;justify-content:center;">
+      <div class="login-card--industrial">
+        <div class="login-header">
+          <span>Welcome to</span>
+          <h2>Devbox</h2>
+        </div>
+        <div class="login-body">
+          <div class="form-group">
+            <label class="form-group__label">Email</label>
+            <input class="text-input" type="email" placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label class="form-group__label">Password</label>
+            <input class="text-input" type="password" placeholder="Enter password">
+          </div>
+          <button class="btn btn--primary" style="width:100%;justify-content:center;margin-top:8px;">Sign In</button>
+          <div class="login-divider">or</div>
+          <button class="btn" style="width:100%;justify-content:center;">Continue with GitHub</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,436 @@
+/* devbox.md/theme.css — Devbox Developer Tools Theme
+ *
+ * Layers on top of core.md/styles.css. Targets the same data-* attributes
+ * and semantic HTML selectors. Load AFTER core.md/styles.css:
+ *
+ *   <link rel="stylesheet" href="core.md/styles.css">
+ *   <link rel="stylesheet" href="devbox.md/theme.css">
+ *
+ * Or dynamically swap via JavaScript for theme switching.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ─── Token Overrides ─── */
+:root {
+  --core-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --core-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Mono', 'Consolas', monospace;
+  --core-text: #1A1A1A;
+  --core-text-muted: #6B7280;
+  --core-bg: #F9FAFB;
+  --core-surface: #FFFFFF;
+  --core-border: #E5E7EB;
+  --core-accent: #22C55E;
+  --core-danger: #EF4444;
+  --core-success: #22C55E;
+  --core-warning: #F59E0B;
+  --core-radius: 8px;
+  --core-transition: 150ms ease;
+
+  /* Devbox-specific tokens */
+  --dbx-sidebar-bg: #F3F4F6;
+  --dbx-navbar-bg: #FFFFFF;
+  --dbx-active-bg: rgba(34, 197, 94, 0.08);
+  --dbx-active-border: #22C55E;
+  --dbx-hover-bg: rgba(0, 0, 0, 0.04);
+  --dbx-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --dbx-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --dbx-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --core-text: #E5E7EB;
+    --core-text-muted: #9CA3AF;
+    --core-bg: #111827;
+    --core-surface: #1F2937;
+    --core-border: #374151;
+    --core-accent: #22C55E;
+    --core-danger: #EF4444;
+    --core-success: #22C55E;
+    --core-warning: #F59E0B;
+    --dbx-sidebar-bg: #1F2937;
+    --dbx-navbar-bg: #111827;
+    --dbx-active-bg: rgba(34, 197, 94, 0.12);
+    --dbx-active-border: #22C55E;
+    --dbx-hover-bg: rgba(255, 255, 255, 0.05);
+    --dbx-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --dbx-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+    --dbx-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  }
+}
+
+[data-theme="dark"] {
+  --core-text: #E5E7EB;
+  --core-text-muted: #9CA3AF;
+  --core-bg: #111827;
+  --core-surface: #1F2937;
+  --core-border: #374151;
+  --core-accent: #22C55E;
+  --core-danger: #EF4444;
+  --core-success: #22C55E;
+  --core-warning: #F59E0B;
+  --dbx-sidebar-bg: #1F2937;
+  --dbx-navbar-bg: #111827;
+  --dbx-active-bg: rgba(34, 197, 94, 0.12);
+  --dbx-active-border: #22C55E;
+  --dbx-hover-bg: rgba(255, 255, 255, 0.05);
+  --dbx-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --dbx-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --dbx-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── Global ─── */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Buttons ─── */
+button[data-variant],
+button:not([data-variant]) {
+  border-width: 1px;
+  font-weight: 500;
+  font-size: 13px;
+  border-radius: 6px;
+  transition: all var(--core-transition);
+  box-shadow: var(--dbx-shadow-sm);
+}
+
+button[data-variant]:hover,
+button:not([data-variant]):hover {
+  box-shadow: var(--dbx-shadow-md);
+}
+
+button[data-variant]:active,
+button:not([data-variant]):active {
+  box-shadow: none;
+  transform: translateY(1px);
+}
+
+button[data-variant="primary"] {
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+button[data-variant="danger"] {
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+button[data-variant="toolbar"] {
+  box-shadow: none;
+  font-size: 12px;
+  border-color: var(--core-border);
+  border-radius: 6px;
+}
+button[data-variant="toolbar"]:hover {
+  box-shadow: none;
+  background: var(--dbx-hover-bg);
+}
+button[data-variant="toolbar"]:active {
+  box-shadow: none;
+  transform: none;
+}
+
+button[data-size="small"] {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 5px;
+}
+
+/* ─── Text Inputs ─── */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="url"],
+input[type="tel"],
+input[type="number"] {
+  border-width: 1px;
+  border-radius: 8px;
+  font-family: inherit;
+  transition: border-color var(--core-transition), box-shadow var(--core-transition);
+}
+
+input:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+  border-color: var(--core-accent);
+  outline: none;
+}
+
+input[data-error="true"]:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+  border-color: var(--core-danger);
+}
+
+/* ─── Textarea ─── */
+textarea {
+  border-width: 1px;
+  border-radius: 8px;
+  font-family: inherit;
+  transition: border-color var(--core-transition), box-shadow var(--core-transition);
+}
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+  border-color: var(--core-accent);
+  outline: none;
+}
+
+/* ─── Select ─── */
+select {
+  border-width: 1px;
+  border-radius: 8px;
+  font-family: inherit;
+}
+select:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+  border-color: var(--core-accent);
+  outline: none;
+}
+
+/* ─── Form Labels ─── */
+div > label:first-child {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--core-text);
+}
+
+/* ─── Checkboxes ─── */
+label:has(input[type="checkbox"]) {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ─── Error/Success Messages ─── */
+div[role="alert"] {
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+div[role="status"] {
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+/* ─── Status Badges ─── */
+span[data-status] {
+  border: none;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 11px;
+  padding: 2px 10px;
+  letter-spacing: 0.01em;
+}
+
+span[data-status="running"]  { background: rgba(34, 197, 94, 0.15); color: #22C55E; }
+span[data-status="stopped"]  { background: var(--core-surface); color: var(--core-text-muted); }
+span[data-status="starting"] { background: rgba(245, 158, 11, 0.15); color: #F59E0B; }
+span[data-status="pending"]  { background: rgba(34, 197, 94, 0.10); color: var(--core-accent); }
+span[data-status="error"]    { background: rgba(239, 68, 68, 0.15); color: #EF4444; }
+
+/* Status dots stay circular */
+span[data-status]:empty {
+  width: 8px;
+  height: 8px;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+}
+
+/* ─── Diff Viewer ─── */
+div:has(> [data-diff]) {
+  border-width: 1px;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  overflow: hidden;
+}
+
+[data-diff="header"] {
+  background: var(--core-surface);
+  color: var(--core-accent);
+  font-weight: 600;
+}
+
+/* ─── Data Table ─── */
+table {
+  border: 1px solid var(--core-border);
+  border-radius: var(--core-radius);
+  overflow: hidden;
+  font-family: inherit;
+}
+
+thead th {
+  background: var(--core-surface);
+  color: var(--core-text);
+  font-weight: 600;
+  font-size: 12px;
+  border-bottom: 1px solid var(--core-border);
+  letter-spacing: 0.02em;
+}
+
+tbody td {
+  border-bottom: 1px solid var(--core-border);
+  font-size: 13px;
+}
+
+/* ─── Tab Bar ─── */
+div:has(> button[data-active]) {
+  border-bottom-width: 1px;
+}
+
+div:has(> button[data-active]) > button {
+  font-weight: 500;
+  font-size: 13px;
+  transition: color var(--core-transition);
+  /* Reset generic button styles so tabs render as underline tabs, not pills */
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+div:has(> button[data-active]) > button:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+div:has(> button[data-active]) > button[data-active="true"] {
+  font-weight: 600;
+  border-bottom: 2px solid var(--core-accent);
+  color: var(--core-accent);
+}
+
+/* Reset generic button styles on BEM tab components */
+button.dbx-tab-bar__tab,
+button.dbx-tab-bar__tab:hover,
+button.dbx-tab-bar__tab:active,
+button.dbx-terminal-panel__tab,
+button.dbx-terminal-panel__tab:hover,
+button.dbx-terminal-panel__tab:active {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  transform: none;
+}
+
+button.dbx-tab-bar__tab {
+  border-bottom: 2px solid transparent;
+}
+
+button.dbx-tab-bar__tab.dbx-tab-bar__tab--active {
+  border-bottom-color: var(--core-accent);
+  color: var(--core-accent);
+  font-weight: 600;
+}
+
+/* ─── Active States ─── */
+[data-active="true"] {
+  font-weight: 600;
+}
+
+/* ─── Context Menu ─── */
+[data-danger="true"] {
+  font-weight: 500;
+}
+
+/* ─── Spinner ─── */
+div[data-size="small"]:empty,
+div[data-size="large"]:empty {
+  border-width: 2px;
+  border-top-color: var(--core-accent);
+}
+
+/* ─── Typography ─── */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  border: 1px solid var(--core-border);
+  border-radius: 5px;
+  background: var(--core-surface);
+  font-size: 0.875em;
+  padding: 2px 5px;
+}
+
+pre {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  border-width: 1px;
+  border-radius: var(--core-radius);
+  background: var(--core-surface);
+}
+
+kbd {
+  font-family: 'Inter', sans-serif;
+  border: 1px solid var(--core-border);
+  box-shadow: 0 1px 0 var(--core-border);
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+blockquote {
+  border-left-width: 3px;
+  border-left-color: var(--core-accent);
+  font-style: normal;
+  color: var(--core-text-muted);
+  font-size: 14px;
+}
+
+/* ─── Links ─── */
+a {
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--core-accent);
+  transition: color var(--core-transition);
+}
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ─── Lists ─── */
+ul { list-style-type: disc; }
+
+/* ─── Images ─── */
+img[data-rounded] { border-radius: var(--core-radius); }
+img[data-avatar] { border: 2px solid var(--core-border); border-radius: 9999px; }
+
+/* ─── Divider ─── */
+hr {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-color: var(--core-border);
+}
+
+/* ─── Card ─── */
+[data-card] {
+  border-width: 1px;
+  border-radius: var(--core-radius);
+  box-shadow: var(--dbx-shadow-sm);
+  transition: box-shadow var(--core-transition);
+}
+[data-card]:hover {
+  box-shadow: var(--dbx-shadow-md);
+}
+
+/* ─── Badge ─── */
+[data-badge] {
+  border: none;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 11px;
+  padding: 2px 8px;
+}
+[data-badge="accent"]  { background: rgba(34, 197, 94, 0.12); color: var(--core-accent); }
+[data-badge="success"] { background: rgba(34, 197, 94, 0.12); color: var(--core-success); }
+[data-badge="danger"]  { background: rgba(239, 68, 68, 0.12); color: var(--core-danger); }
+[data-badge="warning"] { background: rgba(245, 158, 11, 0.12); color: var(--core-warning); }

@@ -1,0 +1,55 @@
+name: Deploy Generate Function
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'functions/**'
+      - 'generate/**'
+      - '.github/workflows/deploy-generate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Vet
+        run: go vet ./generate/ ./cmd/generate-server/
+
+      - name: Test
+        run: go test -race ./generate/
+
+      - name: Vet functions
+        run: go vet ./functions/packages/generate/svg/
+
+      - name: Build functions
+        run: go build ./functions/packages/generate/svg/
+
+      - name: Test functions
+        run: go test -race ./functions/packages/generate/svg/
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@c3b6d4d4230c391e18bffc54b3d255a3063bc4c0 # v2.5.1
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Connect to serverless namespace
+        run: doctl serverless connect
+
+      - name: Deploy function
+        run: doctl serverless deploy functions

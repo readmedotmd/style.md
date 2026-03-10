@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>core.md Component Showcase</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .showcase { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .showcase h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+    .showcase > p { color: var(--core-text-muted); margin-bottom: 32px; font-size: 14px; }
+    .theme-toggle {
+      position: fixed; top: 12px; right: 12px; z-index: 9999;
+      padding: 6px 14px; font-size: 12px; cursor: pointer;
+      border: 1px solid var(--core-border); border-radius: var(--core-radius);
+      background: var(--core-surface); color: var(--core-text);
+    }
+    .section { margin-bottom: 48px; }
+    .section-title {
+      font-size: 12px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--core-accent); margin-bottom: 16px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--core-border);
+    }
+    .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .col { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .card-demo {
+      background: var(--core-surface); border: 1px solid var(--core-border);
+      border-radius: var(--core-radius); padding: 20px; margin-bottom: 16px;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .demo-label { font-size: 12px; color: var(--core-text-muted); margin-bottom: 6px; font-weight: 600; }
+
+    /* App shell demo inline */
+    .app-shell-demo { border: 1px solid var(--core-border); border-radius: var(--core-radius); overflow: hidden; min-height: 280px; display: flex; flex-direction: column; }
+    .app-shell-demo nav { display: flex; align-items: center; gap: 16px; padding: 10px 16px; background: var(--core-surface); border-bottom: 1px solid var(--core-border); }
+    .app-shell-demo nav span:first-child { font-weight: 700; }
+    .app-shell-demo .body-area { display: flex; flex: 1; }
+    .app-shell-demo aside { width: 180px; padding: 12px; border-right: 1px solid var(--core-border); background: var(--core-bg); display: flex; flex-direction: column; gap: 2px; }
+    .app-shell-demo main { flex: 1; padding: 16px; }
+
+    /* Modal demo inline */
+    .modal-demo { position: relative; min-height: 320px; background: rgba(0,0,0,0.3); border-radius: var(--core-radius); display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .modal-box { background: var(--core-bg); border: 1px solid var(--core-border); border-radius: var(--core-radius); width: 100%; max-width: 420px; overflow: hidden; }
+    .modal-box-header { padding: 16px 20px; border-bottom: 1px solid var(--core-border); font-weight: 600; }
+    .modal-box-body { padding: 20px; }
+    .modal-box-footer { padding: 12px 20px; border-top: 1px solid var(--core-border); display: flex; justify-content: flex-end; gap: 8px; }
+
+    /* Chat demo */
+    .chat-demo { max-width: 600px; }
+    .msg { padding: 10px 14px; border-radius: var(--core-radius); margin-bottom: 8px; max-width: 80%; font-size: 14px; }
+    .msg-user { background: var(--core-accent); color: #fff; margin-left: auto; }
+    .msg-assistant { background: var(--core-surface); border: 1px solid var(--core-border); }
+    .chat-input-demo { border: 1px solid var(--core-border); border-radius: var(--core-radius); overflow: hidden; }
+    .chat-input-demo textarea { border: none; border-radius: 0; }
+    .chat-input-demo .toolbar { display: flex; justify-content: flex-end; padding: 8px; border-top: 1px solid var(--core-border); }
+
+    /* Search overlay demo */
+    .search-demo { position: relative; min-height: 320px; background: rgba(0,0,0,0.3); border-radius: var(--core-radius); display: flex; justify-content: center; padding: 24px; padding-top: 40px; }
+    .search-panel { background: var(--core-bg); border: 1px solid var(--core-border); border-radius: var(--core-radius); width: 100%; max-width: 560px; height: fit-content; overflow: hidden; }
+    .search-panel input { border-radius: 0; border: none; border-bottom: 1px solid var(--core-border); }
+
+    /* Context menu demo */
+    .context-demo { position: relative; min-height: 180px; background: var(--core-surface); border: 1px solid var(--core-border); border-radius: var(--core-radius); display: flex; align-items: center; justify-content: center; }
+    .ctx-menu { background: var(--core-bg); border: 1px solid var(--core-border); border-radius: var(--core-radius); min-width: 160px; padding: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .ctx-menu button { display: block; width: 100%; text-align: left; border: none; padding: 8px 12px; border-radius: 4px; font-size: 13px; background: none; }
+    .ctx-menu button:hover { background: var(--core-surface); }
+    .ctx-menu button[data-danger="true"] { color: var(--core-danger); }
+  </style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle">Dark</button>
+
+<script>
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) { html.removeAttribute('data-theme'); this.textContent = 'Dark'; }
+    else { html.setAttribute('data-theme', 'dark'); this.textContent = 'Light'; }
+  });
+</script>
+
+<div class="showcase">
+  <h1>core.md</h1>
+  <p>Unstyled headless components with minimal base styles</p>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="col">
+      <h1>Heading 1</h1>
+      <h2>Heading 2</h2>
+      <h3>Heading 3</h3>
+      <h4>Heading 4</h4>
+      <h5>Heading 5</h5>
+      <h6>Heading 6</h6>
+    </div>
+    <p>This is a paragraph with <strong>bold text</strong>, <em>italic text</em>, <code>inline code</code>, <mark>highlighted text</mark>, and a keyboard shortcut <kbd>Ctrl</kbd> + <kbd>K</kbd>.</p>
+    <div style="margin-top:16px;">
+      <blockquote>This is a blockquote — used for callouts, quotes, or important notes.</blockquote>
+    </div>
+  </div>
+
+  <!-- LINKS & LISTS -->
+  <div class="section">
+    <div class="section-title">Links &amp; Lists</div>
+    <div class="grid-2">
+      <div>
+        <div class="demo-label">Links</div>
+        <p>Visit the <a href="#">documentation</a> or check the <a href="#">changelog</a> for details.</p>
+      </div>
+      <div>
+        <div class="demo-label">Unordered List</div>
+        <ul>
+          <li>First item</li>
+          <li>Second item with more detail</li>
+          <li>Third item</li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:16px;">
+      <div>
+        <div class="demo-label">Ordered List</div>
+        <ol>
+          <li>Clone the repository</li>
+          <li>Install dependencies</li>
+          <li>Run the dev server</li>
+        </ol>
+      </div>
+      <div>
+        <div class="demo-label">Code Block</div>
+        <pre><code>func main() {
+    fmt.Println("hello, world")
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAYOUT PRIMITIVES -->
+  <div class="section">
+    <div class="section-title">Layout Primitives</div>
+
+    <div class="demo-label">Stack (vertical, gap=md)</div>
+    <div data-stack="md" style="margin-bottom:24px;">
+      <div style="padding:12px;background:var(--core-surface);border:1px solid var(--core-border);border-radius:var(--core-radius);">Stack item 1</div>
+      <div style="padding:12px;background:var(--core-surface);border:1px solid var(--core-border);border-radius:var(--core-radius);">Stack item 2</div>
+      <div style="padding:12px;background:var(--core-surface);border:1px solid var(--core-border);border-radius:var(--core-radius);">Stack item 3</div>
+    </div>
+
+    <div class="demo-label">HStack (horizontal, gap=md)</div>
+    <div data-hstack="md" style="margin-bottom:24px;">
+      <div style="padding:12px;background:var(--core-surface);border:1px solid var(--core-border);border-radius:var(--core-radius);">Item 1</div>
+      <div style="padding:12px;background:var(--core-surface);border:1px solid var(--core-border);border-radius:var(--core-radius);">Item 2</div>
+      <div data-spacer></div>
+      <div style="padding:12px;background:var(--core-surface);border:1px solid var(--core-border);border-radius:var(--core-radius);">Pushed right</div>
+    </div>
+
+    <div class="demo-label">Grid (3 columns)</div>
+    <div data-grid="3" style="margin-bottom:24px;">
+      <div style="padding:16px;background:var(--core-surface);border:1px solid var(--core-border);border-radius:var(--core-radius);text-align:center;">Col 1</div>
+      <div style="padding:16px;background:var(--core-surface);border:1px solid var(--core-border);border-radius:var(--core-radius);text-align:center;">Col 2</div>
+      <div style="padding:16px;background:var(--core-surface);border:1px solid var(--core-border);border-radius:var(--core-radius);text-align:center;">Col 3</div>
+    </div>
+
+    <div class="demo-label">Center</div>
+    <div data-center style="min-height:80px;background:var(--core-surface);border:1px solid var(--core-border);border-radius:var(--core-radius);margin-bottom:24px;">
+      <span>Centered content</span>
+    </div>
+  </div>
+
+  <!-- CARDS & BADGES -->
+  <div class="section">
+    <div class="section-title">Cards &amp; Badges</div>
+
+    <div class="demo-label">Cards</div>
+    <div data-grid="2" style="margin-bottom:24px;">
+      <div data-card>
+        <h4 style="margin-bottom:8px;">Default Card</h4>
+        <p style="font-size:13px;color:var(--core-text-muted);">A simple bordered container for grouping related content.</p>
+      </div>
+      <div data-card="surface">
+        <h4 style="margin-bottom:8px;">Surface Card</h4>
+        <p style="font-size:13px;color:var(--core-text-muted);">Uses the surface background color for subtle emphasis.</p>
+      </div>
+    </div>
+
+    <div class="demo-label">Badges</div>
+    <div class="row">
+      <span data-badge>Default</span>
+      <span data-badge="accent">Accent</span>
+      <span data-badge="success">Success</span>
+      <span data-badge="danger">Danger</span>
+      <span data-badge="warning">Warning</span>
+    </div>
+  </div>
+
+  <!-- IMAGES & DIVIDER -->
+  <div class="section">
+    <div class="section-title">Images &amp; Divider</div>
+
+    <div class="demo-label">Images</div>
+    <div class="row" style="align-items:flex-start;">
+      <div>
+        <div class="demo-label">Rounded</div>
+        <img data-rounded src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80' fill='%236b7280'%3E%3Crect width='120' height='80' rx='0' fill='%23e5e7eb'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='12'%3E120×80%3C/text%3E%3C/svg%3E" alt="placeholder">
+      </div>
+      <div>
+        <div class="demo-label">Avatar</div>
+        <img data-avatar src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Crect width='48' height='48' fill='%233b82f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='sans-serif' font-size='18' font-weight='bold'%3EAB%3C/text%3E%3C/svg%3E" alt="avatar" style="width:48px;height:48px;">
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="demo-label">Divider (hr)</div>
+      <p style="margin-bottom:8px;">Content above the divider.</p>
+      <hr>
+      <p style="margin-top:8px;">Content below the divider.</p>
+    </div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="section">
+    <div class="section-title">Buttons</div>
+    <div class="row">
+      <button>Default</button>
+      <button data-variant="primary">Primary</button>
+      <button data-variant="danger">Danger</button>
+      <button data-size="small">Small</button>
+      <button data-variant="toolbar">Toolbar</button>
+      <button disabled>Disabled</button>
+    </div>
+    <div class="row">
+      <button data-variant="primary" data-size="small">+ New Project</button>
+      <button data-variant="danger" data-size="small">X Delete</button>
+      <button data-variant="toolbar">&#8635;</button>
+      <button data-variant="toolbar">&#10005;</button>
+    </div>
+  </div>
+
+  <!-- FORMS -->
+  <div class="section">
+    <div class="section-title">Form Components</div>
+    <div class="grid-2">
+      <div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px;">
+          <label>Username</label>
+          <input type="text" placeholder="Enter username">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px;">
+          <label>Password</label>
+          <input type="password" placeholder="Enter password">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px;">
+          <label>Email (Error)</label>
+          <input type="email" data-error="true" value="invalid">
+          <div role="alert">Please enter a valid email address.</div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px;">
+          <label>Environment</label>
+          <select>
+            <option>Production</option>
+            <option>Staging</option>
+            <option>Development</option>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px;">
+          <label>Description</label>
+          <textarea rows="3" placeholder="Enter description..."></textarea>
+        </div>
+        <div role="status">Settings saved successfully.</div>
+      </div>
+    </div>
+
+    <div class="demo-label">Checkboxes &amp; Feature Toggles</div>
+    <div class="col" style="max-width:400px;">
+      <label><input type="checkbox" checked> Enable notifications</label>
+      <label><input type="checkbox"> Auto-save drafts</label>
+    </div>
+  </div>
+
+  <!-- STATUS & BADGES -->
+  <div class="section">
+    <div class="section-title">Status &amp; Badges</div>
+
+    <div class="demo-label">Status Badges</div>
+    <div class="row">
+      <span data-status="running">Running</span>
+      <span data-status="stopped">Stopped</span>
+      <span data-status="starting">Starting</span>
+      <span data-status="pending">Pending</span>
+      <span data-status="error">Error</span>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Status Dots</div>
+    <div class="row">
+      <div style="display:flex;align-items:center;gap:6px;"><span data-status="running"></span> Running</div>
+      <div style="display:flex;align-items:center;gap:6px;"><span data-status="stopped"></span> Stopped</div>
+      <div style="display:flex;align-items:center;gap:6px;"><span data-status="starting"></span> Starting</div>
+      <div style="display:flex;align-items:center;gap:6px;"><span data-status="error"></span> Error</div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <div class="section">
+    <div class="section-title">Navigation</div>
+
+    <div class="demo-label">Tab Bar</div>
+    <div style="margin-bottom:16px;">
+      <div>
+        <button data-active="true">Diff</button>
+        <button data-active="">Status</button>
+        <button data-active="">Review</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA DISPLAY -->
+  <div class="section">
+    <div class="section-title">Data Display</div>
+
+    <div class="demo-label">Data Table</div>
+    <div style="border:1px solid var(--core-border);border-radius:var(--core-radius);overflow:hidden;margin-bottom:16px;">
+      <table>
+        <thead><tr><th>Name</th><th>Status</th><th>CPU</th><th>Memory</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600;">node-01</td><td><span data-status="running">Running</span></td><td>23%</td><td>2.1 GB</td><td style="color:var(--core-text-muted);">Worker</td></tr>
+          <tr><td style="font-weight:600;">node-02</td><td><span data-status="running">Running</span></td><td>67%</td><td>3.8 GB</td><td style="color:var(--core-text-muted);">Worker</td></tr>
+          <tr><td style="font-weight:600;">node-03</td><td><span data-status="starting">Starting</span></td><td>0%</td><td>0.3 GB</td><td style="color:var(--core-text-muted);">Control</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="demo-label">Diff Viewer</div>
+    <div style="margin-bottom:16px;">
+      <div>
+        <div data-diff="header">@@ -1,4 +1,4 @@</div>
+        <div data-diff="context"> func main() {</div>
+        <div data-diff="remove">-    fmt.Println("hello")</div>
+        <div data-diff="add">+    fmt.Println("hello, world")</div>
+        <div data-diff="context"> }</div>
+      </div>
+    </div>
+
+    <div class="demo-label">Empty State</div>
+    <div class="card-demo" style="text-align:center;padding:40px;">
+      <div style="font-size:16px;font-weight:600;margin-bottom:4px;">Welcome to Devbox</div>
+      <div style="color:var(--core-text-muted);">Get started by creating a new project or connecting to an existing repository.</div>
+    </div>
+  </div>
+
+  <!-- APP SHELL -->
+  <div class="section">
+    <div class="section-title">App Shell</div>
+    <div class="app-shell-demo">
+      <nav>
+        <span>Devbox</span>
+        <span style="color:var(--core-text-muted);font-size:13px;">Dashboard</span>
+        <span style="color:var(--core-text-muted);font-size:13px;">Settings</span>
+      </nav>
+      <div class="body-area">
+        <aside>
+          <button data-active="true" style="text-align:left;border:none;padding:8px 12px;border-radius:4px;background:var(--core-surface);font-weight:600;">Chat</button>
+          <button data-active="" style="text-align:left;border:none;padding:8px 12px;border-radius:4px;background:transparent;">Cluster</button>
+          <button data-active="" style="text-align:left;border:none;padding:8px 12px;border-radius:4px;background:transparent;">Settings</button>
+        </aside>
+        <main>
+          <div style="font-size:16px;font-weight:600;margin-bottom:8px;">Dashboard</div>
+          <div style="color:var(--core-text-muted);">Overview of your project.</div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="section">
+    <div class="section-title">Modal</div>
+    <div class="modal-demo">
+      <div class="modal-box">
+        <div class="modal-box-header">Create New Project</div>
+        <div class="modal-box-body">
+          <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px;">
+            <label>Project Name</label>
+            <input type="text" placeholder="my-project">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <label>Repository URL</label>
+            <input type="text" placeholder="https://github.com/...">
+          </div>
+        </div>
+        <div class="modal-box-footer">
+          <button>Cancel</button>
+          <button data-variant="primary">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="section">
+    <div class="section-title">Chat</div>
+    <div class="chat-demo">
+      <div class="msg msg-user">How do I deploy to production?</div>
+      <div class="msg msg-assistant">To deploy your application to production, follow these steps:<br><br>1. Ensure all tests pass<br>2. Build the application<br>3. Push to the main branch</div>
+      <div class="msg msg-user">Thanks! Can you show the config?</div>
+
+      <div class="chat-input-demo" style="margin-top:16px;">
+        <textarea rows="2" placeholder="Type a message..." style="width:100%;padding:12px;"></textarea>
+        <div class="toolbar">
+          <button data-variant="primary" data-size="small">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH OVERLAY -->
+  <div class="section">
+    <div class="section-title">Search Overlay</div>
+    <div class="search-demo">
+      <div class="search-panel">
+        <div style="border-bottom: 1px solid var(--core-border);">
+          <button data-active="true" style="border:none;border-bottom:2px solid var(--core-accent);padding:8px 16px;background:none;color:var(--core-accent);font-weight:600;">Files</button>
+          <button style="border:none;border-bottom:2px solid transparent;padding:8px 16px;background:none;color:var(--core-text-muted);">In Files</button>
+          <button style="border:none;border-bottom:2px solid transparent;padding:8px 16px;background:none;color:var(--core-text-muted);">Skills</button>
+        </div>
+        <input type="text" placeholder="Search files..." style="padding:12px;">
+        <div style="padding:8px;">
+          <div style="padding:8px 12px;border-radius:4px;background:var(--core-surface);margin-bottom:2px;font-size:13px;">src/main.go</div>
+          <div style="padding:8px 12px;border-radius:4px;margin-bottom:2px;font-size:13px;">src/config.go</div>
+          <div style="padding:8px 12px;border-radius:4px;margin-bottom:2px;font-size:13px;">src/handler.go</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTEXT MENU -->
+  <div class="section">
+    <div class="section-title">Context Menu</div>
+    <div class="context-demo">
+      <div class="ctx-menu">
+        <button>Edit</button>
+        <button>Duplicate</button>
+        <button>Move to...</button>
+        <button data-danger="true">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN PAGE -->
+  <div class="section">
+    <div class="section-title">Login Page</div>
+    <div style="background:var(--core-surface);border-radius:var(--core-radius);padding:48px;display:flex;justify-content:center;">
+      <div style="width:100%;max-width:360px;background:var(--core-bg);border:1px solid var(--core-border);border-radius:var(--core-radius);overflow:hidden;">
+        <div style="padding:24px;text-align:center;background:var(--core-surface);border-bottom:1px solid var(--core-border);">
+          <div style="font-size:22px;font-weight:700;">Sign In</div>
+          <div style="color:var(--core-text-muted);font-size:13px;margin-top:4px;">Access your account</div>
+        </div>
+        <div style="padding:24px;">
+          <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px;">
+            <label>Email</label>
+            <input type="email" placeholder="you@example.com">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:16px;">
+            <label>Password</label>
+            <input type="password" placeholder="Enter password">
+          </div>
+          <button data-variant="primary" style="width:100%;justify-content:center;">Sign In</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>style.md Component Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* Showcase-specific styles — Industrial Monospace */
+    * { font-family: 'Space Mono', monospace !important; }
+
+    .showcase { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .showcase h1 {
+      font-size: 32px; font-weight: 700; margin-bottom: 4px;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--text);
+    }
+    .showcase > p {
+      color: var(--muted); margin-bottom: 32px;
+      text-transform: uppercase; letter-spacing: 0.06em; font-size: 12px;
+    }
+    .theme-toggle {
+      position: fixed; top: 12px; right: 12px; z-index: 9999;
+      background: var(--dark); color: var(--dark-text); border: 2px solid var(--border);
+      padding: 6px 14px; font-family: 'Space Mono', monospace;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; cursor: pointer; border-radius: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+    .theme-toggle:hover { background: var(--accent); color: var(--dark-text); }
+    .section { margin-bottom: 48px; }
+    .section-title {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--accent); margin-bottom: 16px;
+      padding-bottom: 8px; border-bottom: 2px solid var(--border);
+    }
+    .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .col { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .card-demo {
+      background: var(--raised); border: 2px solid var(--border);
+      border-radius: 6px; padding: 20px; margin-bottom: 16px;
+      box-shadow: var(--shadow-md);
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    @media (max-width: 768px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+    .demo-label {
+      font-size: 11px; color: var(--muted); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;
+    }
+    /* Make app-shell demo not take over the page */
+    .app-shell-demo .app-shell { min-height: 320px; border: 2px solid var(--border); border-radius: 6px; overflow: hidden; box-shadow: var(--shadow-md); }
+    .app-shell-demo .navbar { position: relative; }
+    .app-shell-demo .sidebar { position: relative; width: 200px; }
+    /* Panel demo */
+    .panel-demo .panel { position: relative; width: 100%; animation: none; }
+    /* Terminal demo */
+    .terminal-demo .terminal-panel { position: relative; height: 200px; }
+    /* Modal demo - inline */
+    .modal-demo .modal-backdrop { position: relative; inset: auto; min-height: 360px; border-radius: 6px; }
+    .modal-demo .modal { animation: none; }
+    /* Bottom sheet demo */
+    .bottomsheet-demo .modal-backdrop { position: relative; inset: auto; min-height: 300px; border-radius: 6px; align-items: flex-end; }
+    .bottomsheet-demo .modal { border-radius: 6px 6px 0 0; max-width: 100%; animation: none; }
+    /* Search overlay demo */
+    .search-demo .search-overlay { position: relative; inset: auto; min-height: 360px; border-radius: 6px; padding-top: 24px; }
+    /* Context menu demo */
+    .context-demo { position: relative; min-height: 180px; background: var(--raised); border-radius: 6px; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); }
+    .context-demo .context-menu { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    /* Chat demo */
+    .chat-demo { max-width: 600px; }
+    .chat-demo .chat-input { position: relative; border-top: 2px solid var(--border); border-radius: 0 0 6px 6px; }
+
+    /* Color swatch helper */
+    .swatch {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .swatch__color {
+      width: 56px; height: 56px; border-radius: 4px; border: 2px solid var(--border);
+      box-shadow: 3px 3px 0 var(--border);
+    }
+    .swatch__label {
+      font-size: 9px; color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.06em; font-weight: 700; text-align: center;
+    }
+
+    /* Industrial overrides for inline demo elements */
+    .showcase .btn {
+      text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;
+      border: 2px solid var(--border); border-radius: 4px;
+      box-shadow: 3px 3px 0 var(--border); font-size: 12px;
+    }
+    .showcase .btn:active {
+      box-shadow: 1px 1px 0 var(--border); transform: translate(2px, 2px);
+    }
+    .showcase .btn--primary {
+      background: var(--accent); border-color: var(--border); color: var(--dark-text);
+    }
+    .showcase .btn--danger {
+      background: var(--danger); border-color: var(--border); color: var(--dark-text);
+    }
+    .showcase .btn--toolbar {
+      box-shadow: none; border: 2px solid var(--border);
+    }
+    .showcase .text-input,
+    .showcase .textarea,
+    .showcase .select,
+    .showcase .search-input {
+      border: 2px solid var(--border); border-radius: 4px;
+      font-family: 'Space Mono', monospace !important;
+      text-transform: none; letter-spacing: 0;
+    }
+    .showcase .text-input:focus,
+    .showcase .textarea:focus,
+    .showcase .select:focus,
+    .showcase .search-input:focus {
+      border-color: var(--accent); outline: none;
+      box-shadow: 3px 3px 0 var(--accent);
+    }
+    .showcase .form-group__label {
+      text-transform: uppercase; letter-spacing: 0.08em;
+      font-weight: 700; font-size: 11px; color: var(--text);
+    }
+    .showcase .status-badge {
+      text-transform: uppercase; letter-spacing: 0.06em;
+      font-weight: 700; font-size: 10px; border: 2px solid var(--border);
+      border-radius: 3px;
+    }
+    .showcase .label-badge {
+      text-transform: uppercase; letter-spacing: 0.06em;
+      font-weight: 700; font-size: 10px; border: 2px solid var(--border);
+      border-radius: 3px;
+    }
+    .showcase .tab-bar__tab {
+      text-transform: uppercase; letter-spacing: 0.08em;
+      font-weight: 700; font-size: 11px;
+    }
+    .showcase .nav-link {
+      text-transform: uppercase; letter-spacing: 0.06em;
+      font-weight: 700; font-size: 12px;
+    }
+    .showcase .data-table {
+      border: 2px solid var(--border); border-radius: 6px;
+      overflow: hidden;
+    }
+    .showcase .data-table th {
+      background: var(--dark); color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      font-weight: 700; font-size: 11px;
+    }
+    .showcase .data-table td {
+      border-top: 2px solid var(--border);
+    }
+
+    /* Login card industrial override */
+    .login-card--industrial {
+      background: var(--raised); border: 2px solid var(--border);
+      border-radius: 8px; box-shadow: 6px 6px 0 var(--border);
+      overflow: hidden; max-width: 380px; width: 100%; margin: 0 auto;
+    }
+    .login-card--industrial .login-header {
+      background: var(--dark); padding: 24px; text-align: center;
+    }
+    .login-card--industrial .login-header span {
+      color: #888888; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      display: block; margin-bottom: 4px;
+    }
+    .login-card--industrial .login-header h2 {
+      color: var(--accent); font-size: 28px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; margin: 0;
+    }
+    .login-card--industrial .login-body {
+      padding: 24px;
+    }
+    .login-card--industrial .login-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 20px 0; color: var(--dark-muted); font-size: 10px;
+      text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;
+    }
+    .login-card--industrial .login-divider::before,
+    .login-card--industrial .login-divider::after {
+      content: ''; flex: 1; height: 2px; background: var(--bg);
+    }
+
+    /* Dark panel overrides */
+    .dark-panel {
+      background: var(--dark); border: 2px solid var(--border); border-radius: 6px;
+      padding: 16px; color: var(--dark-muted); box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+    }
+    .dark-panel .stat-value { color: var(--accent); font-weight: 700; }
+
+    /* Modal industrial override */
+    .showcase .modal {
+      border: 2px solid var(--border); border-radius: 8px;
+      box-shadow: 6px 6px 0 var(--border); overflow: hidden;
+    }
+    .showcase .modal__header {
+      background: var(--dark); border-bottom: none;
+    }
+    .showcase .modal__header-title {
+      color: var(--dark-text); text-transform: uppercase; letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+    .showcase .modal__header-close { color: var(--dark-text); }
+    .modal--danger-header .modal__header {
+      background: var(--danger) !important;
+    }
+  </style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle">Dark</button>
+
+<script>
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      html.removeAttribute('data-theme');
+      this.textContent = 'Dark';
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      this.textContent = 'Light';
+    }
+  });
+</script>
+
+<div class="showcase">
+  <h1>style.md</h1>
+  <p>Industrial monospace component showcase</p>
+
+  <!-- ===================== DESIGN TOKENS ===================== -->
+  <div class="section">
+    <div class="section-title">Color Tokens</div>
+
+    <div class="demo-label">Core Palette</div>
+    <div class="row">
+      <div class="swatch">
+        <div class="swatch__color" style="background:#FF5500;"></div>
+        <span class="swatch__label">Orange<br>#FF5500</span>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#1A1A1A;"></div>
+        <span class="swatch__label">Black<br>#1A1A1A</span>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#2A2A2A;"></div>
+        <span class="swatch__label">Dark<br>#2A2A2A</span>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#E8E8E8;"></div>
+        <span class="swatch__label">Gray<br>#E8E8E8</span>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#FFFFFF;"></div>
+        <span class="swatch__label">White<br>#FFFFFF</span>
+      </div>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Semantic Colors</div>
+    <div class="row">
+      <div class="swatch">
+        <div class="swatch__color" style="background:#FF3333;"></div>
+        <span class="swatch__label">Red<br>#FF3333</span>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#00CC66;"></div>
+        <span class="swatch__label">Green<br>#00CC66</span>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#3399FF;"></div>
+        <span class="swatch__label">Blue<br>#3399FF</span>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#FFCC00;"></div>
+        <span class="swatch__label">Yellow<br>#FFCC00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TYPOGRAPHY ===================== -->
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="col">
+      <div><span style="font-size:24px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">Heading XL (24px)</span></div>
+      <div><span style="font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Heading LG (18px)</span></div>
+      <div><span style="font-size:15px;">Body text at base size (15px) &mdash; Space Mono monospace throughout.</span></div>
+      <div><span style="font-size:13px;color:var(--muted);">Secondary text at small size (13px)</span></div>
+      <div><span style="font-size:11px;color:var(--dark-muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;">Caption / Label (11px)</span></div>
+      <div><span style="font-size:13px;background:var(--dark);color:var(--accent);padding:4px 8px;border-radius:3px;border:2px solid var(--border);">monospace: Space Mono</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== SPACING & RADII ===================== -->
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="row" style="align-items:flex-end;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:4px;height:24px;background:var(--accent);border-radius:2px;"></div>
+        <span class="swatch__label">4</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:6px;height:24px;background:var(--accent);border-radius:2px;"></div>
+        <span class="swatch__label">6</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:8px;height:24px;background:var(--accent);border-radius:2px;"></div>
+        <span class="swatch__label">8</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:12px;height:24px;background:var(--accent);border-radius:2px;"></div>
+        <span class="swatch__label">12</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:16px;height:24px;background:var(--accent);border-radius:2px;"></div>
+        <span class="swatch__label">16</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:20px;height:24px;background:var(--accent);border-radius:2px;"></div>
+        <span class="swatch__label">20</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:24px;height:24px;background:var(--accent);border-radius:2px;"></div>
+        <span class="swatch__label">24</span>
+      </div>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Border Radius</div>
+    <div class="row">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:48px;height:48px;border-radius:3px;background:var(--accent);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);"></div>
+        <span class="swatch__label">3px</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:48px;height:48px;border-radius:6px;background:var(--accent);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);"></div>
+        <span class="swatch__label">6px</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:48px;height:48px;border-radius:8px;background:var(--accent);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);"></div>
+        <span class="swatch__label">8px</span>
+      </div>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Hard Shadows</div>
+    <div class="row">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:80px;height:48px;border-radius:4px;background:var(--raised);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);"></div>
+        <span class="swatch__label">Small</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:80px;height:48px;border-radius:4px;background:var(--raised);border:2px solid var(--border);box-shadow:4px 4px 0 var(--border);"></div>
+        <span class="swatch__label">Medium</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:80px;height:48px;border-radius:4px;background:var(--raised);border:2px solid var(--border);box-shadow:6px 6px 0 var(--border);"></div>
+        <span class="swatch__label">Large</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== BUTTONS ===================== -->
+  <div class="section">
+    <div class="section-title">Buttons</div>
+    <div class="row">
+      <button class="btn">Default</button>
+      <button class="btn btn--primary">Primary</button>
+      <button class="btn btn--danger">Danger</button>
+      <button class="btn btn--small">Small</button>
+      <button class="btn btn--toolbar">Toolbar</button>
+      <button class="btn" disabled>Disabled</button>
+    </div>
+    <div class="row">
+      <button class="btn btn--primary btn--small">+ New Project</button>
+      <button class="btn btn--danger btn--small">X Delete</button>
+      <button class="btn btn--toolbar">[=]</button>
+      <button class="btn btn--toolbar">&#8635;</button>
+      <button class="btn btn--toolbar">&#10005;</button>
+    </div>
+  </div>
+
+  <!-- ===================== FORM COMPONENTS ===================== -->
+  <div class="section">
+    <div class="section-title">Form Components</div>
+    <div class="grid-2">
+      <div>
+        <div class="form-group">
+          <label class="form-group__label">Username</label>
+          <input class="text-input" type="text" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+          <label class="form-group__label">Password</label>
+          <input class="text-input" type="password" placeholder="Enter password">
+        </div>
+        <div class="form-group">
+          <label class="form-group__label">Email (Error)</label>
+          <input class="text-input text-input--error" type="email" value="invalid" style="border-color:var(--danger);">
+          <div class="error-message">Please enter a valid email address.</div>
+        </div>
+      </div>
+      <div>
+        <div class="form-group">
+          <label class="form-group__label">Environment</label>
+          <select class="select">
+            <option>Production</option>
+            <option>Staging</option>
+            <option>Development</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-group__label">Description</label>
+          <textarea class="textarea" rows="3" placeholder="Enter description..."></textarea>
+        </div>
+        <div class="success-message">Settings saved successfully.</div>
+      </div>
+    </div>
+
+    <div class="demo-label">Checkboxes &amp; Feature Toggles</div>
+    <div class="col" style="max-width:400px;">
+      <label class="checkbox">
+        <input class="checkbox__input" type="checkbox" checked>
+        <span class="checkbox__label" style="text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Enable notifications</span>
+      </label>
+      <label class="checkbox">
+        <input class="checkbox__input" type="checkbox">
+        <span class="checkbox__label" style="text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Auto-save drafts</span>
+      </label>
+    </div>
+
+    <div class="col" style="max-width:480px;">
+      <div class="feature-row">
+        <div class="feature-row__info">
+          <div class="feature-row__name" style="text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:12px;">Browser Access</div>
+          <div class="feature-row__description">Allow agent to browse the web</div>
+        </div>
+        <input class="checkbox__input" type="checkbox" checked>
+      </div>
+      <div class="feature-row">
+        <div class="feature-row__info">
+          <div class="feature-row__name" style="text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:12px;">VS Code Integration</div>
+          <div class="feature-row__description">Enable IDE integration</div>
+        </div>
+        <input class="checkbox__input" type="checkbox">
+      </div>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Variable Rows</div>
+    <div class="col" style="max-width:560px;">
+      <div class="variable-row" style="border:2px solid var(--border);border-radius:4px;">
+        <span class="variable-row__key"><input class="text-input" value="API_KEY" style="font-size:12px;"></span>
+        <span class="variable-row__value"><input class="text-input" value="sk-abc123..." style="font-size:12px;"></span>
+        <div class="variable-row__actions">
+          <button class="btn btn--small btn--toolbar">&#9673;</button>
+          <button class="btn btn--small btn--toolbar">&#10005;</button>
+        </div>
+      </div>
+      <div class="variable-row" style="border:2px solid var(--border);border-radius:4px;">
+        <span class="variable-row__key"><input class="text-input" value="DATABASE_URL" style="font-size:12px;"></span>
+        <span class="variable-row__value"><input class="text-input" value="••••••••" type="password" style="font-size:12px;"></span>
+        <div class="variable-row__actions">
+          <button class="btn btn--small btn--toolbar">&#9678;</button>
+          <button class="btn btn--small btn--toolbar">&#10005;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== STATUS & BADGES ===================== -->
+  <div class="section">
+    <div class="section-title">Status &amp; Badges</div>
+
+    <div class="demo-label">Status Badges</div>
+    <div class="row">
+      <span class="status-badge status-badge--running">Running</span>
+      <span class="status-badge status-badge--stopped">Stopped</span>
+      <span class="status-badge status-badge--starting">Starting</span>
+      <span class="status-badge status-badge--pending">Pending</span>
+      <span class="status-badge status-badge--error">Error</span>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Status Dots</div>
+    <div class="row">
+      <div style="display:flex;align-items:center;gap:6px;"><span class="status-dot status-dot--running"></span><span style="font-size:12px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Running</span></div>
+      <div style="display:flex;align-items:center;gap:6px;"><span class="status-dot status-dot--stopped"></span><span style="font-size:12px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Stopped</span></div>
+      <div style="display:flex;align-items:center;gap:6px;"><span class="status-dot status-dot--starting"></span><span style="font-size:12px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Starting</span></div>
+      <div style="display:flex;align-items:center;gap:6px;"><span class="status-dot status-dot--error"></span><span style="font-size:12px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Error</span></div>
+      <div style="display:flex;align-items:center;gap:6px;"><span class="status-dot status-dot--running status-dot--glow"></span><span style="font-size:12px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Glow</span></div>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Label Badges</div>
+    <div class="row">
+      <span class="label-badge">&#9881; Browser</span>
+      <span class="label-badge">&lt;/&gt; VSCode</span>
+      <span class="label-badge">&#9881; Settings</span>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Usage Badge</div>
+    <div class="row">
+      <span class="usage-badge" style="border:2px solid var(--border);border-radius:3px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:11px;">
+        CPU: 42%
+        <span class="usage-badge__separator">&middot;</span>
+        MEM: 1.2 GB
+      </span>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Tool Badge &amp; Thinking</div>
+    <div class="row">
+      <span class="tool-badge" style="border:2px solid var(--border);border-radius:3px;text-transform:uppercase;letter-spacing:0.04em;font-weight:700;font-size:11px;"><span class="tool-badge__spinner"></span> Using tool: read_file</span>
+    </div>
+    <div style="margin-top:8px;">
+      <div class="thinking">
+        <div class="spinner spinner--small"></div>
+        <span style="text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:11px;">Thinking...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SPINNERS ===================== -->
+  <div class="section">
+    <div class="section-title">Spinners</div>
+    <div class="row">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div class="spinner spinner--small"></div>
+        <span class="swatch__label">Small</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div class="spinner"></div>
+        <span class="swatch__label">Default</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div class="spinner spinner--large"></div>
+        <span class="swatch__label">Large</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <div class="section">
+    <div class="section-title">Navigation</div>
+
+    <div class="demo-label">Nav Links</div>
+    <div style="width:220px;display:flex;flex-direction:column;gap:2px;margin-bottom:16px;">
+      <button class="nav-link nav-link--active"><span class="nav-link__icon">&#9656;</span> Chat</button>
+      <button class="nav-link"><span class="nav-link__icon">&#9656;</span> Cluster</button>
+      <button class="nav-link"><span class="nav-link__icon">&#9656;</span> Settings</button>
+    </div>
+
+    <div class="demo-label">Tab Bar</div>
+    <div class="tab-bar" style="margin-bottom:16px;">
+      <button class="tab-bar__tab tab-bar__tab--active">Diff</button>
+      <button class="tab-bar__tab">Status</button>
+      <button class="tab-bar__tab">Review</button>
+    </div>
+
+    <div class="demo-label">Tab Bar (Search)</div>
+    <div class="tab-bar">
+      <button class="tab-bar__tab tab-bar__tab--active">Filenames</button>
+      <button class="tab-bar__tab">In Files</button>
+      <button class="tab-bar__tab">Skills</button>
+    </div>
+  </div>
+
+  <!-- ===================== DATA DISPLAY ===================== -->
+  <div class="section">
+    <div class="section-title">Data Display</div>
+
+    <div class="demo-label">Empty State</div>
+    <div class="card-demo">
+      <div class="empty-state">
+        <div class="empty-state__heading" style="text-transform:uppercase;letter-spacing:0.1em;font-weight:700;">Welcome to Devbox</div>
+        <div class="empty-state__description">Get started by creating a new project or connecting to an existing repository.</div>
+      </div>
+    </div>
+
+    <div class="demo-label">Cluster Stats Bar</div>
+    <div class="dark-panel" style="margin-bottom:16px;">
+      <div class="cluster-stats" style="display:flex;gap:24px;">
+        <div class="cluster-stats__item" style="color:var(--dark-muted);text-transform:uppercase;letter-spacing:0.06em;font-size:11px;font-weight:700;">
+          &#9632; Nodes: <span class="stat-value">3</span>
+        </div>
+        <div class="cluster-stats__item" style="color:var(--dark-muted);text-transform:uppercase;letter-spacing:0.06em;font-size:11px;font-weight:700;">
+          &#9632; CPU: <span class="stat-value">42%</span>
+        </div>
+        <div class="cluster-stats__item" style="color:var(--dark-muted);text-transform:uppercase;letter-spacing:0.06em;font-size:11px;font-weight:700;">
+          &#9632; Memory: <span class="stat-value">6.2 GB</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-label">Data Table</div>
+    <table class="data-table" style="margin-bottom:16px;">
+      <thead>
+        <tr><th>Name</th><th>Status</th><th>CPU</th><th>Memory</th><th>Role</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">node-01</td>
+          <td><span class="status-badge status-badge--running">Running</span></td>
+          <td class="tabular-nums">23%</td>
+          <td class="tabular-nums">2.1 GB</td>
+          <td style="color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Worker</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">node-02</td>
+          <td><span class="status-badge status-badge--running">Running</span></td>
+          <td class="tabular-nums">67%</td>
+          <td class="tabular-nums">3.8 GB</td>
+          <td style="color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Worker</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">node-03</td>
+          <td><span class="status-badge status-badge--starting">Starting</span></td>
+          <td class="tabular-nums">0%</td>
+          <td class="tabular-nums">0.3 GB</td>
+          <td style="color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Control</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="demo-label">Question Prompt</div>
+    <div class="question-prompt" style="max-width:480px;margin-bottom:16px;border:2px solid var(--border);border-radius:6px;box-shadow:4px 4px 0 var(--border);">
+      <div class="question-prompt__text" style="text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:12px;">How would you like to proceed?</div>
+      <div class="question-prompt__options">
+        <button class="question-prompt__option" style="border:2px solid var(--border);border-radius:4px;">
+          <div class="question-prompt__option-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Continue with changes</div>
+          <div class="question-prompt__option-desc">Apply the suggested modifications to the codebase</div>
+        </button>
+        <button class="question-prompt__option" style="border:2px solid var(--border);border-radius:4px;">
+          <div class="question-prompt__option-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Review diff first</div>
+          <div class="question-prompt__option-desc">Show the complete diff before applying</div>
+        </button>
+        <button class="question-prompt__option" style="border:2px solid var(--border);border-radius:4px;">
+          <div class="question-prompt__option-label" style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Cancel</div>
+          <div class="question-prompt__option-desc">Discard all pending changes</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="demo-label">Diff Viewer</div>
+    <div class="card-demo" style="padding:0;overflow:hidden;">
+      <div class="diff-viewer">
+        <div class="diff-viewer__line diff-viewer__line--header">@@ -12,6 +12,8 @@ func main() {</div>
+        <div class="diff-viewer__line">     fmt.Println("hello")</div>
+        <div class="diff-viewer__line diff-viewer__line--remove">-    log.Fatal(err)</div>
+        <div class="diff-viewer__line diff-viewer__line--add">+    if err != nil {</div>
+        <div class="diff-viewer__line diff-viewer__line--add">+        log.Fatal(err)</div>
+        <div class="diff-viewer__line diff-viewer__line--add">+    }</div>
+        <div class="diff-viewer__line">     return nil</div>
+        <div class="diff-viewer__line"> }</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== LISTS ===================== -->
+  <div class="section">
+    <div class="section-title">List Components</div>
+
+    <div class="grid-2">
+      <div>
+        <div class="demo-label">Conversation List</div>
+        <div class="card-demo" style="padding:8px;">
+          <div class="conversation-item conversation-item--active">
+            <div class="conversation-item__title" style="font-weight:700;font-size:12px;">Refactor authentication module</div>
+            <div class="conversation-item__meta" style="font-size:10px;text-transform:uppercase;letter-spacing:0.04em;">claude-3.5-sonnet</div>
+          </div>
+          <div class="conversation-item">
+            <div class="conversation-item__title" style="font-weight:700;font-size:12px;">Debug WebSocket connection dropping</div>
+            <div class="conversation-item__meta" style="font-size:10px;text-transform:uppercase;letter-spacing:0.04em;">claude-3.5-sonnet</div>
+          </div>
+          <div class="conversation-item">
+            <div class="conversation-item__title" style="font-weight:700;font-size:12px;">Write unit tests for payment flow</div>
+            <div class="conversation-item__meta" style="font-size:10px;text-transform:uppercase;letter-spacing:0.04em;">claude-3-opus</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="demo-label">Instance Cards (Management Style)</div>
+        <div class="card-demo" style="padding:0;overflow:hidden;">
+          <!-- Dark card header: muted label + orange title -->
+          <div style="background:var(--dark);padding:16px 20px;display:flex;justify-content:space-between;align-items:flex-end;">
+            <div>
+              <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.12em;font-weight:700;margin-bottom:4px;">Instance Management</div>
+              <div style="font-size:22px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">Your Instances</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.12em;font-weight:700;margin-bottom:4px;">Total</div>
+              <div style="font-size:22px;color:var(--dark-text);font-weight:700;">03</div>
+            </div>
+          </div>
+          <div style="padding:8px;">
+          <!-- Orange expandable row (management_02 style) -->
+          <div style="border:2px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:8px;">
+            <div style="background:var(--accent);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="color:var(--dark);font-weight:700;font-size:14px;">01</span>
+                <span style="color:var(--dark-text);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;">Active Instance</span>
+              </div>
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--success);"></span>
+            </div>
+            <div style="padding:12px 16px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;">Name</span>
+                <span style="font-size:12px;font-weight:700;">my-api-project</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;">Repo</span>
+                <span style="font-size:12px;">github.com/user/api</span>
+              </div>
+              <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;">
+                <button class="btn btn--small btn--danger">Stop</button>
+              </div>
+            </div>
+          </div>
+          <div style="border:2px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:8px;">
+            <div style="background:var(--dark);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="color:var(--accent);font-weight:700;font-size:14px;">02</span>
+                <span style="color:var(--dark-muted);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;">Stopped</span>
+              </div>
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--danger);"></span>
+            </div>
+          </div>
+          <div style="border:2px solid var(--border);border-radius:4px;overflow:hidden;">
+            <div style="background:var(--dark);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="color:var(--accent);font-weight:700;font-size:14px;">03</span>
+                <span style="color:var(--dark-muted);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;">Starting</span>
+              </div>
+              <span class="spinner spinner--small"></span>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-label">Service Rows</div>
+    <div class="card-demo" style="padding:0;">
+      <div class="service-row" style="border-bottom:2px solid var(--border);">
+        <div class="service-row__status"><span class="status-dot status-dot--running"></span></div>
+        <div class="service-row__info">
+          <div class="service-row__name" style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">postgres</div>
+          <div class="service-row__image" style="font-size:11px;">postgres:16-alpine</div>
+        </div>
+        <div class="service-row__ports"><span style="font-size:11px;">5432:5432</span></div>
+        <div class="service-row__actions">
+          <button class="btn btn--small">Logs</button>
+          <button class="btn btn--small btn--danger">Stop</button>
+        </div>
+      </div>
+      <div class="service-row" style="border-bottom:2px solid var(--border);">
+        <div class="service-row__status"><span class="status-dot status-dot--running"></span></div>
+        <div class="service-row__info">
+          <div class="service-row__name" style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">redis</div>
+          <div class="service-row__image" style="font-size:11px;">redis:7-alpine</div>
+        </div>
+        <div class="service-row__ports"><span style="font-size:11px;">6379:6379</span></div>
+        <div class="service-row__actions">
+          <button class="btn btn--small">Logs</button>
+          <button class="btn btn--small btn--danger">Stop</button>
+        </div>
+      </div>
+      <div class="service-row">
+        <div class="service-row__status"><span class="status-dot status-dot--stopped"></span></div>
+        <div class="service-row__info">
+          <div class="service-row__name" style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">mailhog</div>
+          <div class="service-row__image" style="font-size:11px;">mailhog/mailhog</div>
+        </div>
+        <div class="service-row__ports"><span style="font-size:11px;">1025:1025</span> <span style="font-size:11px;">8025:8025</span></div>
+        <div class="service-row__actions">
+          <button class="btn btn--small btn--primary">Start</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Runner Rows</div>
+    <div class="card-demo" style="padding:0;">
+      <div class="runner-row">
+        <div class="runner-row__header">
+          <div class="runner-row__info">
+            <div class="runner-row__name" style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">Dev Server</div>
+            <div class="runner-row__description" style="font-size:11px;">Next.js development server</div>
+          </div>
+          <span class="runner-row__count" style="text-transform:uppercase;letter-spacing:0.04em;font-size:10px;font-weight:700;">2 processes</span>
+          <div class="runner-row__actions">
+            <button class="btn btn--small btn--danger">Stop</button>
+          </div>
+        </div>
+        <div class="runner-row__process" style="border-top:2px solid var(--border);">
+          <span class="runner-row__process-icon">&gt;_</span>
+          <span class="runner-row__process-title" style="font-size:12px;">next dev -p 3000</span>
+          <button class="btn btn--small">Logs</button>
+        </div>
+        <div class="runner-row__process" style="border-top:2px solid var(--border);">
+          <span class="runner-row__process-icon">&gt;_</span>
+          <span class="runner-row__process-title" style="font-size:12px;">tailwindcss --watch</span>
+          <button class="btn btn--small">Logs</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">File Tree</div>
+    <div class="card-demo" style="padding:0;">
+      <div class="file-tree">
+        <div class="file-tree__item file-tree__item--dir" style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">&#9660; src/</div>
+        <div class="file-tree__item file-tree__item--dir" style="padding-left:32px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">&#9660; components/</div>
+        <div class="file-tree__item" style="padding-left:48px;font-size:12px;">&#9724; Button.go</div>
+        <div class="file-tree__item" style="padding-left:48px;font-size:12px;">&#9724; Layout.go</div>
+        <div class="file-tree__item file-tree__item--dir" style="padding-left:32px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">&#9660; pages/</div>
+        <div class="file-tree__item" style="padding-left:48px;font-size:12px;">&#9724; index.go</div>
+        <div class="file-tree__item" style="font-size:12px;">&#9724; go.mod</div>
+        <div class="file-tree__item" style="font-size:12px;">&#9724; README.md</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== CHAT / MESSAGES ===================== -->
+  <div class="section">
+    <div class="section-title">Chat &amp; Messages</div>
+
+    <div class="chat-demo">
+      <div class="card-demo" style="padding:20px;">
+        <div class="message message--user">
+          <div class="message__bubble" style="border:2px solid var(--border);border-radius:6px;box-shadow:3px 3px 0 var(--border);">Can you refactor the authentication module to use JWT tokens?</div>
+        </div>
+
+        <div class="message message--assistant">
+          <div class="message__bubble">
+            <p>I'll refactor the authentication module. Here's the plan:</p>
+            <ol>
+              <li>Replace session-based auth with JWT</li>
+              <li>Add token refresh endpoint</li>
+              <li>Update middleware</li>
+            </ol>
+            <p>Let me start with the token generation:</p>
+            <pre style="background:var(--dark);color:var(--accent);border:2px solid var(--border);border-radius:4px;padding:12px;font-size:12px;overflow-x:auto;"><code>func GenerateToken(userID string) (string, error) {
+    claims := jwt.MapClaims{
+        "sub": userID,
+        "exp": time.Now().Add(24 * time.Hour).Unix(),
+    }
+    token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+    return token.SignedString(secretKey)
+}</code></pre>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <span class="tool-badge" style="border:2px solid var(--border);border-radius:3px;text-transform:uppercase;letter-spacing:0.04em;font-weight:700;font-size:11px;"><span class="tool-badge__spinner"></span> Using tool: write_file</span>
+        </div>
+
+        <div class="message message--user">
+          <div class="message__bubble" style="border:2px solid var(--border);border-radius:6px;box-shadow:3px 3px 0 var(--border);">Looks good! Please also add rate limiting.</div>
+        </div>
+
+        <div class="message message--assistant message--streaming">
+          <div class="message__bubble">
+            <p>I'll add rate limiting middleware using a token bucket algorithm</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-label" style="margin-top:16px;">Chat Input</div>
+      <div class="chat-input" style="border:2px solid var(--border);border-radius:6px;border-top:none;border-radius:0 0 6px 6px;">
+        <div class="chat-input__wrapper">
+          <textarea class="chat-input__textarea" placeholder="Type a message..." rows="1"></textarea>
+          <div class="chat-input__toolbar">
+            <button class="btn btn--toolbar">&#128206;</button>
+            <div class="chat-input__toolbar-spacer"></div>
+            <button class="btn btn--toolbar" style="color:var(--warning);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:11px;">Plan</button>
+            <button class="btn btn--primary btn--small">Send</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-label" style="margin-top:16px;">Message Queue</div>
+      <div class="message-queue" style="background:var(--raised);border:2px solid var(--border);border-radius:4px;box-shadow:3px 3px 0 var(--border);">
+        <div class="message-queue__item" style="border-bottom:2px solid var(--border);">
+          <span class="message-queue__preview" style="font-size:12px;">Follow up: add input validation</span>
+          <div class="message-queue__actions">
+            <button class="btn btn--small">Send</button>
+            <button class="btn btn--small btn--toolbar">&#10005;</button>
+          </div>
+        </div>
+        <div class="message-queue__item">
+          <span class="message-queue__preview" style="font-size:12px;">Can you also write tests?</span>
+          <span class="message-queue__image-tag" style="text-transform:uppercase;font-weight:700;font-size:10px;letter-spacing:0.06em;">IMG</span>
+          <div class="message-queue__actions">
+            <button class="btn btn--small">Send</button>
+            <button class="btn btn--small btn--toolbar">&#10005;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== AUTOCOMPLETE ===================== -->
+  <div class="section">
+    <div class="section-title">Autocomplete Popup</div>
+    <div style="max-width:400px;position:relative;">
+      <div class="autocomplete" style="position:relative;bottom:auto;margin-bottom:0;border:2px solid var(--border);border-radius:4px;box-shadow:4px 4px 0 var(--border);">
+        <div class="autocomplete__item autocomplete__item--selected">
+          <span class="autocomplete__icon">&#9724;</span>
+          <span class="autocomplete__label" style="font-weight:700;font-size:12px;">main.go</span>
+          <span class="autocomplete__detail" style="font-size:11px;color:var(--muted);">src/</span>
+        </div>
+        <div class="autocomplete__item">
+          <span class="autocomplete__icon">&#9724;</span>
+          <span class="autocomplete__label" style="font-weight:700;font-size:12px;">handler.go</span>
+          <span class="autocomplete__detail" style="font-size:11px;color:var(--muted);">src/api/</span>
+        </div>
+        <div class="autocomplete__item">
+          <span class="autocomplete__icon">&gt;_</span>
+          <span class="autocomplete__label" style="font-weight:700;font-size:12px;">/build</span>
+          <span class="autocomplete__detail" style="font-size:11px;color:var(--muted);">Run build</span>
+        </div>
+        <div class="autocomplete__item">
+          <span class="autocomplete__icon">&gt;_</span>
+          <span class="autocomplete__label" style="font-weight:700;font-size:12px;">/test</span>
+          <span class="autocomplete__detail" style="font-size:11px;color:var(--muted);">Run tests</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== GIT PANEL ===================== -->
+  <div class="section">
+    <div class="section-title">Git Panel (Status Tab)</div>
+    <div class="panel-demo">
+      <div class="panel" style="max-width:400px;border:2px solid var(--border);border-radius:6px;box-shadow:4px 4px 0 var(--border);overflow:hidden;">
+        <div class="panel__header" style="background:var(--dark);">
+          <span class="panel__title" style="color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;">Git</span>
+          <div class="panel__actions">
+            <button class="btn btn--toolbar" style="color:var(--dark-text);border-color:var(--divider);">&#8635;</button>
+            <button class="panel__close" style="color:var(--dark-text);">&times;</button>
+          </div>
+        </div>
+        <div class="tab-bar">
+          <button class="tab-bar__tab">Diff</button>
+          <button class="tab-bar__tab tab-bar__tab--active">Status</button>
+          <button class="tab-bar__tab">Review</button>
+        </div>
+        <div class="git-status__branch" style="font-weight:700;text-transform:uppercase;letter-spacing:0.04em;font-size:12px;">&#9667; main</div>
+        <div class="git-status__section">
+          <div class="git-status__section-title" style="text-transform:uppercase;letter-spacing:0.08em;font-weight:700;font-size:10px;">Staged</div>
+          <div class="git-status__file">
+            <span class="git-status__file-state git-status__file-state--added">A</span>
+            <span class="git-status__file-path" style="font-size:12px;">src/auth/jwt.go</span>
+          </div>
+          <div class="git-status__file">
+            <span class="git-status__file-state git-status__file-state--modified">M</span>
+            <span class="git-status__file-path" style="font-size:12px;">src/middleware/auth.go</span>
+          </div>
+        </div>
+        <div class="git-status__section">
+          <div class="git-status__section-title" style="text-transform:uppercase;letter-spacing:0.08em;font-weight:700;font-size:10px;">Unstaged</div>
+          <div class="git-status__file">
+            <span class="git-status__file-state git-status__file-state--modified">M</span>
+            <span class="git-status__file-path" style="font-size:12px;">go.mod</span>
+          </div>
+          <div class="git-status__file">
+            <span class="git-status__file-state git-status__file-state--untracked">?</span>
+            <span class="git-status__file-path" style="font-size:12px;">src/auth/jwt_test.go</span>
+          </div>
+          <div class="git-status__file">
+            <span class="git-status__file-state git-status__file-state--deleted">D</span>
+            <span class="git-status__file-path" style="font-size:12px;">src/auth/session.go</span>
+          </div>
+        </div>
+        <div class="git-status__commit" style="padding:12px;">
+          <div class="form-group">
+            <label class="form-group__label">Commit Message</label>
+            <textarea class="textarea textarea--fixed" rows="2" placeholder="Describe your changes..."></textarea>
+          </div>
+          <button class="btn btn--primary" style="width:100%;">Commit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SKILLS PANEL ===================== -->
+  <div class="section">
+    <div class="section-title">Skills Panel</div>
+    <div class="panel-demo">
+      <div class="panel" style="max-width:360px;border:2px solid var(--border);border-radius:6px;box-shadow:4px 4px 0 var(--border);overflow:hidden;">
+        <div class="panel__header" style="background:var(--dark);">
+          <span class="panel__title" style="color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;">Skills</span>
+          <button class="panel__close" style="color:var(--dark-text);">&times;</button>
+        </div>
+        <div class="panel__body" style="display:flex;flex-direction:column;gap:8px;padding:12px;">
+          <div class="skill-card" style="border:2px solid var(--border);border-radius:4px;padding:12px;box-shadow:3px 3px 0 var(--border);">
+            <div class="skill-card__name" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:12px;">Code Review</div>
+            <div class="skill-card__description" style="font-size:11px;color:var(--muted);">Analyze code quality, patterns, and suggest improvements</div>
+          </div>
+          <div class="skill-card" style="border:2px solid var(--border);border-radius:4px;padding:12px;box-shadow:3px 3px 0 var(--border);">
+            <div class="skill-card__name" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:12px;">Test Generator</div>
+            <div class="skill-card__description" style="font-size:11px;color:var(--muted);">Generate unit and integration tests for your code</div>
+          </div>
+          <div class="skill-card" style="border:2px solid var(--border);border-radius:4px;padding:12px;box-shadow:3px 3px 0 var(--border);">
+            <div class="skill-card__name" style="font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:12px;">Documentation</div>
+            <div class="skill-card__description" style="font-size:11px;color:var(--muted);">Generate docs, READMEs, and inline comments</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TERMINAL PANEL ===================== -->
+  <div class="section">
+    <div class="section-title">Terminal Panel</div>
+    <div class="terminal-demo">
+      <div class="terminal-panel" style="border:2px solid var(--border);border-radius:6px;overflow:hidden;box-shadow:4px 4px 0 var(--border);">
+        <div class="terminal-panel__tabs" style="background:var(--surface);border-bottom:2px solid var(--border);">
+          <div class="terminal-panel__tab terminal-panel__tab--active" style="color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:11px;">
+            <span>bash</span>
+            <button class="terminal-panel__tab-close" style="color:var(--accent);">&times;</button>
+          </div>
+          <div class="terminal-panel__tab" style="color:var(--dark-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:11px;">
+            <span>dev server</span>
+            <button class="terminal-panel__tab-close">&times;</button>
+          </div>
+          <div class="terminal-panel__tab" style="color:var(--dark-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:11px;">
+            <span>tests</span>
+            <button class="terminal-panel__tab-close">&times;</button>
+          </div>
+          <button class="terminal-panel__add" style="color:var(--accent);font-weight:700;">+</button>
+        </div>
+        <div class="terminal-panel__body" style="background:var(--dark);color:var(--dark-text);font-size:12px;padding:12px;overflow:auto;">
+          <div style="color:var(--muted);">$ go test ./...</div>
+          <div style="color:var(--success);">ok   github.com/user/api/auth    0.042s</div>
+          <div style="color:var(--success);">ok   github.com/user/api/handler 0.018s</div>
+          <div style="color:var(--danger);">FAIL github.com/user/api/store   0.031s</div>
+          <div style="color:var(--muted);">$</div>
+          <div style="display:inline;"><span style="color:var(--accent);">|</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== MODAL ===================== -->
+  <div class="section">
+    <div class="section-title">Modal</div>
+    <div class="modal-demo">
+      <div class="modal-backdrop">
+        <div class="modal modal--danger-header">
+          <div class="modal__header" style="background:var(--danger);padding:16px 20px;">
+            <span class="modal__header-title" style="color:var(--dark-text);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;">&#9888; Revoke Current Key</span>
+            <button class="modal__header-close" style="color:var(--dark-text);">&times;</button>
+          </div>
+          <div class="modal__body">
+            <p style="margin-bottom:16px;font-weight:700;font-size:14px;">Are you sure you want to revoke this key?</p>
+            <div style="background:var(--dark);padding:12px 16px;border-radius:4px;margin-bottom:16px;border:2px solid var(--border);">
+              <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin-bottom:4px;">Key ID</div>
+              <div style="color:var(--accent);font-size:12px;word-break:break-all;">c1e0a3a91b4011857de727b5e41baf204ab4c...</div>
+            </div>
+            <div style="background:var(--danger-bg);border:2px solid var(--danger);border-radius:4px;padding:12px 16px;margin-bottom:16px;">
+              <div style="color:var(--danger);font-weight:700;font-size:13px;margin-bottom:4px;">Warning</div>
+              <p style="font-size:12px;color:var(--text);margin:0;">This is your current session key. You will be logged out after revoking it.</p>
+            </div>
+            <p style="font-size:12px;color:var(--muted);">This action cannot be undone. The key will no longer be valid for authentication.</p>
+          </div>
+          <div class="modal__footer" style="border-top:2px solid var(--border);gap:12px;">
+            <button class="btn" style="flex:1;padding:12px;">Cancel</button>
+            <button class="btn btn--danger" style="flex:1;padding:12px;">Revoke</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SEARCH OVERLAY ===================== -->
+  <div class="section">
+    <div class="section-title">Search Overlay</div>
+    <div class="search-demo">
+      <div class="search-overlay">
+        <div class="search-overlay__panel" style="border:2px solid var(--border);border-radius:6px;box-shadow:6px 6px 0 var(--border);overflow:hidden;">
+          <div class="tab-bar">
+            <button class="tab-bar__tab tab-bar__tab--active">Filenames</button>
+            <button class="tab-bar__tab">In Files</button>
+            <button class="tab-bar__tab">Skills</button>
+          </div>
+          <input class="search-input" type="text" placeholder="Search files..." value="auth">
+          <div class="search-overlay__results">
+            <div class="search-overlay__result">
+              <span class="search-overlay__result-path" style="font-size:12px;font-weight:700;">src/auth/jwt.go</span>
+              <span class="search-overlay__result-action" style="color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:10px;">@ Chat</span>
+            </div>
+            <div class="search-overlay__result">
+              <span class="search-overlay__result-path" style="font-size:12px;font-weight:700;">src/auth/jwt_test.go</span>
+              <span class="search-overlay__result-action" style="color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:10px;">@ Chat</span>
+            </div>
+            <div class="search-overlay__result">
+              <span class="search-overlay__result-path" style="font-size:12px;font-weight:700;">src/middleware/auth.go</span>
+              <span class="search-overlay__result-action" style="color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:10px;">@ Chat</span>
+            </div>
+            <div class="search-overlay__result">
+              <span class="search-overlay__result-path" style="font-size:12px;font-weight:700;">src/auth/session.go</span>
+              <span class="search-overlay__result-action" style="color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:10px;">@ Chat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== CONTEXT MENU ===================== -->
+  <div class="section">
+    <div class="section-title">Context Menu</div>
+    <div class="context-demo">
+      <span style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Right-click target area</span>
+      <div class="context-menu" style="border:2px solid var(--border);border-radius:4px;box-shadow:4px 4px 0 var(--border);">
+        <button class="context-menu__item" style="text-transform:uppercase;letter-spacing:0.04em;font-size:12px;font-weight:700;">Mark as Done</button>
+        <button class="context-menu__item" style="text-transform:uppercase;letter-spacing:0.04em;font-size:12px;font-weight:700;">Duplicate</button>
+        <button class="context-menu__item" style="text-transform:uppercase;letter-spacing:0.04em;font-size:12px;font-weight:700;">Move to...</button>
+        <button class="context-menu__item context-menu__item--danger" style="text-transform:uppercase;letter-spacing:0.04em;font-size:12px;font-weight:700;">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== APP SHELL ===================== -->
+  <div class="section">
+    <div class="section-title">App Shell (Layout)</div>
+    <div class="app-shell-demo">
+      <div class="app-shell">
+        <!-- Thin top navigation bar (management style) -->
+        <div style="background:var(--dark);display:flex;justify-content:space-between;padding:4px 16px;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;border-bottom:1px solid #333;">
+          <span style="color:var(--dark-muted);">Identity</span>
+          <span style="color:var(--dark-text);">Management</span>
+          <span style="color:var(--dark-muted);">System</span>
+        </div>
+        <nav class="navbar" style="background:var(--dark);border-bottom:2px solid var(--border);padding:10px 16px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:24px;height:24px;background:var(--accent);border-radius:4px;display:flex;align-items:center;justify-content:center;">
+              <span style="color:var(--dark);font-size:10px;font-weight:700;">&#9656;</span>
+            </div>
+            <span class="navbar__brand" style="color:var(--dark-text);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;font-size:16px;">Devbox</span>
+          </div>
+          <div class="navbar__nav">
+            <button class="nav-link nav-link--active" style="color:var(--accent);"><span class="nav-link__icon">&#9656;</span> Chat</button>
+            <button class="nav-link" style="color:var(--dark-muted);"><span class="nav-link__icon">&#9656;</span> Cluster</button>
+            <button class="nav-link" style="color:var(--dark-muted);"><span class="nav-link__icon">&#9656;</span> Settings</button>
+          </div>
+          <div class="navbar__stats">
+            <span class="usage-badge" style="border:2px solid var(--divider);border-radius:3px;color:var(--dark-muted);text-transform:uppercase;letter-spacing:0.04em;font-size:10px;font-weight:700;">CPU: 42% <span class="usage-badge__separator">&middot;</span> MEM: 6.2 GB</span>
+            <button class="btn btn--toolbar btn--small" style="color:var(--dark-muted);border-color:var(--divider);">&#8635;</button>
+          </div>
+        </nav>
+        <div class="app-shell__body">
+          <aside class="sidebar" style="background:var(--surface);border-right:2px solid var(--border);">
+            <div class="sidebar__header">
+              <span class="sidebar__title" style="color:var(--dark-muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;font-size:11px;">Conversations</span>
+              <button class="btn btn--toolbar btn--small" style="color:var(--accent);border-color:var(--divider);">+</button>
+            </div>
+            <div class="sidebar__list">
+              <div class="conversation-item conversation-item--active" style="border-left:3px solid var(--accent);">
+                <div class="conversation-item__title" style="color:var(--dark-text);font-weight:700;font-size:12px;">Refactor auth module</div>
+                <div class="conversation-item__meta" style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.04em;">claude-3.5-sonnet</div>
+              </div>
+              <div class="conversation-item">
+                <div class="conversation-item__title" style="color:var(--dark-muted);font-weight:700;font-size:12px;">Fix WebSocket issues</div>
+                <div class="conversation-item__meta" style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.04em;">claude-3.5-sonnet</div>
+              </div>
+            </div>
+          </aside>
+          <main class="app-shell__main" style="padding:24px;background:var(--bg);">
+            <div class="empty-state">
+              <div class="empty-state__heading" style="text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:var(--text);">Welcome to Devbox</div>
+              <div class="empty-state__description" style="color:var(--muted);">Select a conversation or start a new one.</div>
+            </div>
+          </main>
+        </div>
+        <!-- Dark footer bar (management style) -->
+        <div style="background:var(--dark);padding:6px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #333;">
+          <span style="font-size:10px;color:var(--dark-muted);text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Devbox Platform v1.0</span>
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--success);"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== LOGIN PAGE ===================== -->
+  <div class="section">
+    <div class="section-title">Login Page</div>
+    <div class="login-page" style="min-height:auto;padding:40px;background:var(--bg);border-radius:6px;border:2px solid var(--divider);">
+      <div class="login-card--industrial">
+        <div class="login-header">
+          <span>Welcome Back</span>
+          <h2 style="color:var(--accent);font-size:28px;letter-spacing:0.08em;">Login</h2>
+        </div>
+        <div class="login-body">
+          <div class="form-group">
+            <label class="form-group__label">Username</label>
+            <input class="text-input" type="text" placeholder="enter username">
+          </div>
+          <div class="form-group">
+            <label class="form-group__label">Password</label>
+            <input class="text-input" type="password" placeholder="enter password">
+          </div>
+          <button class="btn btn--primary" style="width:100%;padding:14px;font-size:13px;">Login</button>
+          <div style="border-top:2px solid var(--divider);margin:20px 0;"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:12px;color:var(--muted);">Don't have an account?</span>
+            <button class="btn" style="background:transparent;color:var(--text);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);">Register</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SETUP WIZARD ===================== -->
+  <div class="section">
+    <div class="section-title">Setup Wizard</div>
+    <div class="card-demo">
+      <div class="setup-wizard__steps">
+        <div class="setup-wizard__step setup-wizard__step--completed" style="border:2px solid var(--border);border-radius:4px;">
+          <span class="setup-wizard__step-number" style="background:var(--success);color:var(--dark-text);font-weight:700;">&#10003;</span>
+          <span style="text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:12px;">Password</span>
+        </div>
+        <div class="setup-wizard__step-connector" style="border-top:2px solid var(--border);"></div>
+        <div class="setup-wizard__step setup-wizard__step--active" style="border:2px solid var(--accent);border-radius:4px;">
+          <span class="setup-wizard__step-number" style="background:var(--accent);color:var(--dark-text);font-weight:700;">2</span>
+          <span style="text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:12px;">Configuration</span>
+        </div>
+        <div class="setup-wizard__step-connector" style="border-top:2px solid var(--border);"></div>
+        <div class="setup-wizard__step" style="border:2px solid var(--border);border-radius:4px;">
+          <span class="setup-wizard__step-number" style="background:var(--bg);color:var(--text);font-weight:700;">3</span>
+          <span style="text-transform:uppercase;letter-spacing:0.06em;font-weight:700;font-size:12px;">Complete</span>
+        </div>
+      </div>
+      <div class="setup-wizard__body">
+        <div class="form-group">
+          <label class="form-group__label">Image</label>
+          <select class="select">
+            <option>ubuntu:22.04</option>
+            <option>debian:bookworm</option>
+            <option>alpine:3.19</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-group__label">Resources</label>
+          <select class="select">
+            <option>2 CPU / 4 GB RAM</option>
+            <option>4 CPU / 8 GB RAM</option>
+            <option>8 CPU / 16 GB RAM</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button class="btn">Back</button>
+          <button class="btn btn--primary">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

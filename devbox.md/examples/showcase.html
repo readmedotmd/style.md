@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>devbox.md Component Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../core.md/styles.css">
+  <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* Showcase-specific styles — Devbox */
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif !important; }
+    code, pre, .dbx-diff-viewer, .dbx-file-tree, .dbx-variable-row__key, .dbx-variable-row__value,
+    .dbx-terminal-panel__body { font-family: 'JetBrains Mono', ui-monospace, monospace !important; }
+
+    .showcase { max-width: 960px; margin: 0 auto; padding: 32px; }
+    .showcase h1 {
+      font-size: 32px; font-weight: 700; margin-bottom: 4px;
+      letter-spacing: -0.02em; color: var(--text);
+    }
+    .showcase > p {
+      color: var(--muted); margin-bottom: 32px;
+      font-size: 14px;
+    }
+    .theme-toggle {
+      position: fixed; top: 12px; right: 12px; z-index: 9999;
+      background: var(--surface); color: var(--text); border: 1px solid var(--border);
+      padding: 6px 16px; font-family: 'Inter', sans-serif;
+      font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 8px;
+      box-shadow: var(--shadow-sm); transition: all 150ms ease;
+    }
+    .theme-toggle:hover { background: var(--hover-bg); box-shadow: var(--shadow-md); }
+    .section { margin-bottom: 48px; }
+    .section-title {
+      font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 16px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .col { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .card-demo {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .demo-label {
+      font-size: 12px; color: var(--muted); margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    /* App shell demo inline */
+    .app-shell-demo .dbx-app-shell { min-height: 320px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-md); }
+    .app-shell-demo .dbx-navbar { position: relative; }
+    .app-shell-demo .dbx-sidebar { position: relative; width: 200px; }
+    /* Panel demo */
+    .panel-demo .dbx-panel { position: relative; width: 100%; animation: none; }
+    /* Modal demo inline */
+    .modal-demo .dbx-modal-backdrop { position: relative; inset: auto; min-height: 360px; border-radius: 12px; }
+    .modal-demo .dbx-modal { animation: none; }
+    /* Chat demo */
+    .chat-demo { max-width: 600px; }
+    .chat-demo .dbx-chat-input { position: relative; border-top: 1px solid var(--border); border-radius: 0 0 12px 12px; }
+    /* Search overlay demo */
+    .search-demo .dbx-search-overlay { position: relative; inset: auto; min-height: 360px; border-radius: 12px; padding-top: 24px; }
+    /* Context menu demo */
+    .context-demo { position: relative; min-height: 180px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); }
+    .context-demo .dbx-context-menu { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+    /* Login card devbox override */
+    .login-card--devbox {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; box-shadow: var(--shadow-lg);
+      overflow: hidden; max-width: 380px; width: 100%; margin: 0 auto;
+    }
+    .login-card--devbox .login-header {
+      background: var(--bg); padding: 32px; text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .login-card--devbox .login-header span {
+      color: var(--muted); font-size: 13px; font-weight: 500;
+      display: block; margin-bottom: 4px;
+    }
+    .login-card--devbox .login-header h2 {
+      color: var(--accent); font-size: 28px; font-weight: 700;
+      letter-spacing: -0.02em; margin: 0;
+    }
+    .login-card--devbox .login-body { padding: 24px; }
+    .login-card--devbox .login-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 20px 0; color: var(--muted); font-size: 12px;
+      font-weight: 500;
+    }
+    .login-card--devbox .login-divider::before,
+    .login-card--devbox .login-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* Color swatches */
+    .swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .swatch__color {
+      width: 56px; height: 56px; border-radius: 10px; border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .swatch__label {
+      font-size: 10px; color: var(--muted);
+      font-weight: 600; text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle">Dark</button>
+
+<script>
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) { html.removeAttribute('data-theme'); this.textContent = 'Dark'; }
+    else { html.setAttribute('data-theme', 'dark'); this.textContent = 'Light'; }
+  });
+</script>
+
+<div class="showcase">
+  <h1>devbox.md</h1>
+  <p>Developer tools theme — layered on core.md</p>
+
+  <!-- COLOR TOKENS -->
+  <div class="section">
+    <div class="section-title">Color Tokens</div>
+    <div class="demo-label">Core Palette</div>
+    <div class="row">
+      <div class="swatch"><div class="swatch__color" style="background:#22C55E;"></div><span class="swatch__label">Green<br>#22C55E</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#111827;"></div><span class="swatch__label">Dark<br>#111827</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#1F2937;"></div><span class="swatch__label">Surface<br>#1F2937</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#374151;"></div><span class="swatch__label">Border<br>#374151</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#E5E7EB;"></div><span class="swatch__label">Light<br>#E5E7EB</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#F9FAFB;"></div><span class="swatch__label">BG<br>#F9FAFB</span></div>
+    </div>
+    <div class="demo-label" style="margin-top:16px;">Semantic Colors</div>
+    <div class="row">
+      <div class="swatch"><div class="swatch__color" style="background:#EF4444;"></div><span class="swatch__label">Red<br>#EF4444</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#22C55E;"></div><span class="swatch__label">Green<br>#22C55E</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#3B82F6;"></div><span class="swatch__label">Blue<br>#3B82F6</span></div>
+      <div class="swatch"><div class="swatch__color" style="background:#F59E0B;"></div><span class="swatch__label">Amber<br>#F59E0B</span></div>
+    </div>
+  </div>
+
+  <!-- SOFT SHADOWS -->
+  <div class="section">
+    <div class="section-title">Soft Shadows</div>
+    <div class="row">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:80px;height:48px;border-radius:8px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-sm);"></div>
+        <span class="swatch__label">Small</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:80px;height:48px;border-radius:8px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-md);"></div>
+        <span class="swatch__label">Medium</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:80px;height:48px;border-radius:8px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-lg);"></div>
+        <span class="swatch__label">Large</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:80px;height:48px;border-radius:8px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-xl);"></div>
+        <span class="swatch__label">XL</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="col">
+      <h1>Heading 1</h1>
+      <h2>Heading 2</h2>
+      <h3>Heading 3</h3>
+      <h4>Heading 4</h4>
+    </div>
+    <p>This is a paragraph with <strong>bold text</strong>, <em>italic text</em>, <code>inline code</code>, <mark>highlighted text</mark>, and a keyboard shortcut <kbd>Ctrl</kbd> + <kbd>K</kbd>.</p>
+    <div style="margin-top:16px;">
+      <blockquote>This is a blockquote — used for callouts, quotes, or important notes.</blockquote>
+    </div>
+  </div>
+
+  <!-- LINKS & LISTS -->
+  <div class="section">
+    <div class="section-title">Links &amp; Lists</div>
+    <div class="grid-2">
+      <div>
+        <div class="demo-label">Links</div>
+        <p>Visit the <a href="#">documentation</a> or check the <a href="#">changelog</a> for details.</p>
+      </div>
+      <div>
+        <div class="demo-label">Unordered List</div>
+        <ul>
+          <li>First item</li>
+          <li>Second item with more detail</li>
+          <li>Third item</li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:16px;">
+      <div>
+        <div class="demo-label">Ordered List</div>
+        <ol>
+          <li>Clone the repository</li>
+          <li>Install dependencies</li>
+          <li>Run the dev server</li>
+        </ol>
+      </div>
+      <div>
+        <div class="demo-label">Code Block</div>
+        <pre><code>func main() {
+    fmt.Println("hello, world")
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAYOUT PRIMITIVES -->
+  <div class="section">
+    <div class="section-title">Layout Primitives</div>
+
+    <div class="demo-label">Stack (vertical)</div>
+    <div data-stack="md" style="margin-bottom:24px;">
+      <div data-card>Stack item 1</div>
+      <div data-card>Stack item 2</div>
+      <div data-card>Stack item 3</div>
+    </div>
+
+    <div class="demo-label">HStack (horizontal)</div>
+    <div data-hstack="md" style="margin-bottom:24px;">
+      <div data-card>Item 1</div>
+      <div data-card>Item 2</div>
+      <div data-spacer></div>
+      <div data-card>Pushed right</div>
+    </div>
+
+    <div class="demo-label">Grid (3 columns)</div>
+    <div data-grid="3" style="margin-bottom:24px;">
+      <div data-card style="text-align:center;">Col 1</div>
+      <div data-card style="text-align:center;">Col 2</div>
+      <div data-card style="text-align:center;">Col 3</div>
+    </div>
+  </div>
+
+  <!-- CARDS & BADGES -->
+  <div class="section">
+    <div class="section-title">Cards &amp; Badges</div>
+
+    <div class="demo-label">Cards</div>
+    <div data-grid="2" style="margin-bottom:24px;">
+      <div data-card>
+        <h4 style="margin-bottom:8px;">Default Card</h4>
+        <p style="font-size:13px;color:var(--muted);">A simple bordered container for grouping related content.</p>
+      </div>
+      <div data-card="surface">
+        <h4 style="margin-bottom:8px;">Surface Card</h4>
+        <p style="font-size:13px;color:var(--muted);">Uses the surface background color for subtle emphasis.</p>
+      </div>
+    </div>
+
+    <div class="demo-label">Badges</div>
+    <div class="row">
+      <span data-badge>Default</span>
+      <span data-badge="accent">Accent</span>
+      <span data-badge="success">Success</span>
+      <span data-badge="danger">Danger</span>
+      <span data-badge="warning">Warning</span>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Divider</div>
+    <p style="margin-bottom:8px;">Content above the divider.</p>
+    <hr>
+    <p style="margin-top:8px;">Content below the divider.</p>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="section">
+    <div class="section-title">Buttons</div>
+    <div class="row">
+      <button class="dbx-btn">Default</button>
+      <button class="dbx-btn dbx-btn--primary">Primary</button>
+      <button class="dbx-btn dbx-btn--danger">Danger</button>
+      <button class="dbx-btn dbx-btn--small">Small</button>
+      <button class="dbx-btn dbx-btn--toolbar">Toolbar</button>
+      <button class="dbx-btn" disabled>Disabled</button>
+    </div>
+    <div class="row">
+      <button class="dbx-btn dbx-btn--primary dbx-btn--small">+ New</button>
+      <button class="dbx-btn dbx-btn--danger dbx-btn--small">Stop All</button>
+      <button class="dbx-btn dbx-btn--toolbar">&#9881; Usage</button>
+      <button class="dbx-btn dbx-btn--toolbar">&#9654; Run</button>
+      <button class="dbx-btn dbx-btn--toolbar">&#10005; Delete</button>
+    </div>
+  </div>
+
+  <!-- FORMS -->
+  <div class="section">
+    <div class="section-title">Form Components</div>
+    <div class="grid-2">
+      <div>
+        <div class="dbx-form-group">
+          <label class="dbx-form-group__label">Username</label>
+          <input class="dbx-text-input" type="text" placeholder="Enter username">
+        </div>
+        <div class="dbx-form-group" style="margin-top:12px;">
+          <label class="dbx-form-group__label">Password</label>
+          <input class="dbx-text-input" type="password" placeholder="Enter password">
+        </div>
+        <div class="dbx-form-group" style="margin-top:12px;">
+          <label class="dbx-form-group__label">Email (Error)</label>
+          <input class="dbx-text-input dbx-text-input--error" type="email" value="invalid">
+          <div class="dbx-error-message" style="margin-top:6px;">Please enter a valid email address.</div>
+        </div>
+      </div>
+      <div>
+        <div class="dbx-form-group">
+          <label class="dbx-form-group__label">Environment</label>
+          <select class="dbx-select">
+            <option>Production</option>
+            <option>Staging</option>
+            <option>Development</option>
+          </select>
+        </div>
+        <div class="dbx-form-group" style="margin-top:12px;">
+          <label class="dbx-form-group__label">Description</label>
+          <textarea class="dbx-textarea" rows="3" placeholder="Enter description..."></textarea>
+        </div>
+        <div class="dbx-success-message" style="margin-top:12px;">Settings saved successfully.</div>
+      </div>
+    </div>
+
+    <div class="demo-label">Checkboxes &amp; Feature Toggles</div>
+    <div class="col" style="max-width:400px;">
+      <label class="dbx-checkbox">
+        <input class="dbx-checkbox__input" type="checkbox" checked>
+        <span class="dbx-checkbox__label">Enable notifications</span>
+      </label>
+      <label class="dbx-checkbox">
+        <input class="dbx-checkbox__input" type="checkbox">
+        <span class="dbx-checkbox__label">Auto-save drafts</span>
+      </label>
+    </div>
+
+    <div class="col" style="max-width:480px;">
+      <div class="dbx-feature-row">
+        <div class="dbx-feature-row__info">
+          <div class="dbx-feature-row__name">Browser Access</div>
+          <div class="dbx-feature-row__description">Allow agent to browse the web</div>
+        </div>
+        <input class="dbx-checkbox__input" type="checkbox" checked>
+      </div>
+      <div class="dbx-feature-row">
+        <div class="dbx-feature-row__info">
+          <div class="dbx-feature-row__name">VS Code Integration</div>
+          <div class="dbx-feature-row__description">Enable IDE integration</div>
+        </div>
+        <input class="dbx-checkbox__input" type="checkbox">
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS & BADGES -->
+  <div class="section">
+    <div class="section-title">Status &amp; Badges</div>
+
+    <div class="demo-label">Status Badges</div>
+    <div class="row">
+      <span class="dbx-status-badge dbx-status-badge--running">Running</span>
+      <span class="dbx-status-badge dbx-status-badge--stopped">Stopped</span>
+      <span class="dbx-status-badge dbx-status-badge--starting">Starting</span>
+      <span class="dbx-status-badge dbx-status-badge--pending">Pending</span>
+      <span class="dbx-status-badge dbx-status-badge--error">Error</span>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Status Dots</div>
+    <div class="row">
+      <div style="display:flex;align-items:center;gap:8px;"><span class="dbx-status-dot dbx-status-dot--running"></span><span style="font-size:13px;font-weight:500;">Running</span></div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="dbx-status-dot dbx-status-dot--stopped"></span><span style="font-size:13px;font-weight:500;">Stopped</span></div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="dbx-status-dot dbx-status-dot--starting"></span><span style="font-size:13px;font-weight:500;">Starting</span></div>
+      <div style="display:flex;align-items:center;gap:8px;"><span class="dbx-status-dot dbx-status-dot--error"></span><span style="font-size:13px;font-weight:500;">Error</span></div>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Label Badges</div>
+    <div class="row">
+      <span class="dbx-label-badge">&#9881; browser</span>
+      <span class="dbx-label-badge">&lt;/&gt; vscode</span>
+      <span class="dbx-label-badge">&#9737; readme</span>
+      <span class="dbx-label-badge">&#9881; b3-mono</span>
+    </div>
+
+    <div class="demo-label" style="margin-top:16px;">Tool Badge &amp; Thinking</div>
+    <div class="row">
+      <span class="dbx-tool-badge"><span class="dbx-tool-badge__spinner"></span> Using tool: read_file</span>
+    </div>
+    <div style="margin-top:8px;">
+      <div class="dbx-thinking">
+        <div class="dbx-spinner dbx-spinner--small"></div>
+        <span>Thinking...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPINNERS -->
+  <div class="section">
+    <div class="section-title">Spinners</div>
+    <div class="row">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div class="dbx-spinner dbx-spinner--small"></div>
+        <span class="swatch__label">Small</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div class="dbx-spinner"></div>
+        <span class="swatch__label">Default</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div class="dbx-spinner dbx-spinner--large"></div>
+        <span class="swatch__label">Large</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <div class="section">
+    <div class="section-title">Navigation</div>
+
+    <div class="demo-label">Nav Links</div>
+    <div style="width:220px;display:flex;flex-direction:column;gap:2px;margin-bottom:16px;">
+      <button class="dbx-nav-link dbx-nav-link--active"><span class="dbx-nav-link__icon">&#9673;</span> Chat</button>
+      <button class="dbx-nav-link"><span class="dbx-nav-link__icon">&#9673;</span> Cluster</button>
+      <button class="dbx-nav-link"><span class="dbx-nav-link__icon">&#9673;</span> Settings</button>
+    </div>
+
+    <div class="demo-label">Tab Bar</div>
+    <div class="dbx-tab-bar" style="margin-bottom:16px;">
+      <button class="dbx-tab-bar__tab dbx-tab-bar__tab--active">Diff</button>
+      <button class="dbx-tab-bar__tab">Status</button>
+      <button class="dbx-tab-bar__tab">Review</button>
+    </div>
+  </div>
+
+  <!-- DATA DISPLAY -->
+  <div class="section">
+    <div class="section-title">Data Display</div>
+
+    <div class="demo-label">Cluster Stats Bar</div>
+    <div class="card-demo" style="background:var(--bg);margin-bottom:16px;">
+      <div class="dbx-cluster-stats">
+        <div class="dbx-cluster-stats__item">
+          &#9632; Nodes: <span class="dbx-cluster-stats__value" style="margin-left:4px;">3</span>
+        </div>
+        <div class="dbx-cluster-stats__item">
+          &#9632; CPU: <span class="dbx-cluster-stats__value" style="margin-left:4px;">42%</span>
+        </div>
+        <div class="dbx-cluster-stats__item">
+          &#9632; Memory: <span class="dbx-cluster-stats__value" style="margin-left:4px;">6.2 GB</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-label">Data Table</div>
+    <table class="dbx-data-table" style="margin-bottom:16px;">
+      <thead><tr><th>Name</th><th>Status</th><th>CPU</th><th>Memory</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;">node-01</td>
+          <td><span class="dbx-status-badge dbx-status-badge--running">Running</span></td>
+          <td>23%</td><td>2.1 GB</td>
+          <td style="color:var(--muted);">Worker</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">node-02</td>
+          <td><span class="dbx-status-badge dbx-status-badge--running">Running</span></td>
+          <td>67%</td><td>3.8 GB</td>
+          <td style="color:var(--muted);">Worker</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">node-03</td>
+          <td><span class="dbx-status-badge dbx-status-badge--starting">Starting</span></td>
+          <td>0%</td><td>0.3 GB</td>
+          <td style="color:var(--muted);">Control</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="demo-label">Diff Viewer</div>
+    <div class="dbx-diff-viewer" style="margin-bottom:16px;">
+      <div class="dbx-diff-viewer__line dbx-diff-viewer__line--header">@@ -1,4 +1,4 @@</div>
+      <div class="dbx-diff-viewer__line"> func main() {</div>
+      <div class="dbx-diff-viewer__line dbx-diff-viewer__line--remove">-    fmt.Println("hello")</div>
+      <div class="dbx-diff-viewer__line dbx-diff-viewer__line--add">+    fmt.Println("hello, world")</div>
+      <div class="dbx-diff-viewer__line"> }</div>
+    </div>
+
+    <div class="demo-label">Instance Cards</div>
+    <div style="width:260px;background:var(--sidebar-bg, var(--surface));border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+      <div class="dbx-instance-card dbx-instance-card--active">
+        <div class="dbx-instance-card__header">
+          <span class="dbx-instance-card__name">style.md</span>
+          <span class="dbx-status-badge dbx-status-badge--running">running</span>
+        </div>
+        <div class="dbx-instance-card__repo">https://github.com/readmedotmd/styl...</div>
+        <div class="dbx-instance-card__footer">
+          <span class="dbx-label-badge">&lt;/&gt; vscode</span>
+          <span class="dbx-label-badge">&#9737; readme</span>
+        </div>
+      </div>
+      <div class="dbx-instance-card">
+        <div class="dbx-instance-card__header">
+          <span class="dbx-instance-card__name">agent.md</span>
+          <span class="dbx-status-badge dbx-status-badge--stopped">stopped</span>
+        </div>
+        <div class="dbx-instance-card__repo">https://github.com/readmedotmd/age...</div>
+        <div class="dbx-instance-card__footer">
+          <span class="dbx-label-badge">&#9881; browser</span>
+          <span class="dbx-label-badge">&lt;/&gt; vscode</span>
+        </div>
+      </div>
+      <div class="dbx-instance-card">
+        <div class="dbx-instance-card__header">
+          <span class="dbx-instance-card__name">b3-mono</span>
+          <span class="dbx-status-badge dbx-status-badge--running">running</span>
+        </div>
+        <div class="dbx-instance-card__repo">https://github.com/b3-fun/b3-mono</div>
+        <div class="dbx-instance-card__footer">
+          <span class="dbx-label-badge">&#9881; browser</span>
+          <span class="dbx-label-badge">&lt;/&gt; vscode</span>
+          <span class="dbx-label-badge">&#9881; b3-mono</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-label" style="margin-top:24px;">Empty State</div>
+    <div class="card-demo">
+      <div class="dbx-empty-state">
+        <div class="dbx-empty-state__heading">Welcome to Devbox</div>
+        <div class="dbx-empty-state__description">Get started by creating a new project or connecting to an existing repository.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP SHELL -->
+  <div class="section">
+    <div class="section-title">App Shell</div>
+    <div class="app-shell-demo">
+      <div class="dbx-app-shell">
+        <nav class="dbx-navbar">
+          <span class="dbx-navbar__brand">Devbox</span>
+          <div class="dbx-navbar__stats">
+            <span>&#9632; 2</span>
+            <span>&#9632; 50% / 880%</span>
+            <span>&#9632; 7.5G / 14.8G</span>
+          </div>
+          <div class="dbx-navbar__nav">
+            <button class="dbx-nav-link dbx-nav-link--active">&#9673; Chat</button>
+            <button class="dbx-nav-link">&#9673; Cluster</button>
+            <button class="dbx-nav-link">&#9673; Settings</button>
+          </div>
+        </nav>
+        <div class="dbx-app-shell__body">
+          <aside class="dbx-sidebar dbx-sidebar--open">
+            <div class="dbx-sidebar__header">
+              <span class="dbx-sidebar__title">Devboxes</span>
+              <div style="display:flex;gap:6px;">
+                <button class="dbx-btn dbx-btn--danger dbx-btn--small">Stop All</button>
+                <button class="dbx-btn dbx-btn--primary dbx-btn--small">+ New</button>
+              </div>
+            </div>
+            <div class="dbx-sidebar__list">
+              <div class="dbx-instance-card dbx-instance-card--active">
+                <div class="dbx-instance-card__header">
+                  <span class="dbx-instance-card__name">style.md</span>
+                  <span class="dbx-status-badge dbx-status-badge--running">running</span>
+                </div>
+              </div>
+              <div class="dbx-instance-card">
+                <div class="dbx-instance-card__header">
+                  <span class="dbx-instance-card__name">agent.md</span>
+                  <span class="dbx-status-badge dbx-status-badge--stopped">stopped</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+          <main class="dbx-app-shell__main" style="padding:20px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+              <h2 style="font-size:16px;font-weight:600;margin:0;">style.md</h2>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="dbx-btn dbx-btn--toolbar">&#9881; Usage</button>
+              <button class="dbx-btn dbx-btn--toolbar">&gt; Terminal</button>
+              <button class="dbx-btn dbx-btn--toolbar">&#9654; Run</button>
+              <button class="dbx-btn dbx-btn--toolbar">&lt;/&gt; VS Code</button>
+              <button class="dbx-btn dbx-btn--toolbar">&#9632; Stop</button>
+              <button class="dbx-btn dbx-btn--toolbar">&#8635; Restart</button>
+              <button class="dbx-btn dbx-btn--toolbar">&#10005; Delete</button>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="section">
+    <div class="section-title">Modal</div>
+    <div class="modal-demo">
+      <div class="dbx-modal-backdrop">
+        <div class="dbx-modal" style="max-width:420px;width:100%;">
+          <div class="dbx-modal__header">
+            <span class="dbx-modal__header-title">Create New Devbox</span>
+          </div>
+          <div class="dbx-modal__body">
+            <div class="dbx-form-group">
+              <label class="dbx-form-group__label">Project Name</label>
+              <input class="dbx-text-input" type="text" placeholder="my-project">
+            </div>
+            <div class="dbx-form-group" style="margin-top:12px;">
+              <label class="dbx-form-group__label">Repository URL</label>
+              <input class="dbx-text-input" type="text" placeholder="https://github.com/...">
+            </div>
+          </div>
+          <div class="dbx-modal__footer">
+            <button class="dbx-btn">Cancel</button>
+            <button class="dbx-btn dbx-btn--primary">Create</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="section">
+    <div class="section-title">Chat</div>
+    <div class="chat-demo">
+      <div class="dbx-message dbx-message--user">
+        <div class="dbx-message__bubble">How do I deploy to production?</div>
+      </div>
+      <div class="dbx-message dbx-message--assistant">
+        <div class="dbx-message__bubble">To deploy your application to production, follow these steps:<br><br>1. Ensure all tests pass<br>2. Build the application<br>3. Push to the main branch</div>
+      </div>
+      <div class="dbx-message dbx-message--user">
+        <div class="dbx-message__bubble">Thanks! Can you show the config?</div>
+      </div>
+      <div class="dbx-chat-input" style="margin-top:16px;border:1px solid var(--border);border-radius:12px;">
+        <div class="dbx-chat-input__wrapper">
+          <textarea class="dbx-chat-input__textarea" placeholder="Type a message... (@ files, / skills, # search)" rows="2"></textarea>
+          <div class="dbx-chat-input__toolbar">
+            <div class="dbx-chat-input__toolbar-spacer"></div>
+            <button class="dbx-btn dbx-btn--toolbar" style="border:1px solid var(--accent);color:var(--accent);">Act</button>
+            <button class="dbx-btn dbx-btn--primary dbx-btn--small">&#9654; Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH OVERLAY -->
+  <div class="section">
+    <div class="section-title">Search Overlay</div>
+    <div class="search-demo">
+      <div class="dbx-search-overlay">
+        <div class="dbx-search-overlay__panel">
+          <div class="dbx-tab-bar">
+            <button class="dbx-tab-bar__tab dbx-tab-bar__tab--active">Filenames</button>
+            <button class="dbx-tab-bar__tab">In Files</button>
+            <button class="dbx-tab-bar__tab">Skills</button>
+          </div>
+          <div style="padding:12px;">
+            <input class="dbx-search-input" type="text" placeholder="Search files...">
+          </div>
+          <div class="dbx-search-overlay__results">
+            <div style="padding:8px 16px;font-size:13px;background:var(--active-bg, var(--hover-bg));border-left:3px solid var(--accent);">src/main.go</div>
+            <div style="padding:8px 16px;font-size:13px;border-bottom:1px solid var(--border);">src/config.go</div>
+            <div style="padding:8px 16px;font-size:13px;">src/handler.go</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTEXT MENU -->
+  <div class="section">
+    <div class="section-title">Context Menu</div>
+    <div class="context-demo">
+      <div class="dbx-context-menu">
+        <button class="dbx-context-menu__item">Edit</button>
+        <button class="dbx-context-menu__item">Duplicate</button>
+        <button class="dbx-context-menu__item">Move to...</button>
+        <button class="dbx-context-menu__item dbx-context-menu__item--danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMINAL PANEL -->
+  <div class="section">
+    <div class="section-title">Terminal Panel</div>
+    <div class="dbx-terminal-panel" style="height:200px;">
+      <div class="dbx-terminal-panel__tabs">
+        <button class="dbx-terminal-panel__tab dbx-terminal-panel__tab--active">Terminal 1 <span class="dbx-terminal-panel__tab-close">&#10005;</span></button>
+        <button class="dbx-terminal-panel__tab">Terminal 2 <span class="dbx-terminal-panel__tab-close">&#10005;</span></button>
+        <button class="dbx-terminal-panel__add">+</button>
+      </div>
+      <div class="dbx-terminal-panel__body">
+<span style="color:#22C55E;">user@devbox</span>:<span style="color:#3B82F6;">~/project</span>$ go build ./...
+<span style="color:#22C55E;">user@devbox</span>:<span style="color:#3B82F6;">~/project</span>$ go test ./... -v
+=== RUN   TestMain
+--- PASS: TestMain (0.02s)
+PASS
+ok      github.com/example/project  0.025s
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN PAGE -->
+  <div class="section">
+    <div class="section-title">Login Page</div>
+    <div style="background:var(--bg);border-radius:12px;padding:48px;display:flex;justify-content:center;">
+      <div class="login-card--devbox">
+        <div class="login-header">
+          <span>Welcome to</span>
+          <h2>Devbox</h2>
+        </div>
+        <div class="login-body">
+          <div class="dbx-form-group">
+            <label class="dbx-form-group__label">Email</label>
+            <input class="dbx-text-input" type="email" placeholder="you@example.com">
+          </div>
+          <div class="dbx-form-group" style="margin-top:12px;">
+            <label class="dbx-form-group__label">Password</label>
+            <input class="dbx-text-input" type="password" placeholder="Enter password">
+          </div>
+          <button class="dbx-btn dbx-btn--primary" style="width:100%;justify-content:center;margin-top:12px;">Sign In</button>
+          <div class="login-divider">or</div>
+          <button class="dbx-btn" style="width:100%;justify-content:center;">Continue with GitHub</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

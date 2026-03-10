@@ -1,0 +1,10 @@
+packages:
+  - name: generate
+    functions:
+      - name: svg
+        runtime: go:default
+        web: true
+        parameters: {}
+        limits:
+          timeout: 5000
+          memory: 128

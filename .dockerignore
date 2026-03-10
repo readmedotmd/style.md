@@ -1,0 +1,14 @@
+.git
+.github
+.playwright-mcp
+*.md
+!go.mod
+!go.sum
+design/
+examples/
+core.md/
+devbox.md/
+industrial.md/
+banner.png
+banner.svg
+generate-server
