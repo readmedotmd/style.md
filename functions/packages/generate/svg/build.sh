@@ -15,4 +15,3 @@ go mod init exec
 go mod edit -go=1.23
 go mod edit -replace github.com/readmedotmd/style.md/generate=./generate
 go mod tidy
-go build -o exec
