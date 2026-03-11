@@ -51,5 +51,8 @@ jobs:
       - name: Connect to serverless namespace
         run: doctl serverless connect
 
+      - name: Copy shared generate package into function directory
+        run: cp -r generate functions/packages/generate/svg/generate
+
       - name: Deploy function
         run: doctl serverless deploy functions
