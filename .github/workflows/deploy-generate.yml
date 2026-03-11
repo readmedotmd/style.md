@@ -68,4 +68,6 @@ jobs:
         env:
           STYLEMD_API_KEY: ${{ secrets.STYLEMD_API_KEY }}
         if: env.STYLEMD_API_KEY != ''
-        run: doctl serverless functions update generate/svg --param "STYLEMD_API_KEY=${{ secrets.STYLEMD_API_KEY }}"
+        run: |
+          printf 'packages:\n  - name: generate\n    functions:\n      - name: svg\n        runtime: go:1.24\n        web: true\n        parameters:\n          STYLEMD_API_KEY: "%s"\n        limits:\n          timeout: 5000\n          memory: 256\n' "$STYLEMD_API_KEY" > functions/project.yml
+          doctl serverless deploy functions
