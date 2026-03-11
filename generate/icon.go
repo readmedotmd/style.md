@@ -57,7 +57,7 @@ func Icon(req IconRequest) string {
 	showShadow := boolDefault(req.Shadow, true)
 
 	s := req.Size
-	borderW := maxInt(4, round(float64(s)*0.035))
+	borderW := max(4, round(float64(s)*0.035))
 	shadowOff := round(float64(s) * 0.04)
 
 	rFrac, ok := radiusMap[req.Radius]

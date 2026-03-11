@@ -142,12 +142,6 @@ func round(f float64) int {
 	return int(math.Round(f))
 }
 
-func maxInt(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
 
 func escXML(s string) string {
 	s = strings.ReplaceAll(s, "&", "&amp;")

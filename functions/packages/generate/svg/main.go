@@ -1,14 +1,17 @@
 package main
 
 import (
+	_ "embed"
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"sort"
 	"strings"
 
 	"github.com/readmedotmd/style.md/generate"
 )
+
+//go:embed root.json
+var rootJSON string
 
 // Main is the DO Functions entry point.
 // Dispatch on the "type" parameter: "root", "banner" (default), "icon", or "icons".
@@ -64,9 +67,6 @@ func Main(args map[string]interface{}) map[string]interface{} {
 		return svgResponse(svg)
 	}
 }
-
-// unused import guard
-var _ = fmt.Sprintf
 
 // svgResponse wraps an SVG string in the DO Functions response format.
 func svgResponse(svg string) map[string]interface{} {

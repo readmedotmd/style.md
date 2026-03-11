@@ -1,7 +1,4 @@
-package main
-
-// rootJSON contains AI-readable instructions for the style.md SVG generation API.
-var rootJSON = `{
+{
   "service": "style.md generate",
   "description": "SVG banner and icon generation API for the style.md industrial monospace design system.",
   "authentication": {
@@ -47,4 +44,4 @@ var rootJSON = `{
       "description": "List all available remix icon names"
     }
   }
-}`
+}

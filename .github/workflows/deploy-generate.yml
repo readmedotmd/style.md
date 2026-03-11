@@ -55,9 +55,9 @@ jobs:
         run: |
           cd functions/packages/generate/svg
           cp -r ../../../../generate ./generate
-          cd generate && go mod init github.com/readmedotmd/style.md/generate && go mod edit -go=1.22 && cd ..
+          cd generate && go mod init github.com/readmedotmd/style.md/generate && go mod edit -go=1.24 && cd ..
           go mod init exec
-          go mod edit -go=1.22
+          go mod edit -go=1.24
           go mod edit -replace github.com/readmedotmd/style.md/generate=./generate
           GOFLAGS=-mod=mod go mod tidy
 
