@@ -1,15 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
-# DO Functions builds each function in isolation. The workflow copies the
-# shared generate/ package into this directory before deploy. Set up the
-# module with a local replace directive so it resolves.
+# DO Functions: set up Go module with local replace for the shared generate package.
+# The CI workflow copies generate/ into this directory before deploy.
 
-# Create a go.mod for the copied generate package
-cd generate
-go mod init github.com/readmedotmd/style.md/generate
-cd ..
+if [ ! -f generate/go.mod ]; then
+  cd generate
+  go mod init github.com/readmedotmd/style.md/generate
+  cd ..
+fi
 
-go mod init exec
-go mod edit -replace github.com/readmedotmd/style.md/generate=./generate
-go mod tidy
+if [ ! -f go.mod ]; then
+  go mod init exec
+  go mod edit -replace github.com/readmedotmd/style.md/generate=./generate
+  go mod tidy
+fi

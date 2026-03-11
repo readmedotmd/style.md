@@ -2,7 +2,7 @@ packages:
   - name: generate
     functions:
       - name: svg
-        runtime: go:1.21
+        runtime: go:default
         web: true
         parameters: {}
         limits:
