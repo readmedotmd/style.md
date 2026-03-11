@@ -52,6 +52,8 @@ jobs:
         run: doctl serverless connect
 
       - name: Prepare function source
+        env:
+          STYLEMD_API_KEY: ${{ secrets.STYLEMD_API_KEY }}
         run: |
           cd functions/packages/generate/svg
           cp -r ../../../../generate ./generate
@@ -60,14 +62,10 @@ jobs:
           go mod edit -go=1.24
           go mod edit -replace github.com/readmedotmd/style.md/generate=./generate
           GOFLAGS=-mod=mod go mod tidy
+          cd ../../../..
+          if [ -n "$STYLEMD_API_KEY" ]; then
+            printf 'packages:\n  - name: generate\n    functions:\n      - name: svg\n        runtime: go:1.24\n        web: true\n        parameters:\n          STYLEMD_API_KEY: "%s"\n        limits:\n          timeout: 5000\n          memory: 256\n' "$STYLEMD_API_KEY" > functions/project.yml
+          fi
 
       - name: Deploy function
         run: doctl serverless deploy functions
-
-      - name: Set API key bound parameter
-        env:
-          STYLEMD_API_KEY: ${{ secrets.STYLEMD_API_KEY }}
-        if: env.STYLEMD_API_KEY != ''
-        run: |
-          printf 'packages:\n  - name: generate\n    functions:\n      - name: svg\n        runtime: go:1.24\n        web: true\n        parameters:\n          STYLEMD_API_KEY: "%s"\n        limits:\n          timeout: 5000\n          memory: 256\n' "$STYLEMD_API_KEY" > functions/project.yml
-          doctl serverless deploy functions
