@@ -51,8 +51,14 @@ jobs:
       - name: Connect to serverless namespace
         run: doctl serverless connect
 
-      - name: Copy shared generate package into function directory
-        run: cp -r generate functions/packages/generate/svg/generate
+      - name: Prepare function source
+        run: |
+          cd functions/packages/generate/svg
+          cp -r ../../../../generate ./generate
+          cd generate && go mod init github.com/readmedotmd/style.md/generate && cd ..
+          go mod init exec
+          go mod edit -replace github.com/readmedotmd/style.md/generate=./generate
+          go mod tidy
 
       - name: Deploy function
         run: doctl serverless deploy functions
