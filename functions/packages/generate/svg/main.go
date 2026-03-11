@@ -12,10 +12,60 @@ import (
 // Main is the DO Functions entry point.
 // Dispatch on the "type" parameter: "root", "banner" (default), "icon", or "icons".
 func Main(args map[string]interface{}) map[string]interface{} {
-	return map[string]interface{}{
-		"body": "hello from style.md generate",
+	typ := strArg(args, "type", "banner")
+
+	switch typ {
+	case "root":
+		if strArg(args, "api_key", "") == "" {
+			return jsonResponse(`{"error":"unauthorized","message":"API key required for root endpoint"}`)
+		}
+		return rootResponse()
+
+	case "icon":
+		req := generate.IconRequest{
+			Mode:   strArg(args, "mode", ""),
+			Label:  strArg(args, "label", ""),
+			Icon:   strArg(args, "icon", ""),
+			Size:   intArg(args, "size", 0),
+			Accent: strArg(args, "accent", ""),
+			Radius: strArg(args, "radius", ""),
+			Shadow: boolPtrArg(args, "shadow"),
+		}
+		req.Sanitize()
+		svg := generate.Icon(req)
+		return svgResponse(svg)
+
+	case "icons":
+		names := make([]string, 0, len(generate.RemixIcons))
+		for name := range generate.RemixIcons {
+			names = append(names, name)
+		}
+		sort.Strings(names)
+		body, _ := json.Marshal(names)
+		return jsonResponse(string(body))
+
+	default:
+		req := generate.BannerRequest{
+			Name:      strArg(args, "name", ""),
+			Tagline:   strArg(args, "tagline", ""),
+			Desc:      strArg(args, "desc", ""),
+			Version:   strArg(args, "version", ""),
+			Accent:    strArg(args, "accent", ""),
+			Layout:    strArg(args, "layout", ""),
+			Size:      strArg(args, "size", ""),
+			Tags:      tagsArg(args, "tags"),
+			ShowDots:  boolPtrArg(args, "show_dots"),
+			ShowBadge: boolPtrArg(args, "show_badge"),
+			ShowTags:  boolPtrArg(args, "show_tags"),
+		}
+		req.Sanitize()
+		svg := generate.Banner(req)
+		return svgResponse(svg)
 	}
 }
+
+// unused import guard
+var _ = fmt.Sprintf
 
 // svgResponse wraps an SVG string in the DO Functions response format.
 func svgResponse(svg string) map[string]interface{} {
