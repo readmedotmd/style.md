@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"strings"
 	"testing"
@@ -20,6 +21,16 @@ func respBody(resp map[string]interface{}) string {
 	return b
 }
 
+// respSVGBody decodes the base64-encoded SVG body.
+func respSVGBody(resp map[string]interface{}) string {
+	b, _ := resp["body"].(string)
+	decoded, err := base64.StdEncoding.DecodeString(b)
+	if err != nil {
+		return b
+	}
+	return string(decoded)
+}
+
 func respContentType(resp map[string]interface{}) string {
 	h := respHeaders(resp)
 	ct, _ := h["Content-Type"].(string)
@@ -37,7 +48,7 @@ func TestMain_BannerDefault(t *testing.T) {
 		t.Fatalf("expected Content-Type image/svg+xml, got %q", ct)
 	}
 
-	body := respBody(resp)
+	body := respSVGBody(resp)
 	if !strings.HasPrefix(body, "<svg") {
 		t.Fatalf("body should start with <svg, got prefix %q", body[:40])
 	}
@@ -61,7 +72,7 @@ func TestMain_BannerWithParams(t *testing.T) {
 		t.Fatalf("expected Content-Type image/svg+xml, got %q", ct)
 	}
 
-	body := respBody(resp)
+	body := respSVGBody(resp)
 	if !strings.Contains(body, "TestProject") {
 		t.Error("body should contain the project name")
 	}
@@ -91,7 +102,7 @@ func TestMain_Icon(t *testing.T) {
 		t.Fatalf("expected Content-Type image/svg+xml, got %q", ct)
 	}
 
-	body := respBody(resp)
+	body := respSVGBody(resp)
 	if !strings.HasPrefix(body, "<svg") {
 		t.Error("body should start with <svg")
 	}

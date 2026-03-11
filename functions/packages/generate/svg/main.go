@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"sort"
@@ -75,7 +76,7 @@ func svgResponse(svg string) map[string]interface{} {
 			"Content-Type":  "image/svg+xml",
 			"Cache-Control": "private, max-age=86400",
 		},
-		"body": svg,
+		"body": base64.StdEncoding.EncodeToString([]byte(svg)),
 	}
 }
 
