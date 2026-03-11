@@ -23,8 +23,20 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Generate banner
+        env:
+          GENERATE_URL: ${{ secrets.STYLEMD_GENERATE_URL }}
+          API_KEY: ${{ secrets.STYLEMD_API_KEY }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          REPO_DESC: ${{ github.event.repository.description }}
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          curl -sf "${{ secrets.STYLEMD_GENERATE_URL }}?api_key=${{ secrets.STYLEMD_API_KEY }}&name=${{ github.event.repository.name }}&tagline=$(echo '${{ github.event.repository.description }}' | jq -sRr @uri)&version=${{ steps.version.outputs.version }}" > .github/banner.svg
+          mkdir -p .github
+          curl -sfG "$GENERATE_URL" \
+            --data-urlencode "api_key=$API_KEY" \
+            --data-urlencode "name=$REPO_NAME" \
+            --data-urlencode "tagline=$REPO_DESC" \
+            --data-urlencode "version=$VERSION" \
+            -o .github/banner.svg
 
       - name: Commit banner
         run: |
