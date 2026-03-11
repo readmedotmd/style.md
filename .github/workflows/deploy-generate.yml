@@ -31,9 +31,6 @@ jobs:
       - name: Vet functions
         run: go vet ./functions/packages/generate/svg/
 
-      - name: Build functions
-        run: go build ./functions/packages/generate/svg/
-
       - name: Test functions
         run: go test -race ./functions/packages/generate/svg/
 
