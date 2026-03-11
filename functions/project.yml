@@ -7,4 +7,4 @@ packages:
         parameters: {}
         limits:
           timeout: 5000
-          memory: 128
+          memory: 256
