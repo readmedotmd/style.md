@@ -8,10 +8,8 @@ set -euo pipefail
 # Create a go.mod for the copied generate package
 cd generate
 go mod init github.com/readmedotmd/style.md/generate
-go mod edit -go=1.23
 cd ..
 
 go mod init exec
-go mod edit -go=1.23
 go mod edit -replace github.com/readmedotmd/style.md/generate=./generate
 go mod tidy
