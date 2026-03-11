@@ -41,7 +41,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Install doctl
-        uses: digitalocean/action-doctl@c3b6d4d4230c391e18bffc54b3d255a3063bc4c0 # v2.5.1
+        uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
