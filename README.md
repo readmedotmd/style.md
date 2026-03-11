@@ -36,7 +36,7 @@ The first theme is **[industrial.md](./industrial.md)** — monospace typography
 ```go
 import (
     gui "github.com/readmedotmd/gui.md"
-    coremd "github.com/readmedotmd/core.md"
+    coremd "github.com/readmedotmd/style.md/core.md"
 )
 
 func App() gui.Node {

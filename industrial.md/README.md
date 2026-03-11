@@ -9,7 +9,7 @@
 <p align="center">
 
 ```
-go get github.com/readmedotmd/industrial.md
+go get github.com/readmedotmd/style.md/industrial.md
 ```
 
 </p>
@@ -32,7 +32,7 @@ Use core.md Go components and add industrial styling with a single CSS file:
 ```
 
 ```go
-import coremd "github.com/readmedotmd/core.md"
+import coremd "github.com/readmedotmd/style.md/core.md"
 
 // Same Go code — the theme is applied purely through CSS
 btn := coremd.Button(coremd.ButtonProps{Variant: "primary"}, gui.Text("Deploy"))
@@ -43,7 +43,7 @@ btn := coremd.Button(coremd.ButtonProps{Variant: "primary"}, gui.Text("Deploy"))
 Import industrial.md directly for components pre-styled with BEM class names:
 
 ```go
-import industrialmd "github.com/readmedotmd/industrial.md"
+import industrialmd "github.com/readmedotmd/style.md/industrial.md"
 
 btn := industrialmd.Button(industrialmd.ButtonProps{
     Variant: industrialmd.ButtonPrimary,

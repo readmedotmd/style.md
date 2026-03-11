@@ -260,7 +260,7 @@ All components are Go functions built on [gui.md](https://github.com/readmedotmd
 ```go
 import (
     gui "github.com/readmedotmd/gui.md"
-    coremd "github.com/readmedotmd/core.md"
+    coremd "github.com/readmedotmd/style.md/core.md"
 )
 ```
 
@@ -926,7 +926,7 @@ package main
 
 import (
     gui "github.com/readmedotmd/gui.md"
-    stylemd "github.com/readmedotmd/core.md"
+    stylemd "github.com/readmedotmd/style.md/core.md"
 )
 
 func LoginPage(onSubmit func(), errMsg string) gui.Node {
@@ -990,7 +990,7 @@ package main
 
 import (
     gui "github.com/readmedotmd/gui.md"
-    stylemd "github.com/readmedotmd/core.md"
+    stylemd "github.com/readmedotmd/style.md/core.md"
 )
 
 type Item struct {
@@ -1064,7 +1064,7 @@ package main
 
 import (
     gui "github.com/readmedotmd/gui.md"
-    stylemd "github.com/readmedotmd/core.md"
+    stylemd "github.com/readmedotmd/style.md/core.md"
 )
 
 func SettingsPanel(username string, verified bool) gui.Node {

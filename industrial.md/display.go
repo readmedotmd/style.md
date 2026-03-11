@@ -1,7 +1,7 @@
 package industrialmd
 
 import (
-	coremd "github.com/readmedotmd/core.md"
+	coremd "github.com/readmedotmd/style.md/core.md"
 	gui "github.com/readmedotmd/gui.md"
 )
 

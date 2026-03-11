@@ -9,7 +9,7 @@
 <p align="center">
 
 ```
-go get github.com/readmedotmd/core.md
+go get github.com/readmedotmd/style.md/core.md
 ```
 
 </p>
@@ -25,7 +25,7 @@ Build your UI with core.md, then apply any theme on top with a single `<link>` t
 ```go
 import (
     gui "github.com/readmedotmd/gui.md"
-    coremd "github.com/readmedotmd/core.md"
+    coremd "github.com/readmedotmd/style.md/core.md"
 )
 
 func App() gui.Node {

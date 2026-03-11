@@ -9,7 +9,7 @@
 <p align="center">
 
 ```
-go get github.com/readmedotmd/devbox.md
+go get github.com/readmedotmd/style.md/devbox.md
 ```
 
 </p>
@@ -32,7 +32,7 @@ Use core.md Go components and add Devbox styling with a single CSS file:
 ```
 
 ```go
-import coremd "github.com/readmedotmd/core.md"
+import coremd "github.com/readmedotmd/style.md/core.md"
 
 // Same Go code — the theme is applied purely through CSS
 btn := coremd.Button(coremd.ButtonProps{Variant: "primary"}, gui.Text("Deploy"))
@@ -43,7 +43,7 @@ btn := coremd.Button(coremd.ButtonProps{Variant: "primary"}, gui.Text("Deploy"))
 Import devbox.md directly for components pre-styled with BEM class names:
 
 ```go
-import devboxmd "github.com/readmedotmd/devbox.md"
+import devboxmd "github.com/readmedotmd/style.md/devbox.md"
 
 btn := devboxmd.Button(devboxmd.ButtonProps{
     Variant: devboxmd.ButtonPrimary,

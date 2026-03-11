@@ -1,7 +1,7 @@
 package devboxmd
 
 import (
-	coremd "github.com/readmedotmd/core.md"
+	coremd "github.com/readmedotmd/style.md/core.md"
 )
 
 var theme = coremd.Themed{ClassMap: coremd.ClassMap{
