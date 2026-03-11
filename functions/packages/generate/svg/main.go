@@ -73,6 +73,7 @@ func Main(args map[string]interface{}) (resp map[string]interface{}) {
 // svgResponse wraps an SVG string in the DO Functions response format.
 func svgResponse(svg string) map[string]interface{} {
 	return map[string]interface{}{
+		"statusCode": 200,
 		"headers": map[string]interface{}{
 			"Content-Type":  "image/svg+xml",
 			"Cache-Control": "private, max-age=86400",
@@ -84,6 +85,7 @@ func svgResponse(svg string) map[string]interface{} {
 // jsonResponse wraps a JSON string in the DO Functions response format.
 func jsonResponse(body string) map[string]interface{} {
 	return map[string]interface{}{
+		"statusCode": 200,
 		"headers": map[string]interface{}{
 			"Content-Type": "application/json",
 		},
@@ -95,6 +97,7 @@ func jsonResponse(body string) map[string]interface{} {
 // the style.md SVG generation API, including a ready-to-use GitHub Action.
 func rootResponse() map[string]interface{} {
 	return map[string]interface{}{
+		"statusCode": 200,
 		"headers": map[string]interface{}{
 			"Content-Type":  "application/json",
 			"Cache-Control": "public, max-age=3600",
