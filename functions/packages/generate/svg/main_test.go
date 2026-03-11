@@ -142,8 +142,10 @@ func TestMain_Icons(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestMain_Root(t *testing.T) {
+	// Root endpoint should be accessible without auth even when key is configured.
 	resp := Main(map[string]interface{}{
-		"type": "root",
+		"STYLEMD_API_KEY": "secret123",
+		"type":            "root",
 	})
 
 	if ct := respContentType(resp); ct != "application/json" {

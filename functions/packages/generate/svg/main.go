@@ -28,8 +28,15 @@ func errorResponse(status int, msg string) map[string]interface{} {
 // Dispatch on the "type" parameter: "root", "banner" (default), "icon", or "icons".
 //
 // Authentication: if the bound parameter STYLEMD_API_KEY is set, all requests
-// must include a matching api_key query parameter.
+// (except type=root) must include a matching api_key query parameter.
 func Main(args map[string]interface{}) map[string]interface{} {
+	typ := strArg(args, "type", "banner")
+
+	// Root/instructions endpoint is always public.
+	if typ == "root" {
+		return rootResponse()
+	}
+
 	// Check API key if configured as a bound parameter.
 	if expected := strArg(args, "STYLEMD_API_KEY", ""); expected != "" {
 		provided := strArg(args, "api_key", "")
@@ -38,11 +45,7 @@ func Main(args map[string]interface{}) map[string]interface{} {
 		}
 	}
 
-	typ := strArg(args, "type", "banner")
-
 	switch typ {
-	case "root":
-		return rootResponse()
 
 	case "icon":
 		req := generate.IconRequest{
