@@ -77,7 +77,7 @@ func renderCardBanner(ctx *bannerCtx) string {
 	cardY := pad
 	cardW := ctx.w - pad*2
 	cardH := ctx.h - pad*2
-	borderW := max(4, round(4*ctx.scale))
+	borderW := maxInt(4, round(4*ctx.scale))
 	shadowOff := round(5 * ctx.scale)
 	r := round(6 * ctx.scale)
 
@@ -167,7 +167,7 @@ func renderCardBanner(ctx *bannerCtx) string {
 			tagText := formatUpperWithExt(tag)
 			tagBg := tagBgs[i%len(tagBgs)]
 			tagFg := tagFgs[i%len(tagFgs)]
-			tagW := max(utf8.RuneCountInString(tagText)*round(8*ctx.scale)+round(20*ctx.scale), round(70*ctx.scale))
+			tagW := maxInt(utf8.RuneCountInString(tagText)*round(8*ctx.scale)+round(20*ctx.scale), round(70*ctx.scale))
 			fmt.Fprintf(&s, `  <rect x="%d" y="%d" width="%d" height="%d" rx="%d" fill="%s" stroke="%s" stroke-width="%d"/>`+"\n",
 				tagX, tagY-tagH, tagW, tagH, tagR, tagBg, Colors.Border, borderW)
 			fmt.Fprintf(&s, `  <text x="%d" y="%d" font-family="%s" font-size="%d" fill="%s" text-anchor="middle" font-weight="700" letter-spacing="1">%s</text>`+"\n",
@@ -200,7 +200,7 @@ func renderTerminalBanner(ctx *bannerCtx) string {
 	cardW := ctx.w - pad*2
 	cardH := ctx.h - pad*2
 	headerH := round(32 * ctx.scale)
-	borderW := max(2, round(2*ctx.scale))
+	borderW := maxInt(2, round(2*ctx.scale))
 	shadowOff := round(5 * ctx.scale)
 	r := round(6 * ctx.scale)
 
@@ -299,7 +299,7 @@ func renderTerminalBanner(ctx *bannerCtx) string {
 func renderMinimalBanner(ctx *bannerCtx) string {
 	var s strings.Builder
 
-	borderW := max(2, round(2*ctx.scale))
+	borderW := maxInt(2, round(2*ctx.scale))
 
 	// Accent left bar
 	barW := round(6 * ctx.scale)
