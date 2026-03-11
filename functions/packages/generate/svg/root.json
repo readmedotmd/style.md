@@ -43,5 +43,19 @@
       "type": "icons",
       "description": "List all available remix icon names"
     }
+  },
+  "implementation": {
+    "description": "Add a GitHub Actions workflow that generates a banner SVG on every merge to main and commits it to the repo.",
+    "setup": {
+      "secrets": {
+        "STYLEMD_API_KEY": "Set this as a GitHub Actions secret (repo or org level). The value is your API key for this service.",
+        "STYLEMD_GENERATE_URL": "Set this as a GitHub Actions secret or variable containing the full function URL (e.g. https://faas-lon1-917a94a7.doserverless.co/api/v1/web/fn-.../generate/svg)."
+      }
+    },
+    "workflow": {
+      "file": ".github/workflows/generate-banner.yml",
+      "note": "This workflow runs on pushes to main but skips runs triggered by its own commits (via [skip ci] in the commit message) to prevent infinite loops.",
+      "content": "name: Generate Banner\n\non:\n  push:\n    branches: [main]\n    paths-ignore:\n      - '.github/banner.svg'\n\npermissions:\n  contents: write\n\njobs:\n  generate:\n    runs-on: ubuntu-latest\n    if: \"!contains(github.event.head_commit.message, '[skip ci]')\"\n    steps:\n      - uses: actions/checkout@v4\n\n      - name: Extract version\n        id: version\n        run: |\n          VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo 'v0.0.0')\n          echo \"version=$VERSION\" >> \"$GITHUB_OUTPUT\"\n\n      - name: Generate banner\n        run: |\n          curl -sf \"${{ secrets.STYLEMD_GENERATE_URL }}?api_key=${{ secrets.STYLEMD_API_KEY }}&name=${{ github.event.repository.name }}&tagline=$(echo '${{ github.event.repository.description }}' | jq -sRr @uri)&version=${{ steps.version.outputs.version }}\" > .github/banner.svg\n\n      - name: Commit banner\n        run: |\n          git config user.name 'github-actions[bot]'\n          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'\n          git add .github/banner.svg\n          if git diff --cached --quiet; then\n            echo 'No changes to commit'\n          else\n            git commit -m 'Update banner [skip ci]'\n            git push\n          fi\n"
+    }
   }
 }
