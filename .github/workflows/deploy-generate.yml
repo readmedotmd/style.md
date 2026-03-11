@@ -55,10 +55,11 @@ jobs:
         run: |
           cd functions/packages/generate/svg
           cp -r ../../../../generate ./generate
-          cd generate && go mod init github.com/readmedotmd/style.md/generate && cd ..
+          cd generate && go mod init github.com/readmedotmd/style.md/generate && go mod edit -go=1.22 && cd ..
           go mod init exec
+          go mod edit -go=1.22
           go mod edit -replace github.com/readmedotmd/style.md/generate=./generate
-          go mod tidy
+          GOFLAGS=-mod=mod go mod tidy
 
       - name: Deploy function
         run: doctl serverless deploy functions
