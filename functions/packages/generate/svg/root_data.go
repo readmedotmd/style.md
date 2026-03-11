@@ -1,0 +1,50 @@
+package main
+
+// rootJSON contains AI-readable instructions for the style.md SVG generation API.
+var rootJSON = `{
+  "service": "style.md generate",
+  "description": "SVG banner and icon generation API for the style.md industrial monospace design system.",
+  "authentication": {
+    "method": "API key via header or query parameter",
+    "header": "X-API-Key: <your-key>",
+    "query_param": "?api_key=<your-key>",
+    "secret_name": "STYLEMD_API_KEY",
+    "note": "Add this secret to your GitHub repo or org settings. The value is provided by the style.md service admin."
+  },
+  "endpoints": {
+    "banner": {
+      "type": "banner",
+      "description": "Generate a project banner SVG",
+      "params": {
+        "name": "Project name (e.g. 'style.md')",
+        "tagline": "Short tagline text",
+        "desc": "Description text",
+        "version": "Version string (e.g. 'v1.2.0')",
+        "accent": "Hex color (default #FF5500)",
+        "layout": "card | terminal | minimal (default card)",
+        "tags": "Comma-separated tags or JSON array",
+        "size": "WxH pixels (default 1800x560)",
+        "show_dots": "true/false (default true)",
+        "show_badge": "true/false (default true)",
+        "show_tags": "true/false (default true)"
+      }
+    },
+    "icon": {
+      "type": "icon",
+      "description": "Generate a project icon SVG",
+      "params": {
+        "mode": "text | icon (default text)",
+        "label": "Text label for text mode (e.g. 'St')",
+        "icon": "Remix icon name for icon mode (use ?type=icons to list)",
+        "size": "Size in pixels 16-2048 (default 1024)",
+        "accent": "Hex color (default #FF5500)",
+        "radius": "0 | small | medium | large | xl (default medium)",
+        "shadow": "true/false (default true)"
+      }
+    },
+    "icons": {
+      "type": "icons",
+      "description": "List all available remix icon names"
+    }
+  }
+}`

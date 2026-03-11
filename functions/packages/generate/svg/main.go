@@ -1,7 +1,6 @@
 package main
 
 import (
-	_ "embed"
 	"encoding/json"
 	"fmt"
 	"sort"
@@ -9,9 +8,6 @@ import (
 
 	"github.com/readmedotmd/style.md/generate"
 )
-
-//go:embed root.json
-var rootJSON string
 
 // Main is the DO Functions entry point.
 // Dispatch on the "type" parameter: "root", "banner" (default), "icon", or "icons".
