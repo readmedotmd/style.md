@@ -3,6 +3,7 @@ package main
 import (
 	_ "embed"
 	"encoding/json"
+	"fmt"
 	"sort"
 	"strings"
 
@@ -14,7 +15,13 @@ var rootJSON string
 
 // Main is the DO Functions entry point.
 // Dispatch on the "type" parameter: "root", "banner" (default), "icon", or "icons".
-func Main(args map[string]interface{}) map[string]interface{} {
+func Main(args map[string]interface{}) (resp map[string]interface{}) {
+	defer func() {
+		if r := recover(); r != nil {
+			resp = jsonResponse(fmt.Sprintf(`{"error":"internal","detail":"%v"}`, r))
+		}
+	}()
+
 	typ := strArg(args, "type", "banner")
 
 	switch typ {
