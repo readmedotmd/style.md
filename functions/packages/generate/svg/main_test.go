@@ -141,25 +141,9 @@ func TestMain_Icons(t *testing.T) {
 // 5. TestMain_Root
 // ---------------------------------------------------------------------------
 
-func TestMain_RootRequiresAuth(t *testing.T) {
-	resp := Main(map[string]interface{}{
-		"type": "root",
-	})
-
-	if ct := respContentType(resp); ct != "application/json" {
-		t.Fatalf("expected Content-Type application/json, got %q", ct)
-	}
-
-	body := respBody(resp)
-	if !strings.Contains(body, "unauthorized") {
-		t.Errorf("expected body to contain 'unauthorized', got %q", body)
-	}
-}
-
 func TestMain_Root(t *testing.T) {
 	resp := Main(map[string]interface{}{
-		"type":    "root",
-		"api_key": "test-key-123",
+		"type": "root",
 	})
 
 	if ct := respContentType(resp); ct != "application/json" {
@@ -177,6 +161,62 @@ func TestMain_Root(t *testing.T) {
 	}
 	if _, ok := info["endpoints"]; !ok {
 		t.Error("response should contain an 'endpoints' key")
+	}
+}
+
+// ---------------------------------------------------------------------------
+// 5b. TestMain_APIKeyAuth
+// ---------------------------------------------------------------------------
+
+func TestMain_AuthRejectsWithoutKey(t *testing.T) {
+	resp := Main(map[string]interface{}{
+		"STYLEMD_API_KEY": "secret123",
+		"type":            "banner",
+	})
+
+	if sc := resp["statusCode"]; sc != 401 {
+		t.Fatalf("expected 401, got %v", sc)
+	}
+	body := respBody(resp)
+	if !strings.Contains(body, "unauthorized") {
+		t.Errorf("expected unauthorized error, got %q", body)
+	}
+}
+
+func TestMain_AuthRejectsWrongKey(t *testing.T) {
+	resp := Main(map[string]interface{}{
+		"STYLEMD_API_KEY": "secret123",
+		"api_key":         "wrong",
+		"type":            "banner",
+	})
+
+	if sc := resp["statusCode"]; sc != 401 {
+		t.Fatalf("expected 401, got %v", sc)
+	}
+}
+
+func TestMain_AuthAcceptsCorrectKey(t *testing.T) {
+	resp := Main(map[string]interface{}{
+		"STYLEMD_API_KEY": "secret123",
+		"api_key":         "secret123",
+		"type":            "banner",
+	})
+
+	if sc := resp["statusCode"]; sc != 200 {
+		t.Fatalf("expected 200, got %v", sc)
+	}
+	if ct := respContentType(resp); ct != "image/svg+xml" {
+		t.Fatalf("expected image/svg+xml, got %q", ct)
+	}
+}
+
+func TestMain_NoAuthWhenKeyNotConfigured(t *testing.T) {
+	resp := Main(map[string]interface{}{
+		"type": "banner",
+	})
+
+	if sc := resp["statusCode"]; sc != 200 {
+		t.Fatalf("expected 200 without key configured, got %v", sc)
 	}
 }
 

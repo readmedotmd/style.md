@@ -63,3 +63,9 @@ jobs:
 
       - name: Deploy function
         run: doctl serverless deploy functions
+
+      - name: Set API key bound parameter
+        if: ${{ secrets.STYLEMD_API_KEY != '' }}
+        run: >
+          doctl serverless functions update generate/svg
+          --param STYLEMD_API_KEY=${{ secrets.STYLEMD_API_KEY }}

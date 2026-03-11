@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/subtle"
 	_ "embed"
 	"encoding/base64"
 	"encoding/json"
@@ -13,16 +14,34 @@ import (
 //go:embed root.json
 var rootJSON string
 
+func errorResponse(status int, msg string) map[string]interface{} {
+	return map[string]interface{}{
+		"statusCode": status,
+		"headers": map[string]interface{}{
+			"Content-Type": "application/json",
+		},
+		"body": `{"error":"` + msg + `"}`,
+	}
+}
+
 // Main is the DO Functions entry point.
 // Dispatch on the "type" parameter: "root", "banner" (default), "icon", or "icons".
+//
+// Authentication: if the bound parameter STYLEMD_API_KEY is set, all requests
+// must include a matching api_key query parameter.
 func Main(args map[string]interface{}) map[string]interface{} {
+	// Check API key if configured as a bound parameter.
+	if expected := strArg(args, "STYLEMD_API_KEY", ""); expected != "" {
+		provided := strArg(args, "api_key", "")
+		if subtle.ConstantTimeCompare([]byte(provided), []byte(expected)) != 1 {
+			return errorResponse(401, "unauthorized")
+		}
+	}
+
 	typ := strArg(args, "type", "banner")
 
 	switch typ {
 	case "root":
-		if strArg(args, "api_key", "") == "" {
-			return jsonResponse(`{"error":"unauthorized","message":"API key required for root endpoint"}`)
-		}
 		return rootResponse()
 
 	case "icon":
