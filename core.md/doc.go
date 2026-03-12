@@ -12,5 +12,5 @@
 // Use core.md directly for fully custom designs, or layer a theme on top:
 //
 //	<link rel="stylesheet" href="core.md/styles.css">
-//	<link rel="stylesheet" href="industrial.md/theme.css">
+//	<link rel="stylesheet" href="themes/industrial.md/theme.css">
 package coremd

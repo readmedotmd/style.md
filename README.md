@@ -16,8 +16,8 @@
 2. **Themes** — CSS-only layers that target the same `data-*` selectors to apply a complete design language. Swap a `<link>` tag to switch themes at runtime.
 
 Current themes:
-- **[industrial.md](./industrial.md)** — monospace typography, bold orange accents, hard shadows, high contrast.
-- **[devbox.md](./devbox.md)** — Inter typography, green accents, soft shadows, dark-first developer tools aesthetic.
+- **[industrial.md](./themes/industrial.md)** — monospace typography, bold orange accents, hard shadows, high contrast.
+- **[devbox.md](./themes/devbox.md)** — Inter typography, green accents, soft shadows, dark-first developer tools aesthetic.
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -25,7 +25,7 @@ Current themes:
 │    imports core.md components                   │
 │    uses data-* attributes for state             │
 ├─────────────────────────────────────────────────┤
-│  core.md/styles.css      │  industrial.md/      │
+│  core.md/styles.css      │  themes/industrial.md/│
 │  (minimal defaults)      │  theme.css           │
 │                          │  (design layer)      │
 └─────────────────────────────────────────────────┘
@@ -65,7 +65,7 @@ Add a single CSS file to switch from base styles to a full design system:
 
 ```html
 <link rel="stylesheet" href="core.md/styles.css">
-<link rel="stylesheet" href="industrial.md/theme.css">
+<link rel="stylesheet" href="themes/industrial.md/theme.css">
 ```
 
 No HTML or Go code changes required.
@@ -78,7 +78,7 @@ No HTML or Go code changes required.
 
 <select onchange="document.getElementById('theme').href = this.value">
   <option value="">Base</option>
-  <option value="industrial.md/theme.css">Industrial</option>
+  <option value="themes/industrial.md/theme.css">Industrial</option>
 </select>
 ```
 
@@ -118,8 +118,8 @@ A CSS-only theme layer plus Go wrappers that re-export every core.md component w
 
 **Two ways to use it:**
 
-1. **CSS-only** — Load `core.md/styles.css` + `industrial.md/theme.css`. Use core.md Go components.
-2. **Go wrappers** — Import `industrial.md` directly. Components come pre-styled with BEM classes.
+1. **CSS-only** — Load `core.md/styles.css` + `themes/industrial.md/theme.css`. Use core.md Go components.
+2. **Go wrappers** — Import `themes/industrial.md` directly. Components come pre-styled with BEM classes.
 
 ## Data Attributes
 
@@ -227,20 +227,21 @@ style.md/
 │   ├── display.go             Status badges, diff viewer, data table
 │   ├── ...                    (14 Go files total)
 │   └── examples/showcase.html Core.md showcase
-├── industrial.md/             Industrial monospace theme
-│   ├── theme.css              CSS-only theme (targets data-* selectors)
-│   ├── styles.css             BEM class-based stylesheet
-│   ├── tokens.go              310+ CSS class constants
-│   ├── primitives.go          Re-exported primitives with theme wrappers
-│   ├── ...                    (17 Go files total)
-│   └── examples/showcase.html Industrial showcase
-├── devbox.md/                 Developer tools theme
-│   ├── theme.css              CSS-only theme (targets data-* selectors)
-│   ├── styles.css             BEM class-based stylesheet
-│   ├── tokens.go              310+ CSS class constants
-│   ├── primitives.go          Re-exported primitives with theme wrappers
-│   ├── ...                    (17 Go files total)
-│   └── examples/showcase.html Devbox showcase
+├── themes/
+│   ├── industrial.md/         Industrial monospace theme
+│   │   ├── theme.css          CSS-only theme (targets data-* selectors)
+│   │   ├── styles.css         BEM class-based stylesheet
+│   │   ├── tokens.go          310+ CSS class constants
+│   │   ├── primitives.go      Re-exported primitives with theme wrappers
+│   │   ├── ...                (17 Go files total)
+│   │   └── examples/showcase.html Industrial showcase
+│   └── devbox.md/             Developer tools theme
+│       ├── theme.css          CSS-only theme (targets data-* selectors)
+│       ├── styles.css         BEM class-based stylesheet
+│       ├── tokens.go          310+ CSS class constants
+│       ├── primitives.go      Re-exported primitives with theme wrappers
+│       ├── ...                (17 Go files total)
+│       └── examples/showcase.html Devbox showcase
 ├── examples/
 │   └── theme-switcher.html    Interactive theme switching showcase
 ├── generate/                  SVG banner & icon generation server

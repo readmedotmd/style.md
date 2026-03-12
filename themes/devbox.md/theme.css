@@ -1,10 +1,10 @@
-/* devbox.md/theme.css — Devbox Developer Tools Theme
+/* themes/devbox.md/theme.css — Devbox Developer Tools Theme
  *
  * Layers on top of core.md/styles.css. Targets the same data-* attributes
  * and semantic HTML selectors. Load AFTER core.md/styles.css:
  *
  *   <link rel="stylesheet" href="core.md/styles.css">
- *   <link rel="stylesheet" href="devbox.md/theme.css">
+ *   <link rel="stylesheet" href="themes/devbox.md/theme.css">
  *
  * Or dynamically swap via JavaScript for theme switching.
  */

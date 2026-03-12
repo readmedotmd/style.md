@@ -8,5 +8,5 @@
 // Import core.md for components and a theme package for styling:
 //
 //	import "github.com/readmedotmd/style.md/core.md"
-//	import "github.com/readmedotmd/style.md/industrial.md"
+//	import "github.com/readmedotmd/style.md/themes/industrial.md"
 package stylemd

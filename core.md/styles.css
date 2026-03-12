@@ -1,7 +1,7 @@
 /* core.md — Minimal base styles
  *
  * Provides clean, functional defaults with no decorative opinions.
- * Use as a standalone foundation or layer a theme (like industrial.md) on top.
+ * Use as a standalone foundation or layer a theme (like themes/industrial.md) on top.
  *
  * Targets components via data-* attributes and semantic HTML structure.
  */

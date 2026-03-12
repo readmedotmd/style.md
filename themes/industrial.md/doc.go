@@ -10,11 +10,11 @@
 // CSS-only — use core.md Go components with theme.css for data-attribute styling:
 //
 //	<link rel="stylesheet" href="core.md/styles.css">
-//	<link rel="stylesheet" href="industrial.md/theme.css">
+//	<link rel="stylesheet" href="themes/industrial.md/theme.css">
 //
 // Go wrappers — import this package for components pre-styled with BEM classes:
 //
-//	import industrialmd "github.com/readmedotmd/industrial.md"
+//	import industrialmd "github.com/readmedotmd/style.md/themes/industrial.md"
 //
 //	btn := industrialmd.Button(industrialmd.ButtonProps{
 //	    Variant: industrialmd.ButtonPrimary,

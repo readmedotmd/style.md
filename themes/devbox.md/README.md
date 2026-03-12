@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../design/devbox-banner.png" width="900" alt="devbox.md" />
+  <img src="../../design/devbox-banner.png" width="900" alt="devbox.md" />
 </p>
 
 <p align="center">
@@ -9,7 +9,7 @@
 <p align="center">
 
 ```
-go get github.com/readmedotmd/style.md/devbox.md
+go get github.com/readmedotmd/style.md/themes/devbox.md
 ```
 
 </p>
@@ -18,7 +18,7 @@ go get github.com/readmedotmd/style.md/devbox.md
 
 ## What is devbox.md?
 
-**devbox.md** is a theme for [core.md](../core.md) components. It applies a modern developer-tools design language: Inter sans-serif typography, `#22C55E` green accents, soft rounded corners, subtle layered shadows, and a dark-first aesthetic inspired by the Devbox app.
+**devbox.md** is a theme for [core.md](../../core.md) components. It applies a modern developer-tools design language: Inter sans-serif typography, `#22C55E` green accents, soft rounded corners, subtle layered shadows, and a dark-first aesthetic inspired by the Devbox app.
 
 **Two ways to use it:**
 
@@ -28,7 +28,7 @@ Use core.md Go components and add Devbox styling with a single CSS file:
 
 ```html
 <link rel="stylesheet" href="core.md/styles.css">
-<link rel="stylesheet" href="devbox.md/theme.css">
+<link rel="stylesheet" href="themes/devbox.md/theme.css">
 ```
 
 ```go
@@ -43,7 +43,7 @@ btn := coremd.Button(coremd.ButtonProps{Variant: "primary"}, gui.Text("Deploy"))
 Import devbox.md directly for components pre-styled with BEM class names:
 
 ```go
-import devboxmd "github.com/readmedotmd/style.md/devbox.md"
+import devboxmd "github.com/readmedotmd/style.md/themes/devbox.md"
 
 btn := devboxmd.Button(devboxmd.ButtonProps{
     Variant: devboxmd.ButtonPrimary,
@@ -133,7 +133,7 @@ devbox.md/
 ## Showcase
 
 <p align="center">
-  <img src="../design/screenshots/devbox-showcase-light.png" width="900" alt="devbox.md showcase" />
+  <img src="../../design/screenshots/devbox-showcase-light.png" width="900" alt="devbox.md showcase" />
 </p>
 
 ---

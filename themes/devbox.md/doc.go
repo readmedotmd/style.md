@@ -10,11 +10,11 @@
 // CSS-only — use core.md Go components with theme.css for data-attribute styling:
 //
 //	<link rel="stylesheet" href="core.md/styles.css">
-//	<link rel="stylesheet" href="devbox.md/theme.css">
+//	<link rel="stylesheet" href="themes/devbox.md/theme.css">
 //
 // Go wrappers — import this package for components pre-styled with BEM classes:
 //
-//	import devboxmd "github.com/readmedotmd/devbox.md"
+//	import devboxmd "github.com/readmedotmd/style.md/themes/devbox.md"
 //
 //	btn := devboxmd.Button(devboxmd.ButtonProps{
 //	    Variant: devboxmd.ButtonPrimary,

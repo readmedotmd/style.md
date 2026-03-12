@@ -204,10 +204,10 @@ core.md is designed to be themed. A theme is a CSS file that overrides `--core-*
 
 ```html
 <link rel="stylesheet" href="core.md/styles.css">
-<link rel="stylesheet" href="industrial.md/theme.css">
+<link rel="stylesheet" href="themes/industrial.md/theme.css">
 ```
 
-See [industrial.md](../industrial.md) for a complete theme example.
+See [industrial.md](../themes/industrial.md) for a complete theme example.
 
 ## Showcase
 

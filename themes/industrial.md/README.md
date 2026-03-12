@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../design/industrial-banner.png" width="900" alt="industrial.md" />
+  <img src="../../design/industrial-banner.png" width="900" alt="industrial.md" />
 </p>
 
 <p align="center">
@@ -9,7 +9,7 @@
 <p align="center">
 
 ```
-go get github.com/readmedotmd/style.md/industrial.md
+go get github.com/readmedotmd/style.md/themes/industrial.md
 ```
 
 </p>
@@ -18,7 +18,7 @@ go get github.com/readmedotmd/style.md/industrial.md
 
 ## What is industrial.md?
 
-**industrial.md** is a theme for [core.md](../core.md) components. It applies an industrial monospace design language: Space Mono typography, `#FF5500` orange accents, hard shadows, 2px borders, uppercase labels, and full dark mode.
+**industrial.md** is a theme for [core.md](../../core.md) components. It applies an industrial monospace design language: Space Mono typography, `#FF5500` orange accents, hard shadows, 2px borders, uppercase labels, and full dark mode.
 
 **Two ways to use it:**
 
@@ -28,7 +28,7 @@ Use core.md Go components and add industrial styling with a single CSS file:
 
 ```html
 <link rel="stylesheet" href="core.md/styles.css">
-<link rel="stylesheet" href="industrial.md/theme.css">
+<link rel="stylesheet" href="themes/industrial.md/theme.css">
 ```
 
 ```go
@@ -43,7 +43,7 @@ btn := coremd.Button(coremd.ButtonProps{Variant: "primary"}, gui.Text("Deploy"))
 Import industrial.md directly for components pre-styled with BEM class names:
 
 ```go
-import industrialmd "github.com/readmedotmd/style.md/industrial.md"
+import industrialmd "github.com/readmedotmd/style.md/themes/industrial.md"
 
 btn := industrialmd.Button(industrialmd.ButtonProps{
     Variant: industrialmd.ButtonPrimary,
@@ -128,7 +128,7 @@ industrial.md/
 ## Showcase
 
 <p align="center">
-  <img src="../design/screenshots/industrial-showcase-light.png" width="900" alt="industrial.md showcase" />
+  <img src="../../design/screenshots/industrial-showcase-light.png" width="900" alt="industrial.md showcase" />
 </p>
 
 ---
