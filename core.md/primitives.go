@@ -256,6 +256,60 @@ func ListItem(children ...gui.Node) gui.Node {
 	return gui.Li()(children...)
 }
 
+// ─── Rich Text / Markdown ───
+
+// MarkdownContent wraps rendered markdown/rich-text content in a container with
+// proper spacing and typography styles.
+//
+// Data attributes:
+//   - data-rich-text
+func MarkdownContent(class string, children ...gui.Node) gui.Node {
+	return gui.Div(collectAttrs(optClass(class), dataAttr("rich-text", ""))...)(children...)
+}
+
+// SectionHeader renders a titled section divider with an optional trailing action slot.
+//
+// Data attributes:
+//   - data-section-header
+func SectionHeader(class, title string, actions ...gui.Node) gui.Node {
+	children := []gui.Node{gui.Span()(gui.Text(title))}
+	if len(actions) > 0 {
+		children = append(children, gui.Div()(actions...))
+	}
+	return gui.Div(collectAttrs(optClass(class), dataAttr("section-header", ""))...)(children...)
+}
+
+// CollapsibleProps configures the Collapsible component.
+type CollapsibleProps struct {
+	Class   string
+	Open    bool
+	Summary string
+}
+
+// Collapsible renders a disclosure widget using <details>/<summary>.
+//
+// Data attributes:
+//   - data-collapsible
+//   - data-open: "true" (when open)
+func Collapsible(props CollapsibleProps, children ...gui.Node) gui.Node {
+	attrs := collectAttrs(optClass(props.Class), dataAttr("collapsible", ""))
+	if props.Open {
+		attrs = append(attrs, dataAttr("open", "true"))
+		attrs = append(attrs, gui.Attr_("open", ""))
+	}
+	all := []gui.Node{gui.Summary()(gui.Text(props.Summary))}
+	all = append(all, children...)
+	return gui.Details(attrs...)(all...)
+}
+
+// Animate wraps children with an animation attribute that CSS can target.
+//
+// Data attributes:
+//   - data-animate: animation name (e.g. "pulse", "fade-in", "spin")
+func Animate(class, animation string, children ...gui.Node) gui.Node {
+	return gui.Div(collectAttrs(optClass(class), dataAttr("animate", animation))...)(children...)
+}
+
 // ─── Blockquote ───
 
 // Quote renders a blockquote element.

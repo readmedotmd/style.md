@@ -1,18 +1,18 @@
 /* themes/industrial.md/theme.css — Industrial Monospace Theme
  *
- * Layers on top of core.md/styles.css. Targets the same data-* attributes
- * and semantic HTML selectors. Load AFTER core.md/styles.css:
+ * Layers on top of core.md/styles.css. Activates when <html data-theme="industrial">.
  *
  *   <link rel="stylesheet" href="core.md/styles.css">
  *   <link rel="stylesheet" href="themes/industrial.md/theme.css">
+ *   <html data-theme="industrial">
  *
- * Or dynamically swap via JavaScript for theme switching.
+ * Switch themes by changing the data-theme attribute on <html>.
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 /* ─── Token Overrides ─── */
-:root {
+[data-theme="industrial"] {
   --core-font: 'Space Mono', monospace;
   --core-font-mono: 'Space Mono', monospace;
   --core-text: #1A1A1A;
@@ -37,16 +37,12 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  [data-theme="industrial"]:not([data-mode="light"]) {
     --core-text: #E8E8E8;
     --core-text-muted: #888888;
     --core-bg: #1A1A1A;
     --core-surface: #222222;
     --core-border: #444444;
-    --core-accent: #FF5500;
-    --core-danger: #FF3333;
-    --core-success: #00CC66;
-    --core-warning: #FFCC00;
     --ind-dark: #111111;
     --ind-dark-text: #E8E8E8;
     --ind-dark-muted: #777777;
@@ -56,16 +52,12 @@
   }
 }
 
-[data-theme="dark"] {
+[data-theme="industrial"][data-mode="dark"] {
   --core-text: #E8E8E8;
   --core-text-muted: #888888;
   --core-bg: #1A1A1A;
   --core-surface: #222222;
   --core-border: #444444;
-  --core-accent: #FF5500;
-  --core-danger: #FF3333;
-  --core-success: #00CC66;
-  --core-warning: #FFCC00;
   --ind-dark: #111111;
   --ind-dark-text: #E8E8E8;
   --ind-dark-muted: #777777;
@@ -75,14 +67,14 @@
 }
 
 /* ─── Global ─── */
-body {
+[data-theme="industrial"] body {
   font-family: 'Space Mono', monospace;
   letter-spacing: 0.01em;
 }
 
 /* ─── Buttons ─── */
-button[data-variant],
-button:not([data-variant]) {
+[data-theme="industrial"] button[data-variant],
+[data-theme="industrial"] button:not([data-variant]) {
   border-width: 2px;
   font-weight: 700;
   text-transform: uppercase;
@@ -91,83 +83,83 @@ button:not([data-variant]) {
   box-shadow: var(--ind-shadow-sm);
 }
 
-button[data-variant]:hover,
-button:not([data-variant]):hover {
+[data-theme="industrial"] button[data-variant]:hover,
+[data-theme="industrial"] button:not([data-variant]):hover {
   box-shadow: var(--ind-shadow-md);
 }
 
-button[data-variant]:active,
-button:not([data-variant]):active {
+[data-theme="industrial"] button[data-variant]:active,
+[data-theme="industrial"] button:not([data-variant]):active {
   box-shadow: 1px 1px 0 var(--core-border);
   transform: translate(2px, 2px);
 }
 
-button[data-variant="primary"] {
+[data-theme="industrial"] button[data-variant="primary"] {
   color: var(--ind-dark-text);
 }
 
-button[data-variant="danger"] {
+[data-theme="industrial"] button[data-variant="danger"] {
   color: var(--ind-dark-text);
 }
 
-button[data-variant="toolbar"] {
+[data-theme="industrial"] button[data-variant="toolbar"] {
   box-shadow: none;
   border-color: var(--core-border);
   text-transform: none;
   letter-spacing: 0;
 }
-button[data-variant="toolbar"]:hover {
+[data-theme="industrial"] button[data-variant="toolbar"]:hover {
   box-shadow: none;
 }
-button[data-variant="toolbar"]:active {
+[data-theme="industrial"] button[data-variant="toolbar"]:active {
   box-shadow: none;
   transform: none;
 }
 
-button[data-size="small"] {
+[data-theme="industrial"] button[data-size="small"] {
   font-size: 11px;
 }
 
 /* ─── Text Inputs ─── */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="search"],
-input[type="url"],
-input[type="tel"],
-input[type="number"] {
+[data-theme="industrial"] input[type="text"],
+[data-theme="industrial"] input[type="email"],
+[data-theme="industrial"] input[type="password"],
+[data-theme="industrial"] input[type="search"],
+[data-theme="industrial"] input[type="url"],
+[data-theme="industrial"] input[type="tel"],
+[data-theme="industrial"] input[type="number"] {
   border-width: 2px;
   font-family: 'Space Mono', monospace;
 }
 
-input:focus {
+[data-theme="industrial"] input:focus {
   box-shadow: 3px 3px 0 var(--core-accent);
 }
 
-input[data-error="true"]:focus {
+[data-theme="industrial"] input[data-error="true"]:focus {
   box-shadow: 3px 3px 0 var(--core-danger);
 }
 
 /* ─── Textarea ─── */
-textarea {
+[data-theme="industrial"] textarea {
   border-width: 2px;
   font-family: 'Space Mono', monospace;
 }
-textarea:focus {
+[data-theme="industrial"] textarea:focus {
   box-shadow: 3px 3px 0 var(--core-accent);
 }
 
 /* ─── Select ─── */
-select {
+[data-theme="industrial"] select {
   border-width: 2px;
   font-family: 'Space Mono', monospace;
 }
-select:focus {
+[data-theme="industrial"] select:focus {
   box-shadow: 3px 3px 0 var(--core-accent);
 }
 
 /* ─── Form Labels ─── */
-div > label:first-child {
+[data-theme="industrial"] div > label:first-child {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 700;
@@ -175,7 +167,7 @@ div > label:first-child {
 }
 
 /* ─── Checkboxes ─── */
-label:has(input[type="checkbox"]) {
+[data-theme="industrial"] label:has(input[type="checkbox"]) {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: 12px;
@@ -183,14 +175,14 @@ label:has(input[type="checkbox"]) {
 }
 
 /* ─── Error/Success Messages ─── */
-div[role="alert"] {
+[data-theme="industrial"] div[role="alert"] {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-weight: 700;
 }
 
-div[role="status"] {
+[data-theme="industrial"] div[role="status"] {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -198,7 +190,7 @@ div[role="status"] {
 }
 
 /* ─── Status Badges ─── */
-span[data-status] {
+[data-theme="industrial"] span[data-status] {
   border: 2px solid var(--core-border);
   border-radius: 3px;
   text-transform: uppercase;
@@ -208,14 +200,14 @@ span[data-status] {
   padding: 2px 8px;
 }
 
-span[data-status="running"]  { background: color-mix(in srgb, var(--core-success) 15%, transparent); color: var(--core-success); border-color: var(--core-success); }
-span[data-status="stopped"]  { background: var(--core-surface); color: var(--core-text-muted); }
-span[data-status="starting"] { background: color-mix(in srgb, var(--core-warning) 15%, transparent); color: var(--core-warning); border-color: var(--core-warning); }
-span[data-status="pending"]  { background: color-mix(in srgb, var(--core-accent) 15%, transparent); color: var(--core-accent); border-color: var(--core-accent); }
-span[data-status="error"]    { background: color-mix(in srgb, var(--core-danger) 15%, transparent); color: var(--core-danger); border-color: var(--core-danger); }
+[data-theme="industrial"] span[data-status="running"]  { background: color-mix(in srgb, var(--core-success) 15%, transparent); color: var(--core-success); border-color: var(--core-success); }
+[data-theme="industrial"] span[data-status="stopped"]  { background: var(--core-surface); color: var(--core-text-muted); }
+[data-theme="industrial"] span[data-status="starting"] { background: color-mix(in srgb, var(--core-warning) 15%, transparent); color: var(--core-warning); border-color: var(--core-warning); }
+[data-theme="industrial"] span[data-status="pending"]  { background: color-mix(in srgb, var(--core-accent) 15%, transparent); color: var(--core-accent); border-color: var(--core-accent); }
+[data-theme="industrial"] span[data-status="error"]    { background: color-mix(in srgb, var(--core-danger) 15%, transparent); color: var(--core-danger); border-color: var(--core-danger); }
 
 /* Status dots stay circular */
-span[data-status]:empty {
+[data-theme="industrial"] span[data-status]:empty {
   width: 8px;
   height: 8px;
   border: none;
@@ -224,25 +216,25 @@ span[data-status]:empty {
 }
 
 /* ─── Diff Viewer ─── */
-div:has(> [data-diff]) {
+[data-theme="industrial"] div:has(> [data-diff]) {
   border-width: 2px;
   font-family: 'Space Mono', monospace;
 }
 
-[data-diff="header"] {
+[data-theme="industrial"] [data-diff="header"] {
   background: var(--ind-dark);
   color: var(--core-accent);
 }
 
 /* ─── Data Table ─── */
-table {
+[data-theme="industrial"] table {
   border: 2px solid var(--core-border);
   border-radius: var(--core-radius);
   overflow: hidden;
   font-family: 'Space Mono', monospace;
 }
 
-thead th {
+[data-theme="industrial"] thead th {
   background: var(--ind-dark);
   color: var(--core-accent);
   text-transform: uppercase;
@@ -252,70 +244,75 @@ thead th {
   border-bottom-width: 2px;
 }
 
-tbody td {
+[data-theme="industrial"] tbody td {
   border-bottom-width: 2px;
   font-size: 12px;
 }
 
 /* ─── Tab Bar ─── */
-div:has(> button[data-active]) {
+[data-theme="industrial"] div:has(> button[data-active]) {
   border-bottom-width: 2px;
 }
 
-div:has(> button[data-active]) > button {
+[data-theme="industrial"] div:has(> button[data-active]) > button {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 700;
   font-size: 11px;
 }
 
-div:has(> button[data-active]) > button[data-active="true"] {
+[data-theme="industrial"] div:has(> button[data-active]) > button[data-active="true"] {
   border-bottom-width: 3px;
 }
 
 /* ─── Active States ─── */
-[data-active="true"] {
+[data-theme="industrial"] [data-active="true"] {
   font-weight: 700;
 }
 
 /* ─── Context Menu ─── */
-[data-danger="true"] {
+[data-theme="industrial"] [data-danger="true"] {
   font-weight: 700;
 }
 
 /* ─── Spinner ─── */
-div[data-size="small"]:empty,
-div[data-size="large"]:empty {
+[data-theme="industrial"] div[data-size="small"]:empty,
+[data-theme="industrial"] div[data-size="large"]:empty {
   border-width: 3px;
   border-top-color: var(--core-accent);
 }
 
 /* ─── Typography ─── */
-h1, h2, h3, h4, h5, h6 {
+[data-theme="industrial"] h1,
+[data-theme="industrial"] h2,
+[data-theme="industrial"] h3,
+[data-theme="industrial"] h4,
+[data-theme="industrial"] h5,
+[data-theme="industrial"] h6 {
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
-code {
+[data-theme="industrial"] code {
   font-family: 'Space Mono', monospace;
   border: 1px solid var(--core-border);
   border-radius: 2px;
 }
 
-pre {
+[data-theme="industrial"] pre {
   font-family: 'Space Mono', monospace;
   border-width: 2px;
   border-radius: var(--core-radius);
 }
 
-kbd {
+[data-theme="industrial"] kbd {
   font-family: 'Space Mono', monospace;
   border-width: 2px;
   box-shadow: 0 2px 0 var(--core-border);
   border-radius: 2px;
 }
 
-blockquote {
+[data-theme="industrial"] blockquote {
   border-left-width: 4px;
   border-left-color: var(--core-accent);
   font-style: normal;
@@ -326,40 +323,40 @@ blockquote {
 }
 
 /* ─── Links ─── */
-a {
+[data-theme="industrial"] a {
   text-decoration: underline;
   text-underline-offset: 3px;
   font-weight: 700;
 }
-a:hover {
+[data-theme="industrial"] a:hover {
   text-decoration-thickness: 2px;
 }
 
 /* ─── Lists ─── */
-ul { list-style-type: square; }
+[data-theme="industrial"] ul { list-style-type: square; }
 
 /* ─── Images ─── */
-img[data-rounded] { border-radius: var(--core-radius); }
-img[data-avatar] { border: 2px solid var(--core-border); }
+[data-theme="industrial"] img[data-rounded] { border-radius: var(--core-radius); }
+[data-theme="industrial"] img[data-avatar] { border: 2px solid var(--core-border); }
 
 /* ─── Divider ─── */
-hr {
+[data-theme="industrial"] hr {
   border-top-width: 2px;
   border-top-style: solid;
 }
 
 /* ─── Card ─── */
-[data-card] {
+[data-theme="industrial"] [data-card] {
   border-width: 2px;
   border-radius: var(--core-radius);
   box-shadow: var(--ind-shadow-sm);
 }
-[data-card]:hover {
+[data-theme="industrial"] [data-card]:hover {
   box-shadow: var(--ind-shadow-md);
 }
 
 /* ─── Badge ─── */
-[data-badge] {
+[data-theme="industrial"] [data-badge] {
   border-width: 2px;
   border-radius: 3px;
   text-transform: uppercase;
@@ -367,7 +364,54 @@ hr {
   font-weight: 700;
   font-size: 10px;
 }
-[data-badge="accent"]  { border-color: var(--core-accent); }
-[data-badge="success"] { border-color: var(--core-success); }
-[data-badge="danger"]  { border-color: var(--core-danger); }
-[data-badge="warning"] { border-color: var(--core-warning); }
+[data-theme="industrial"] [data-badge="accent"]  { border-color: var(--core-accent); }
+[data-theme="industrial"] [data-badge="success"] { border-color: var(--core-success); }
+[data-theme="industrial"] [data-badge="danger"]  { border-color: var(--core-danger); }
+[data-theme="industrial"] [data-badge="warning"] { border-color: var(--core-warning); }
+
+/* ─── Box ─── */
+[data-theme="industrial"] [data-box-border="true"] { border-width: 2px; }
+[data-theme="industrial"] [data-box-rounded="true"] { border-radius: var(--core-radius); }
+[data-theme="industrial"] [data-box]:hover { box-shadow: var(--ind-shadow-sm); }
+
+/* ─── Backdrop ─── */
+[data-theme="industrial"] [data-backdrop] { background: rgba(0, 0, 0, 0.6); }
+
+/* ─── Icon Button ─── */
+[data-theme="industrial"] [data-icon-button] {
+  font-family: var(--core-font);
+  border: 2px solid transparent;
+}
+[data-theme="industrial"] [data-icon-button]:hover {
+  border-color: var(--core-border);
+  box-shadow: var(--ind-shadow-sm);
+}
+
+/* ─── Section Header ─── */
+[data-theme="industrial"] [data-section-header] {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom-width: 2px;
+}
+
+/* ─── Collapsible ─── */
+[data-theme="industrial"] [data-collapsible] > summary {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-family: var(--core-font);
+}
+
+/* ─── Rich Text ─── */
+[data-theme="industrial"] [data-rich-text] { font-family: var(--core-font); }
+[data-theme="industrial"] [data-rich-text] code { border: 1px solid var(--core-border); }
+
+/* ─── Editable Variable Row ─── */
+[data-theme="industrial"] [data-editable-var-row] { gap: 8px; }
+
+/* ─── Schema Field ─── */
+[data-theme="industrial"] [data-schema-field] { border-width: 2px; }
+[data-theme="industrial"] [data-schema-field-name] { text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+[data-theme="industrial"] [data-schema-field-type] { color: var(--core-accent); }
+
+/* ─── Animate ─── */
+[data-theme="industrial"] [data-animate="pulse"] { animation-timing-function: steps(4, end); }

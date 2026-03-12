@@ -255,3 +255,157 @@ func TestChatInputWrap(t *testing.T) {
 		screen.Assert(t).HTMLNotContains("data-expanded")
 	})
 }
+
+func TestBox(t *testing.T) {
+	t.Run("all_props", func(t *testing.T) {
+		s := guitesting.Render(Box(BoxProps{
+			Class:   "my-box",
+			Pad:     "lg",
+			Bg:      "surface",
+			Border:  true,
+			Flex:    true,
+			Rounded: true,
+		}, gui.Text("inside")))
+		a := s.Assert(t)
+		a.HasElement("div")
+		a.HTMLContains(`class="my-box"`)
+		a.HTMLContains(`data-box`)
+		a.HTMLContains(`data-pad="lg"`)
+		a.HTMLContains(`data-bg="surface"`)
+		a.HTMLContains(`data-box-border="true"`)
+		a.HTMLContains(`data-box-flex="true"`)
+		a.HTMLContains(`data-box-rounded="true"`)
+		a.TextVisible("inside")
+	})
+	t.Run("minimal_props", func(t *testing.T) {
+		s := guitesting.Render(Box(BoxProps{}))
+		a := s.Assert(t)
+		a.HTMLContains(`data-box`)
+		a.HTMLNotContains("data-pad")
+		a.HTMLNotContains("data-bg")
+		a.HTMLNotContains("data-box-border")
+		a.HTMLNotContains("data-box-flex")
+		a.HTMLNotContains("data-box-rounded")
+		a.HTMLNotContains("class=")
+	})
+}
+
+func TestScrollArea(t *testing.T) {
+	t.Run("with_class_and_children", func(t *testing.T) {
+		s := guitesting.Render(ScrollArea("scroll", gui.Text("scrollable")))
+		a := s.Assert(t)
+		a.HasElement("div")
+		a.HTMLContains(`class="scroll"`)
+		a.HTMLContains(`data-scroll-area`)
+		a.TextVisible("scrollable")
+	})
+	t.Run("empty_class", func(t *testing.T) {
+		s := guitesting.Render(ScrollArea(""))
+		s.Assert(t).HTMLNotContains("class=").HTMLContains(`data-scroll-area`)
+	})
+}
+
+func TestSplitLayout(t *testing.T) {
+	t.Run("three_columns", func(t *testing.T) {
+		s := guitesting.Render(SplitLayout(SplitLayoutProps{
+			Class:   "split",
+			Sidebar: "260px",
+			Panel:   "320px",
+		},
+			gui.Text("sidebar"),
+			gui.Text("center"),
+			gui.Text("panel"),
+		))
+		a := s.Assert(t)
+		a.HTMLContains(`class="split"`)
+		a.HTMLContains(`data-split-layout`)
+		a.TextVisible("sidebar")
+		a.TextVisible("center")
+		a.TextVisible("panel")
+		html := s.HTML()
+		if !strings.Contains(html, "width:260px") {
+			t.Errorf("expected sidebar width style, got: %s", html)
+		}
+		if !strings.Contains(html, "width:320px") {
+			t.Errorf("expected panel width style, got: %s", html)
+		}
+	})
+	t.Run("nil_sidebar_and_panel", func(t *testing.T) {
+		s := guitesting.Render(SplitLayout(SplitLayoutProps{},
+			nil,
+			gui.Text("center only"),
+			nil,
+		))
+		a := s.Assert(t)
+		a.HTMLContains(`data-split-layout`)
+		a.TextVisible("center only")
+	})
+}
+
+func TestBackdrop(t *testing.T) {
+	t.Run("with_onclick", func(t *testing.T) {
+		clicked := false
+		s := guitesting.Render(Backdrop("overlay", func() { clicked = true }))
+		s.Assert(t).HTMLContains(`class="overlay"`).HTMLContains(`data-backdrop`)
+		ref := s.QueryAllByTag("div")[0]
+		s.Click(ref)
+		if !clicked {
+			t.Error("expected onclick to fire")
+		}
+	})
+	t.Run("nil_onclick", func(t *testing.T) {
+		s := guitesting.Render(Backdrop("", nil))
+		a := s.Assert(t)
+		a.HTMLContains(`data-backdrop`)
+		a.HTMLNotContains("class=")
+		html := s.HTML()
+		if strings.Contains(html, "onclick") {
+			t.Errorf("expected no onclick, got: %s", html)
+		}
+	})
+}
+
+func TestIconButton(t *testing.T) {
+	t.Run("with_all_props", func(t *testing.T) {
+		clicked := false
+		s := guitesting.Render(IconButton("ib-cls", "icon-close", "Close", func() { clicked = true }))
+		a := s.Assert(t)
+		a.HasElement("button")
+		a.HTMLContains(`class="ib-cls"`)
+		a.HTMLContains(`data-icon-button`)
+		a.HTMLContains(`aria-label="Close"`)
+		a.HTMLContains(`class="icon-close"`)
+		ref := s.QueryAllByTag("button")[0]
+		s.Click(ref)
+		if !clicked {
+			t.Error("expected onclick to fire")
+		}
+	})
+	t.Run("nil_onclick_empty_label", func(t *testing.T) {
+		s := guitesting.Render(IconButton("", "icon-menu", "", nil))
+		a := s.Assert(t)
+		a.HasElement("button")
+		a.HTMLContains(`data-icon-button`)
+		a.HTMLNotContains("aria-label")
+		html := s.HTML()
+		if strings.Contains(html, "onclick") {
+			t.Errorf("expected no onclick, got: %s", html)
+		}
+	})
+}
+
+func TestToolbar(t *testing.T) {
+	t.Run("with_class_and_children", func(t *testing.T) {
+		s := guitesting.Render(Toolbar("tb", gui.Text("btn1"), gui.Text("btn2")))
+		a := s.Assert(t)
+		a.HasElement("div")
+		a.HTMLContains(`class="tb"`)
+		a.HTMLContains(`data-toolbar`)
+		a.TextVisible("btn1")
+		a.TextVisible("btn2")
+	})
+	t.Run("empty_class", func(t *testing.T) {
+		s := guitesting.Render(Toolbar(""))
+		s.Assert(t).HTMLNotContains("class=").HTMLContains(`data-toolbar`)
+	})
+}

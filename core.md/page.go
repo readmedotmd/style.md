@@ -70,14 +70,15 @@ func DashboardPage(class, heading, description string) gui.Node {
 	)
 }
 
-// SettingsCard renders a settings section card.
+// SettingsCard renders a settings section card with a header and body.
+//
+// Data attributes:
+//   - data-settings-card-header: on the header div
+//   - data-settings-card-body: on the body div
 func SettingsCard(class, title string, children ...gui.Node) gui.Node {
-	all := []gui.Node{
-		gui.H2()(gui.Text(title)),
-	}
-	all = append(all, children...)
 	return gui.Div(collectAttrs(optClass(class))...)(
-		gui.Div()(all...),
+		gui.Div(dataAttr("settings-card-header", ""))(gui.Text(title)),
+		gui.Div(dataAttr("settings-card-body", ""))(children...),
 	)
 }
 
@@ -89,17 +90,20 @@ func SettingsPage(class string, children ...gui.Node) gui.Node {
 }
 
 // SettingsCardFull renders a settings card with colored header (icon + title) + body.
+//
+// Data attributes:
+//   - data-settings-card-header: on the header div
+//   - data-settings-card-body: on the body div
 func SettingsCardFull(class, icon, title string, children ...gui.Node) gui.Node {
 	headerChildren := []gui.Node{}
 	if icon != "" {
 		headerChildren = append(headerChildren, gui.I(gui.Class(icon))())
 	}
 	headerChildren = append(headerChildren, gui.Text(title))
-	all := []gui.Node{
-		gui.Div()(headerChildren...),
-		gui.Div()(children...),
-	}
-	return gui.Div(collectAttrs(optClass(class))...)(all...)
+	return gui.Div(collectAttrs(optClass(class))...)(
+		gui.Div(dataAttr("settings-card-header", ""))(headerChildren...),
+		gui.Div(dataAttr("settings-card-body", ""))(children...),
+	)
 }
 
 // SettingsSection renders a section within a settings card with border-top separator.

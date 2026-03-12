@@ -208,3 +208,121 @@ func ChatInputWrap(class string, expanded bool, children ...gui.Node) gui.Node {
 	}
 	return gui.Div(attrs...)(children...)
 }
+
+// ─── Generic Containers ───
+
+// BoxProps configures the Box component.
+type BoxProps struct {
+	Class   string
+	Pad     string // padding size: "xs","sm","md","lg","xl"
+	Bg      string // background variant: "surface","accent","muted"
+	Border  bool   // whether to show border
+	Flex    bool   // display:flex
+	Rounded bool   // border-radius
+}
+
+// Box renders a generic container with configurable padding, background, border, and flex.
+//
+// Data attributes:
+//   - data-box
+//   - data-pad: size
+//   - data-bg: variant
+//   - data-box-border: "true"
+//   - data-box-flex: "true"
+//   - data-box-rounded: "true"
+func Box(props BoxProps, children ...gui.Node) gui.Node {
+	attrs := collectAttrs(optClass(props.Class), dataAttr("box", ""))
+	if props.Pad != "" {
+		attrs = append(attrs, dataAttr("pad", props.Pad))
+	}
+	if props.Bg != "" {
+		attrs = append(attrs, dataAttr("bg", props.Bg))
+	}
+	if props.Border {
+		attrs = append(attrs, dataAttr("box-border", "true"))
+	}
+	if props.Flex {
+		attrs = append(attrs, dataAttr("box-flex", "true"))
+	}
+	if props.Rounded {
+		attrs = append(attrs, dataAttr("box-rounded", "true"))
+	}
+	return gui.Div(attrs...)(children...)
+}
+
+// ScrollArea renders a scrollable flex:1 container.
+//
+// Data attributes:
+//   - data-scroll-area
+func ScrollArea(class string, children ...gui.Node) gui.Node {
+	return gui.Div(collectAttrs(optClass(class), dataAttr("scroll-area", ""))...)(children...)
+}
+
+// SplitLayoutProps configures the SplitLayout component.
+type SplitLayoutProps struct {
+	Class    string
+	Sidebar  string // width of sidebar column, e.g. "260px"
+	Panel    string // width of right panel column, e.g. "320px"
+}
+
+// SplitLayout renders a three-column layout: fixed sidebar | flex center | fixed panel.
+//
+// Data attributes:
+//   - data-split-layout
+func SplitLayout(props SplitLayoutProps, sidebar, center, panel gui.Node) gui.Node {
+	attrs := collectAttrs(optClass(props.Class), dataAttr("split-layout", ""))
+	children := []gui.Node{}
+	if sidebar != nil {
+		sideAttrs := []gui.Attr{}
+		if props.Sidebar != "" {
+			sideAttrs = append(sideAttrs, gui.Style("width:"+props.Sidebar+";flex-shrink:0"))
+		}
+		children = append(children, gui.Div(sideAttrs...)(sidebar))
+	}
+	if center != nil {
+		children = append(children, gui.Div(gui.Style("flex:1;min-width:0"))(center))
+	}
+	if panel != nil {
+		panelAttrs := []gui.Attr{}
+		if props.Panel != "" {
+			panelAttrs = append(panelAttrs, gui.Style("width:"+props.Panel+";flex-shrink:0"))
+		}
+		children = append(children, gui.Div(panelAttrs...)(panel))
+	}
+	return gui.Div(attrs...)(children...)
+}
+
+// Backdrop renders a semi-transparent overlay that fills its container.
+//
+// Data attributes:
+//   - data-backdrop
+func Backdrop(class string, onClick func()) gui.Node {
+	attrs := collectAttrs(optClass(class), dataAttr("backdrop", ""))
+	if onClick != nil {
+		attrs = append(attrs, gui.OnClick(onClick))
+	}
+	return gui.Div(attrs...)()
+}
+
+// IconButton renders a compact icon-only button (ghost variant).
+//
+// Data attributes:
+//   - data-icon-button
+func IconButton(class, icon, ariaLabel string, onClick func()) gui.Node {
+	attrs := collectAttrs(optClass(class), dataAttr("icon-button", ""))
+	if ariaLabel != "" {
+		attrs = append(attrs, gui.Attr_("aria-label", ariaLabel))
+	}
+	if onClick != nil {
+		attrs = append(attrs, gui.OnClick(onClick))
+	}
+	return gui.Button(attrs...)(gui.I(gui.Class(icon))())
+}
+
+// Toolbar renders a horizontal row of small action buttons.
+//
+// Data attributes:
+//   - data-toolbar
+func Toolbar(class string, children ...gui.Node) gui.Node {
+	return gui.Div(collectAttrs(optClass(class), dataAttr("toolbar", ""))...)(children...)
+}

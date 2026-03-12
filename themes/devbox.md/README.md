@@ -6,29 +6,20 @@
   Developer tools theme for core.md — Inter typography, green accents, soft shadows, dark-first.
 </p>
 
-<p align="center">
-
-```
-go get github.com/readmedotmd/style.md/themes/devbox.md
-```
-
-</p>
-
 ---
 
 ## What is devbox.md?
 
-**devbox.md** is a theme for [core.md](../../core.md) components. It applies a modern developer-tools design language: Inter sans-serif typography, `#22C55E` green accents, soft rounded corners, subtle layered shadows, and a dark-first aesthetic inspired by the Devbox app.
+**devbox.md** is a CSS-only theme for [core.md](../../core.md) components. It applies a modern developer-tools design language: Inter sans-serif typography, `#22C55E` green accents, soft rounded corners, subtle layered shadows, and a dark-first aesthetic.
 
-**Two ways to use it:**
+### Usage
 
-### 1. CSS-only (recommended for flexibility)
-
-Use core.md Go components and add Devbox styling with a single CSS file:
+Use core.md Go components and activate the Devbox theme with CSS:
 
 ```html
 <link rel="stylesheet" href="core.md/styles.css">
 <link rel="stylesheet" href="themes/devbox.md/theme.css">
+<html data-theme="devbox">
 ```
 
 ```go
@@ -38,19 +29,15 @@ import coremd "github.com/readmedotmd/style.md/core.md"
 btn := coremd.Button(coremd.ButtonProps{Variant: "primary"}, gui.Text("Deploy"))
 ```
 
-### 2. Go wrappers (for BEM class integration)
+No Go wrapper imports needed. Switch themes at runtime by changing `data-theme` on `<html>`.
 
-Import devbox.md directly for components pre-styled with BEM class names:
+### Dark mode
 
-```go
-import devboxmd "github.com/readmedotmd/style.md/themes/devbox.md"
+Dark mode activates automatically via `prefers-color-scheme: dark`, or force it with:
 
-btn := devboxmd.Button(devboxmd.ButtonProps{
-    Variant: devboxmd.ButtonPrimary,
-}, gui.Text("Deploy"))
+```html
+<html data-theme="devbox" data-mode="dark">
 ```
-
-Include `styles.css` for BEM-class styles, or `theme.css` for data-attribute styles.
 
 ## Design Language
 
@@ -73,10 +60,10 @@ Include `styles.css` for BEM-class styles, or `theme.css` for data-attribute sty
 
 ## Theme Tokens
 
-devbox.md overrides all `--core-*` CSS properties and adds its own:
+devbox.md overrides all `--core-*` CSS properties under `[data-theme="devbox"]` and adds its own:
 
 ```css
-:root {
+[data-theme="devbox"] {
   --core-font: 'Inter', system-ui, sans-serif;
   --core-font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --core-accent: #22C55E;
@@ -92,40 +79,11 @@ devbox.md overrides all `--core-*` CSS properties and adds its own:
 }
 ```
 
-## Components
-
-All core.md components are re-exported with identical APIs:
-
-| Category | Components |
-|----------|------------|
-| **Primitives** | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly |
-| **Buttons** | Button |
-| **Forms** | FormGroup, TextInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, ErrorMessage, SuccessMessage |
-| **Input** | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, ExpandButton, AttachButton, SendButton, CancelButton, ModeButton, MessageQueueBar, QueuedItem, AutocompleteHeader |
-| **Display** | MessageBubble, ThinkingIndicator, ThinkingCollapsible, ToolBadge, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent, WorkingIndicator, ChatStatusBadge, ThinkingHistory, ChatError, AcceptPlanBar |
-| **Lists** | ConversationItem, InstanceCard, ServiceRow, RunnerRow, FileTree |
-| **Layout** | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle, DashboardLayout, SidebarColumn, SidebarOverlay, CenterColumn, ChatArea, ChatHeader, MessageList, ChatInputArea, ChatInputRow, ChatInputWrap |
-| **Navigation** | NavLink, TabBar, BottomTabBar, ChatBackButton, HamburgerButton, ChatToolbar, ToolbarButton |
-| **Overlay** | SearchOverlay, ContextMenu, BottomSheet, SearchOverlayCard, SearchResult, SearchResultContent, SearchSnippet |
-| **Panels** | ServicesPanel, RunnerPanel, GitPanel, SkillsPanel, TerminalPanel, FileBrowser, GitSectionHeader, GitFileList, GitFile, GitCommitArea, DiffCommentButton, DiffInlineComment, ServiceActionButton, RunnerPanelEmpty |
-| **Pages** | LoginPage, SetupWizard, DashboardPage, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsFormActions, SettingsFormHelp, SettingsCodeInput, SettingsEnvRow, SettingsFieldError, SettingsSchemaTable, AdminPage, ClusterPage, ClusterSummaryCard, ClusterSummaryRow |
-| **Utility** | Spinner, Icon, AppShellFull |
-
-Plus 310+ exported CSS class constants in `tokens.go` for building custom components that stay on-system.
-
 ## Files
 
 ```
 devbox.md/
-├── theme.css          CSS-only theme (targets data-* selectors)
-├── styles.css         BEM class-based stylesheet (for Go wrappers)
-├── tokens.go          260+ CSS class constants
-├── primitives.go      Layout, card, badge, typography, image, list wrappers
-├── button.go          Themed button
-├── form.go            Themed form components
-├── display.go         Themed display components
-├── layout.go          Themed layout components
-├── ...                (14 Go files total)
+├── theme.css          CSS-only theme, scoped under [data-theme="devbox"]
 └── examples/
     └── showcase.html  Interactive component showcase
 ```

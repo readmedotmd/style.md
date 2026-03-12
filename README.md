@@ -13,7 +13,7 @@
 **style.md** is a UI component system split into two layers:
 
 1. **[core.md](./core.md)** — Headless components with minimal base styles. Renders semantic HTML with `data-*` attributes for state. No opinions on visual design.
-2. **Themes** — CSS-only layers that target the same `data-*` selectors to apply a complete design language. Swap a `<link>` tag to switch themes at runtime.
+2. **Themes** — CSS-only layers that target the same `data-*` selectors to apply a complete design language. Switch themes by setting `data-theme` on `<html>`.
 
 Current themes:
 - **[industrial.md](./themes/industrial.md)** — monospace typography, bold orange accents, hard shadows, high contrast.
@@ -25,9 +25,11 @@ Current themes:
 │    imports core.md components                   │
 │    uses data-* attributes for state             │
 ├─────────────────────────────────────────────────┤
-│  core.md/styles.css      │  themes/industrial.md/│
-│  (minimal defaults)      │  theme.css           │
-│                          │  (design layer)      │
+│  core.md/styles.css      │  theme.css            │
+│  (minimal defaults)      │  (design layer)       │
+│                          │                       │
+│  <html>                  │  <html data-theme=    │
+│  (base theme)            │    "industrial">      │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -61,25 +63,39 @@ func App() gui.Node {
 
 ### Apply a theme
 
-Add a single CSS file to switch from base styles to a full design system:
+Load the theme CSS and set `data-theme` on `<html>`:
 
 ```html
 <link rel="stylesheet" href="core.md/styles.css">
 <link rel="stylesheet" href="themes/industrial.md/theme.css">
+<link rel="stylesheet" href="themes/devbox.md/theme.css">
+<html data-theme="industrial">
 ```
 
-No HTML or Go code changes required.
+No Go code changes required. The same core.md components render differently based on the active theme.
 
 ### Switch themes at runtime
 
 ```html
-<link rel="stylesheet" href="core.md/styles.css" id="base">
-<link rel="stylesheet" href="" id="theme">
+<link rel="stylesheet" href="core.md/styles.css">
+<link rel="stylesheet" href="themes/industrial.md/theme.css">
+<link rel="stylesheet" href="themes/devbox.md/theme.css">
 
-<select onchange="document.getElementById('theme').href = this.value">
+<select onchange="document.documentElement.setAttribute('data-theme', this.value)">
   <option value="">Base</option>
-  <option value="themes/industrial.md/theme.css">Industrial</option>
+  <option value="industrial">Industrial</option>
+  <option value="devbox">Devbox</option>
 </select>
+```
+
+You can load all theme CSS files at once — only the one matching `data-theme` activates, since all selectors are scoped under `[data-theme="..."]`.
+
+### Dark mode
+
+Set `data-mode="dark"` on `<html>`, or let themes auto-detect via `prefers-color-scheme`:
+
+```html
+<html data-theme="industrial" data-mode="dark">
 ```
 
 ## Packages
@@ -90,16 +106,16 @@ No HTML or Go code changes required.
 
 | Category        | Components |
 |-----------------|------------|
-| **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly |
+| **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly, MarkdownContent, SectionHeader, Collapsible, Animate |
 | **Buttons**     | Button (primary, danger, toolbar; medium, small) |
-| **Forms**       | FormGroup, TextInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, ErrorMessage, SuccessMessage |
+| **Forms**       | FormGroup, TextInput, NumberInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, EditableVariableRow, SchemaField, ErrorMessage, SuccessMessage |
 | **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, ExpandButton, AttachButton, SendButton, CancelButton, ModeButton, MessageQueueBar, QueuedItem, AutocompleteHeader |
 | **Display**     | MessageBubble, ThinkingIndicator, ThinkingCollapsible, ToolBadge, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent, WorkingIndicator, ChatStatusBadge, ThinkingHistory, ChatError, AcceptPlanBar |
 | **Lists**       | ConversationItem, InstanceCard, ServiceRow, RunnerRow, FileTree |
 | **Navigation**  | NavLink, TabBar, BottomTabBar, ChatBackButton, HamburgerButton, ChatToolbar, ToolbarButton |
 | **Overlay**     | SearchOverlay, ContextMenu, BottomSheet, SearchOverlayCard, SearchResult, SearchResultContent, SearchSnippet |
 | **Panels**      | ServicesPanel, RunnerPanel, GitPanel, SkillsPanel, TerminalPanel, FileBrowser, GitSectionHeader, GitFileList, GitFile, GitCommitArea, DiffCommentButton, DiffInlineComment, ServiceActionButton, RunnerPanelEmpty |
-| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle, DashboardLayout, SidebarColumn, SidebarOverlay, CenterColumn, ChatArea, ChatHeader, MessageList, ChatInputArea, ChatInputRow, ChatInputWrap |
+| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle, DashboardLayout, SidebarColumn, SidebarOverlay, CenterColumn, ChatArea, ChatHeader, MessageList, ChatInputArea, ChatInputRow, ChatInputWrap, Box, ScrollArea, SplitLayout, Backdrop, IconButton, Toolbar |
 | **Pages**       | LoginPage, SetupWizard, DashboardPage, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsFormActions, SettingsFormHelp, SettingsCodeInput, SettingsEnvRow, SettingsFieldError, SettingsSchemaTable, AdminPage, ClusterPage, ClusterSummaryCard, ClusterSummaryRow |
 | **Utility**     | Spinner, Icon, AppShellFull |
 
@@ -107,7 +123,7 @@ No HTML or Go code changes required.
 
 ### industrial.md — Industrial Monospace Theme
 
-A CSS-only theme layer plus Go wrappers that re-export every core.md component with pre-configured BEM class names.
+A CSS-only theme layer. Load the CSS and set `data-theme="industrial"` on `<html>`.
 
 - Space Mono typography
 - `#FF5500` orange accents
@@ -116,10 +132,16 @@ A CSS-only theme layer plus Go wrappers that re-export every core.md component w
 - Square bullet points, thick dividers
 - Full dark mode support
 
-**Two ways to use it:**
+### devbox.md — Developer Tools Theme
 
-1. **CSS-only** — Load `core.md/styles.css` + `themes/industrial.md/theme.css`. Use core.md Go components.
-2. **Go wrappers** — Import `themes/industrial.md` directly. Components come pre-styled with BEM classes.
+A CSS-only theme layer. Load the CSS and set `data-theme="devbox"` on `<html>`.
+
+- Inter sans-serif typography
+- `#22C55E` green accents
+- Soft layered shadows, rounded corners
+- Dark-first aesthetic
+- Subtle active state indicators
+- Full dark mode support
 
 ## Data Attributes
 
@@ -153,6 +175,33 @@ Components communicate state through `data-*` attributes, which themes target vi
 | `data-badge` | `true`, `accent`, `success`, `danger`, `warning` | Badge |
 | `data-align` | `start`, `center`, `end`, `stretch`, `baseline` | Alignment modifier |
 | `data-justify` | `start`, `center`, `end`, `between`, `around`, `evenly` | Justification modifier |
+| `data-box` | | Box |
+| `data-pad` | `xs`, `sm`, `md`, `lg`, `xl` | Box padding |
+| `data-bg` | `surface`, `accent`, `muted` | Box background |
+| `data-box-border` | `true` | Box border |
+| `data-box-flex` | `true` | Box flex display |
+| `data-box-rounded` | `true` | Box rounded corners |
+| `data-scroll-area` | | ScrollArea |
+| `data-split-layout` | | SplitLayout |
+| `data-backdrop` | | Backdrop |
+| `data-icon-button` | | IconButton |
+| `data-toolbar` | | Toolbar |
+| `data-rich-text` | | MarkdownContent |
+| `data-section-header` | | SectionHeader |
+| `data-collapsible` | | Collapsible |
+| `data-animate` | `pulse`, `fade-in`, `spin` | Animate |
+| `data-form-group` | | FormGroup |
+| `data-feature-info` | | FeatureRow info container |
+| `data-feature-name` | | FeatureRow name |
+| `data-feature-desc` | | FeatureRow description |
+| `data-settings-card-header` | | SettingsCard, SettingsCardFull header |
+| `data-settings-card-body` | | SettingsCard, SettingsCardFull body |
+| `data-editable-var-row` | | EditableVariableRow |
+| `data-passthrough` | `true` | EditableVariableRow |
+| `data-schema-field` | | SchemaField |
+| `data-schema-field-name` | | SchemaField name span |
+| `data-schema-field-type` | | SchemaField type span |
+| `data-schema-field-desc` | | SchemaField description span |
 
 ## CSS Custom Properties
 
@@ -178,36 +227,49 @@ Themes override these tokens defined in `core.md/styles.css`:
 }
 ```
 
-Dark mode activates via `prefers-color-scheme: dark` or `data-theme="dark"` on `<html>`.
+Dark mode activates via `prefers-color-scheme: dark` or `data-mode="dark"` on `<html>`.
 
 ## Creating a Theme
 
 A theme is a CSS file that:
 
-1. Overrides `--core-*` custom properties (fonts, colors, spacing)
-2. Targets `data-*` attribute selectors to add decorative styles
-3. Optionally adds theme-specific tokens
+1. Scopes all selectors under `[data-theme="yourtheme"]`
+2. Overrides `--core-*` custom properties (fonts, colors, spacing)
+3. Targets `data-*` attribute selectors to add decorative styles
+4. Optionally adds theme-specific tokens
 
 ```css
 /* mytheme.css */
-:root {
+[data-theme="mytheme"] {
   --core-font: 'Inter', sans-serif;
   --core-accent: #8b5cf6;
   --core-radius: 12px;
 }
 
-button[data-variant="primary"] {
+[data-theme="mytheme"] button[data-variant="primary"] {
   box-shadow: 0 4px 12px color-mix(in srgb, var(--core-accent) 40%, transparent);
 }
 
-[data-card] {
+[data-theme="mytheme"] [data-card] {
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  [data-theme="mytheme"]:not([data-mode="light"]) {
+    --core-bg: #111;
+    --core-text: #eee;
+  }
+}
+[data-theme="mytheme"][data-mode="dark"] {
+  --core-bg: #111;
+  --core-text: #eee;
 }
 ```
 
 ## Theme Switcher Demo
 
-The [`examples/theme-switcher.html`](./examples/theme-switcher.html) file provides an interactive showcase with dropdowns to switch between Base and Industrial themes, plus light/dark mode toggle.
+The [`examples/theme-switcher.html`](./examples/theme-switcher.html) file provides an interactive showcase with dropdowns to switch between Base, Industrial, and Devbox themes, plus light/dark mode toggle.
 
 <p align="center">
   <img src="design/screenshots/theme-switcher-base-primitives.png" width="440" alt="Base theme" />
@@ -218,7 +280,7 @@ The [`examples/theme-switcher.html`](./examples/theme-switcher.html) file provid
 
 ```
 style.md/
-├── core.md/                   Headless component library
+├── core.md/                   Headless component library (Go)
 │   ├── styles.css             Base styles + layout primitives
 │   ├── primitives.go          Stack, Grid, Card, Badge, Heading, Link, Image, ...
 │   ├── button.go              Button component
@@ -228,19 +290,11 @@ style.md/
 │   ├── ...                    (14 Go files total)
 │   └── examples/showcase.html Core.md showcase
 ├── themes/
-│   ├── industrial.md/         Industrial monospace theme
-│   │   ├── theme.css          CSS-only theme (targets data-* selectors)
-│   │   ├── styles.css         BEM class-based stylesheet
-│   │   ├── tokens.go          310+ CSS class constants
-│   │   ├── primitives.go      Re-exported primitives with theme wrappers
-│   │   ├── ...                (17 Go files total)
+│   ├── industrial.md/         Industrial monospace theme (CSS only)
+│   │   ├── theme.css          Scoped under [data-theme="industrial"]
 │   │   └── examples/showcase.html Industrial showcase
-│   └── devbox.md/             Developer tools theme
-│       ├── theme.css          CSS-only theme (targets data-* selectors)
-│       ├── styles.css         BEM class-based stylesheet
-│       ├── tokens.go          310+ CSS class constants
-│       ├── primitives.go      Re-exported primitives with theme wrappers
-│       ├── ...                (17 Go files total)
+│   └── devbox.md/             Developer tools theme (CSS only)
+│       ├── theme.css          Scoped under [data-theme="devbox"]
 │       └── examples/showcase.html Devbox showcase
 ├── examples/
 │   └── theme-switcher.html    Interactive theme switching showcase

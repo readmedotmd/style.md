@@ -20,7 +20,7 @@ go get github.com/readmedotmd/style.md/core.md
 
 **core.md** provides 120+ UI components that render semantic HTML with `data-*` attributes for state. Components include just enough CSS for usability — no visual opinions.
 
-Build your UI with core.md, then apply any theme on top with a single `<link>` tag.
+Build your UI with core.md, then apply any theme by loading its CSS and setting `data-theme` on `<html>`.
 
 ```go
 import (
@@ -127,16 +127,16 @@ coremd.SrOnly("screen only") // Screen reader only
 
 | Category        | Components | File |
 |-----------------|------------|------|
-| **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly | `primitives.go` |
+| **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly, MarkdownContent, SectionHeader, Collapsible, Animate | `primitives.go` |
 | **Buttons**     | Button (primary, danger, toolbar; medium, small) | `button.go` |
-| **Forms**       | FormGroup, TextInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, ErrorMessage, SuccessMessage | `form.go` |
+| **Forms**       | FormGroup, TextInput, NumberInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, EditableVariableRow, SchemaField, ErrorMessage, SuccessMessage | `form.go` |
 | **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, ExpandButton, AttachButton, SendButton, CancelButton, ModeButton, MessageQueueBar, QueuedItem, AutocompleteHeader | `input.go` |
 | **Display**     | MessageBubble, ThinkingIndicator, ThinkingCollapsible, ToolBadge, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent, WorkingIndicator, ChatStatusBadge, ThinkingHistory, ChatError, AcceptPlanBar | `display.go` |
 | **Lists**       | ConversationItem, InstanceCard, ServiceRow, RunnerRow, FileTree | `list.go` |
 | **Navigation**  | NavLink, TabBar, BottomTabBar, ChatBackButton, HamburgerButton, ChatToolbar, ToolbarButton | `navigation.go` |
 | **Overlay**     | SearchOverlay, ContextMenu, BottomSheet, SearchOverlayCard, SearchResult, SearchResultContent, SearchSnippet | `overlay.go` |
 | **Panels**      | ServicesPanel, RunnerPanel, GitPanel, SkillsPanel, TerminalPanel, FileBrowser, GitSectionHeader, GitFileList, GitFile, GitCommitArea, DiffCommentButton, DiffInlineComment, ServiceActionButton, RunnerPanelEmpty | `panel.go` |
-| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle, DashboardLayout, SidebarColumn, SidebarOverlay, CenterColumn, ChatArea, ChatHeader, MessageList, ChatInputArea, ChatInputRow, ChatInputWrap | `layout.go` |
+| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle, DashboardLayout, SidebarColumn, SidebarOverlay, CenterColumn, ChatArea, ChatHeader, MessageList, ChatInputArea, ChatInputRow, ChatInputWrap, Box, ScrollArea, SplitLayout, Backdrop, IconButton, Toolbar | `layout.go` |
 | **Pages**       | LoginPage, SetupWizard, DashboardPage, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsFormActions, SettingsFormHelp, SettingsCodeInput, SettingsEnvRow, SettingsFieldError, SettingsSchemaTable, AdminPage, ClusterPage, ClusterSummaryCard, ClusterSummaryRow | `page.go` |
 | **Utility**     | Spinner, Icon, AppShellFull | `utility.go` |
 
@@ -171,6 +171,33 @@ Components use `data-*` attributes for state, which CSS themes can target:
 | `data-diff` | `add`, `remove`, `header`, `context` | DiffViewer lines |
 | `data-scrollable` | `true` | AppShellFull |
 | `data-completed` | `true` | SetupWizard steps |
+| `data-box` | | Box |
+| `data-pad` | `xs`, `sm`, `md`, `lg`, `xl` | Box padding |
+| `data-bg` | `surface`, `accent`, `muted` | Box background |
+| `data-box-border` | `true` | Box border |
+| `data-box-flex` | `true` | Box flex display |
+| `data-box-rounded` | `true` | Box rounded corners |
+| `data-scroll-area` | | ScrollArea |
+| `data-split-layout` | | SplitLayout |
+| `data-backdrop` | | Backdrop |
+| `data-icon-button` | | IconButton |
+| `data-toolbar` | | Toolbar |
+| `data-rich-text` | | MarkdownContent |
+| `data-section-header` | | SectionHeader |
+| `data-collapsible` | | Collapsible |
+| `data-animate` | `pulse`, `fade-in`, `spin` | Animate |
+| `data-form-group` | | FormGroup |
+| `data-feature-info` | | FeatureRow info container |
+| `data-feature-name` | | FeatureRow name |
+| `data-feature-desc` | | FeatureRow description |
+| `data-settings-card-header` | | SettingsCard, SettingsCardFull header |
+| `data-settings-card-body` | | SettingsCard, SettingsCardFull body |
+| `data-editable-var-row` | | EditableVariableRow |
+| `data-passthrough` | `true` | EditableVariableRow |
+| `data-schema-field` | | SchemaField |
+| `data-schema-field-name` | | SchemaField name span |
+| `data-schema-field-type` | | SchemaField type span |
+| `data-schema-field-desc` | | SchemaField description span |
 
 ## CSS Custom Properties
 
@@ -196,18 +223,20 @@ Override these tokens to customize the base styles:
 }
 ```
 
-Dark mode: `prefers-color-scheme: dark` or `data-theme="dark"` on `<html>`.
+Dark mode: `prefers-color-scheme: dark` (auto-detected by themes) or `data-mode="dark"` on `<html>`.
 
 ## Theming
 
-core.md is designed to be themed. A theme is a CSS file that overrides `--core-*` properties and adds styles to `data-*` selectors:
+core.md is designed to be themed. A theme is a CSS file scoped under `[data-theme="..."]` that overrides `--core-*` properties and adds styles to `data-*` selectors. Switch themes by changing `data-theme` on `<html>`:
 
 ```html
 <link rel="stylesheet" href="core.md/styles.css">
 <link rel="stylesheet" href="themes/industrial.md/theme.css">
+<link rel="stylesheet" href="themes/devbox.md/theme.css">
+<html data-theme="industrial">
 ```
 
-See [industrial.md](../themes/industrial.md) for a complete theme example.
+All theme CSS files can be loaded at once — only selectors matching the active `data-theme` apply. See [industrial.md](../themes/industrial.md) and [devbox.md](../themes/devbox.md) for complete theme examples.
 
 ## Showcase
 

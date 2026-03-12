@@ -13,12 +13,15 @@ type FormGroupProps struct {
 }
 
 // FormGroup renders a labeled form field group.
+//
+// Data attributes:
+//   - data-form-group
 func FormGroup(props FormGroupProps, children ...gui.Node) gui.Node {
 	all := []gui.Node{
 		gui.Label()(gui.Text(props.Label)),
 	}
 	all = append(all, children...)
-	return gui.Div(collectAttrs(optClass(props.Class))...)(all...)
+	return gui.Div(collectAttrs(optClass(props.Class), dataAttr("form-group", ""))...)(all...)
 }
 
 // TextInputProps configures the TextInput component.
@@ -28,7 +31,11 @@ type TextInputProps struct {
 	Value       string
 	Type        string
 	ID          string
+	Name        string
 	Error       bool
+	Min         string // min attribute (for type="number")
+	Max         string // max attribute (for type="number")
+	Step        string // step attribute (for type="number")
 	OnInput     func(gui.Event)
 }
 
@@ -55,10 +62,32 @@ func TextInput(props TextInputProps) gui.Node {
 	if props.ID != "" {
 		attrs = append(attrs, gui.Id(props.ID))
 	}
+	if props.Name != "" {
+		attrs = append(attrs, gui.Name(props.Name))
+	}
+	if props.Min != "" {
+		attrs = append(attrs, gui.Attr_("min", props.Min))
+	}
+	if props.Max != "" {
+		attrs = append(attrs, gui.Attr_("max", props.Max))
+	}
+	if props.Step != "" {
+		attrs = append(attrs, gui.Attr_("step", props.Step))
+	}
 	if props.OnInput != nil {
 		attrs = append(attrs, gui.On("input", props.OnInput))
 	}
 	return gui.Input(attrs...)()
+}
+
+// NumberInput renders a number input field. It is a convenience wrapper around
+// TextInput with Type set to "number".
+//
+// Data attributes:
+//   - data-error: "true" (present only when Error is true)
+func NumberInput(props TextInputProps) gui.Node {
+	props.Type = "number"
+	return TextInput(props)
 }
 
 // TextareaProps configures the TextArea component.
@@ -134,6 +163,9 @@ type CheckboxProps struct {
 	Class    string
 	Label    string
 	Checked  bool
+	ID       string
+	Name     string
+	Value    string
 	OnChange func()
 }
 
@@ -142,6 +174,15 @@ func Checkbox(props CheckboxProps) gui.Node {
 	inputAttrs := []gui.Attr{gui.Type("checkbox")}
 	if props.Checked {
 		inputAttrs = append(inputAttrs, gui.Checked(true))
+	}
+	if props.ID != "" {
+		inputAttrs = append(inputAttrs, gui.Id(props.ID))
+	}
+	if props.Name != "" {
+		inputAttrs = append(inputAttrs, gui.Name(props.Name))
+	}
+	if props.Value != "" {
+		inputAttrs = append(inputAttrs, gui.Value(props.Value))
 	}
 	if props.OnChange != nil {
 		inputAttrs = append(inputAttrs, gui.OnClick(props.OnChange))
@@ -162,6 +203,11 @@ type FeatureRowProps struct {
 }
 
 // FeatureRow renders a feature toggle row with name, description, and checkbox.
+//
+// Data attributes:
+//   - data-feature-info: on the info container
+//   - data-feature-name: on the name div
+//   - data-feature-desc: on the description div
 func FeatureRow(props FeatureRowProps) gui.Node {
 	inputAttrs := []gui.Attr{gui.Type("checkbox")}
 	if props.Checked {
@@ -171,9 +217,9 @@ func FeatureRow(props FeatureRowProps) gui.Node {
 		inputAttrs = append(inputAttrs, gui.OnClick(props.OnChange))
 	}
 	return gui.Div(collectAttrs(optClass(props.Class))...)(
-		gui.Div()(
-			gui.Div()(gui.Text(props.Name)),
-			gui.Div()(gui.Text(props.Description)),
+		gui.Div(dataAttr("feature-info", ""))(
+			gui.Div(dataAttr("feature-name", ""))(gui.Text(props.Name)),
+			gui.Div(dataAttr("feature-desc", ""))(gui.Text(props.Description)),
 		),
 		gui.Input(inputAttrs...)(),
 	)
@@ -224,4 +270,71 @@ func SuccessMessage(class, text string) gui.Node {
 	attrs := collectAttrs(optClass(class))
 	attrs = append(attrs, gui.Attr_("role", "status"))
 	return gui.Div(attrs...)(gui.Text(text))
+}
+
+// EditableVariableRowProps configures the EditableVariableRow component.
+type EditableVariableRowProps struct {
+	Class       string
+	Key         string
+	Value       string
+	Passthrough bool
+	OnKeyInput  func(gui.Event)
+	OnValInput  func(gui.Event)
+	OnToggle    func()
+	OnRemove    func()
+}
+
+// EditableVariableRow renders an editable key/value row with an optional
+// passthrough checkbox and delete button. Useful for environment variables,
+// configuration maps, and similar key-value editors.
+//
+// Data attributes:
+//   - data-editable-var-row
+//   - data-passthrough: "true" (when Passthrough is true)
+func EditableVariableRow(props EditableVariableRowProps) gui.Node {
+	attrs := collectAttrs(optClass(props.Class), dataAttr("editable-var-row", ""))
+	if props.Passthrough {
+		attrs = append(attrs, dataAttr("passthrough", "true"))
+	}
+	children := []gui.Node{
+		TextInput(TextInputProps{Placeholder: "Key", Value: props.Key, OnInput: props.OnKeyInput}),
+		TextInput(TextInputProps{Placeholder: "Value", Value: props.Value, OnInput: props.OnValInput}),
+	}
+	if props.OnToggle != nil {
+		children = append(children, Checkbox(CheckboxProps{
+			Label:    "Passthrough",
+			Checked:  props.Passthrough,
+			OnChange: props.OnToggle,
+		}))
+	}
+	if props.OnRemove != nil {
+		children = append(children, Button(ButtonProps{
+			Size:    ButtonSmall,
+			Variant: ButtonDanger,
+			OnClick: props.OnRemove,
+		}, gui.Text("Remove")))
+	}
+	return gui.Div(attrs...)(children...)
+}
+
+// SchemaFieldProps configures the SchemaField component.
+type SchemaFieldProps struct {
+	Class       string
+	Name        string
+	Type        string
+	Description string
+}
+
+// SchemaField renders a documentation entry for a single schema field,
+// displaying the field name, its type, and a description.
+//
+// Data attributes:
+//   - data-schema-field
+func SchemaField(props SchemaFieldProps) gui.Node {
+	attrs := collectAttrs(optClass(props.Class), dataAttr("schema-field", ""))
+	return gui.Div(attrs...)(
+		gui.Span(dataAttr("schema-field-name", ""))(gui.Text(props.Name)),
+		gui.Span(dataAttr("schema-field-type", ""))(gui.Text(props.Type)),
+		gui.Span(dataAttr("schema-field-desc", ""))(gui.Text(props.Description)),
+	)
 }

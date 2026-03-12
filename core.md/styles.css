@@ -234,12 +234,34 @@ input[type="checkbox"] {
 }
 
 /* ─── Form: Groups & Messages ─── */
+[data-form-group],
 div:has(> label:first-child + input),
 div:has(> label:first-child + textarea),
 div:has(> label:first-child + select) {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+/* ─── Feature Row ─── */
+[data-feature-name] {
+  font-weight: 500;
+  font-size: 14px;
+}
+[data-feature-desc] {
+  font-size: 13px;
+  color: var(--core-text-muted);
+}
+
+/* ─── Settings Card ─── */
+[data-settings-card-header] {
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--core-border);
+}
+[data-settings-card-body] {
+  padding-top: 12px;
 }
 
 div > label:first-child {
@@ -607,3 +629,143 @@ hr {
 
 /* ─── Context Menu ─── */
 [data-danger="true"] { color: var(--core-danger); }
+
+/* ─── Box ─── */
+[data-box] { display: block; }
+[data-pad="xs"] { padding: 4px; }
+[data-pad="sm"] { padding: 8px; }
+[data-pad="md"] { padding: 16px; }
+[data-pad="lg"] { padding: 24px; }
+[data-pad="xl"] { padding: 32px; }
+[data-bg="surface"] { background: var(--core-surface); }
+[data-bg="accent"]  { background: color-mix(in srgb, var(--core-accent) 8%, transparent); }
+[data-bg="muted"]   { background: color-mix(in srgb, var(--core-text-muted) 8%, transparent); }
+[data-box-border="true"] { border: 1px solid var(--core-border); }
+[data-box-flex="true"]   { display: flex; }
+[data-box-rounded="true"] { border-radius: var(--core-radius); }
+
+/* ─── Scroll Area ─── */
+[data-scroll-area] {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* ─── Split Layout ─── */
+[data-split-layout] {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  min-height: 0;
+}
+
+/* ─── Backdrop ─── */
+[data-backdrop] {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 50;
+}
+
+/* ─── Icon Button ─── */
+[data-icon-button] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border: none;
+  background: transparent;
+  color: var(--core-text-muted);
+  cursor: pointer;
+  border-radius: var(--core-radius);
+  transition: background var(--core-transition), color var(--core-transition);
+}
+[data-icon-button]:hover {
+  background: var(--core-surface);
+  color: var(--core-text);
+}
+
+/* ─── Toolbar ─── */
+[data-toolbar] {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ─── Rich Text / Markdown ─── */
+[data-rich-text] > * + * { margin-top: 0.75em; }
+[data-rich-text] h1,
+[data-rich-text] h2,
+[data-rich-text] h3 { margin-top: 1.25em; }
+[data-rich-text] code {
+  font-family: var(--core-font-mono);
+  font-size: 0.875em;
+  background: var(--core-surface);
+  padding: 0.125em 0.25em;
+  border-radius: 3px;
+}
+
+/* ─── Section Header ─── */
+[data-section-header] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--core-text-muted);
+  border-bottom: 1px solid var(--core-border);
+}
+
+/* ─── Collapsible ─── */
+[data-collapsible] > summary {
+  cursor: pointer;
+  font-weight: 500;
+  list-style: none;
+  padding: 8px 0;
+}
+[data-collapsible] > summary::-webkit-details-marker { display: none; }
+
+/* ─── Editable Variable Row ─── */
+[data-editable-var-row] {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--core-space) * 1);
+}
+[data-editable-var-row] > input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Schema Field ─── */
+[data-schema-field] {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--core-border);
+}
+[data-schema-field-name] {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--core-text);
+}
+[data-schema-field-type] {
+  font-family: var(--core-font-mono);
+  font-size: 12px;
+  color: var(--core-text-muted);
+}
+[data-schema-field-desc] {
+  font-size: 13px;
+  color: var(--core-text-muted);
+  line-height: 1.4;
+}
+
+/* ─── Animate ─── */
+[data-animate="pulse"] { animation: core-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+[data-animate="fade-in"] { animation: core-fade-in 300ms ease; }
+[data-animate="spin"] { animation: core-spin 1s linear infinite; }
+@keyframes core-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+@keyframes core-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes core-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }

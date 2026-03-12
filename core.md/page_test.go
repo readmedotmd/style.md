@@ -68,7 +68,8 @@ func TestSettingsCard(t *testing.T) {
 		screen := guitesting.Render(SettingsCard("sc", "General", gui.Text("opt1")))
 		screen.Assert(t).
 			HTMLContains(`class="sc"`).
-			HasElement("h2").
+			HTMLContains(`data-settings-card-header`).
+			HTMLContains(`data-settings-card-body`).
 			TextVisible("General").
 			TextVisible("opt1")
 	})

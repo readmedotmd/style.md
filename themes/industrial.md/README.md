@@ -6,29 +6,20 @@
   Industrial monospace theme for core.md — Space Mono, hard shadows, bold accents.
 </p>
 
-<p align="center">
-
-```
-go get github.com/readmedotmd/style.md/themes/industrial.md
-```
-
-</p>
-
 ---
 
 ## What is industrial.md?
 
-**industrial.md** is a theme for [core.md](../../core.md) components. It applies an industrial monospace design language: Space Mono typography, `#FF5500` orange accents, hard shadows, 2px borders, uppercase labels, and full dark mode.
+**industrial.md** is a CSS-only theme for [core.md](../../core.md) components. It applies an industrial monospace design language: Space Mono typography, `#FF5500` orange accents, hard shadows, 2px borders, uppercase labels, and full dark mode.
 
-**Two ways to use it:**
+### Usage
 
-### 1. CSS-only (recommended for flexibility)
-
-Use core.md Go components and add industrial styling with a single CSS file:
+Use core.md Go components and activate the Industrial theme with CSS:
 
 ```html
 <link rel="stylesheet" href="core.md/styles.css">
 <link rel="stylesheet" href="themes/industrial.md/theme.css">
+<html data-theme="industrial">
 ```
 
 ```go
@@ -38,19 +29,15 @@ import coremd "github.com/readmedotmd/style.md/core.md"
 btn := coremd.Button(coremd.ButtonProps{Variant: "primary"}, gui.Text("Deploy"))
 ```
 
-### 2. Go wrappers (for BEM class integration)
+No Go wrapper imports needed. Switch themes at runtime by changing `data-theme` on `<html>`.
 
-Import industrial.md directly for components pre-styled with BEM class names:
+### Dark mode
 
-```go
-import industrialmd "github.com/readmedotmd/style.md/themes/industrial.md"
+Dark mode activates automatically via `prefers-color-scheme: dark`, or force it with:
 
-btn := industrialmd.Button(industrialmd.ButtonProps{
-    Variant: industrialmd.ButtonPrimary,
-}, gui.Text("Deploy"))
+```html
+<html data-theme="industrial" data-mode="dark">
 ```
-
-Include `styles.css` for BEM-class styles, or `theme.css` for data-attribute styles.
 
 ## Design Language
 
@@ -71,10 +58,10 @@ Include `styles.css` for BEM-class styles, or `theme.css` for data-attribute sty
 
 ## Theme Tokens
 
-industrial.md overrides all `--core-*` CSS properties and adds its own:
+industrial.md overrides all `--core-*` CSS properties under `[data-theme="industrial"]` and adds its own:
 
 ```css
-:root {
+[data-theme="industrial"] {
   --core-font: 'Space Mono', monospace;
   --core-accent: #FF5500;
   --core-border: #1A1A1A;
@@ -87,40 +74,11 @@ industrial.md overrides all `--core-*` CSS properties and adds its own:
 }
 ```
 
-## Components
-
-All core.md components are re-exported with identical APIs:
-
-| Category | Components |
-|----------|------------|
-| **Primitives** | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly |
-| **Buttons** | Button |
-| **Forms** | FormGroup, TextInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, ErrorMessage, SuccessMessage |
-| **Input** | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, ExpandButton, AttachButton, SendButton, CancelButton, ModeButton, MessageQueueBar, QueuedItem, AutocompleteHeader |
-| **Display** | MessageBubble, ThinkingIndicator, ThinkingCollapsible, ToolBadge, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent, WorkingIndicator, ChatStatusBadge, ThinkingHistory, ChatError, AcceptPlanBar |
-| **Lists** | ConversationItem, InstanceCard, ServiceRow, RunnerRow, FileTree |
-| **Layout** | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle, DashboardLayout, SidebarColumn, SidebarOverlay, CenterColumn, ChatArea, ChatHeader, MessageList, ChatInputArea, ChatInputRow, ChatInputWrap |
-| **Navigation** | NavLink, TabBar, BottomTabBar, ChatBackButton, HamburgerButton, ChatToolbar, ToolbarButton |
-| **Overlay** | SearchOverlay, ContextMenu, BottomSheet, SearchOverlayCard, SearchResult, SearchResultContent, SearchSnippet |
-| **Panels** | ServicesPanel, RunnerPanel, GitPanel, SkillsPanel, TerminalPanel, FileBrowser, GitSectionHeader, GitFileList, GitFile, GitCommitArea, DiffCommentButton, DiffInlineComment, ServiceActionButton, RunnerPanelEmpty |
-| **Pages** | LoginPage, SetupWizard, DashboardPage, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsFormActions, SettingsFormHelp, SettingsCodeInput, SettingsEnvRow, SettingsFieldError, SettingsSchemaTable, AdminPage, ClusterPage, ClusterSummaryCard, ClusterSummaryRow |
-| **Utility** | Spinner, Icon, AppShellFull |
-
-Plus 310+ exported CSS class constants in `tokens.go` for building custom components that stay on-system.
-
 ## Files
 
 ```
 industrial.md/
-├── theme.css          CSS-only theme (targets data-* selectors)
-├── styles.css         BEM class-based stylesheet (for Go wrappers)
-├── tokens.go          260+ CSS class constants
-├── primitives.go      Layout, card, badge, typography, image, list wrappers
-├── button.go          Themed button
-├── form.go            Themed form components
-├── display.go         Themed display components
-├── layout.go          Themed layout components
-├── ...                (14 Go files total)
+├── theme.css          CSS-only theme, scoped under [data-theme="industrial"]
 └── examples/
     └── showcase.html  Interactive component showcase
 ```
