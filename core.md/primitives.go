@@ -50,7 +50,7 @@ func Grid(props GridProps, children ...gui.Node) gui.Node {
 	if cols == "" {
 		cols = "2"
 	}
-	attrs := collectAttrs(optClass(props.Class), dataAttr("grid", cols))
+	attrs := collectAttrs(optClass(joinClass("grid", props.Class)), dataAttr("grid", cols))
 	if props.Align != "" {
 		attrs = append(attrs, dataAttr("align", props.Align))
 	}
@@ -65,7 +65,7 @@ func Grid(props GridProps, children ...gui.Node) gui.Node {
 // Data attributes:
 //   - data-center
 func Center(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class), dataAttr("center", ""))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("center", class)), dataAttr("center", ""))...)(children...)
 }
 
 // Spacer renders an empty flex spacer element.
@@ -93,7 +93,7 @@ func Card(props CardProps, children ...gui.Node) gui.Node {
 	if v == "" {
 		v = "true"
 	}
-	return gui.Div(collectAttrs(optClass(props.Class), dataAttr("card", v))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("card", props.Class)), dataAttr("card", v))...)(children...)
 }
 
 // ─── Badge ───
@@ -118,21 +118,21 @@ func Badge(class string, variant BadgeVariant, text string) gui.Node {
 	if v == "" {
 		v = "true"
 	}
-	return gui.Span(collectAttrs(optClass(class), dataAttr("badge", v))...)(gui.Text(text))
+	return gui.Span(collectAttrs(optClass(joinClass("badge", class)), dataAttr("badge", v))...)(gui.Text(text))
 }
 
 // ─── Divider ───
 
 // Divider renders a horizontal rule separator.
 func Divider(class string) gui.Node {
-	return gui.Hr(collectAttrs(optClass(class))...)()
+	return gui.Hr(collectAttrs(optClass(joinClass("divider", class)))...)()
 }
 
 // ─── Typography ───
 
 // Heading renders an h1-h6 element. Level must be 1-6 (defaults to 2).
 func Heading(level int, class string, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("heading", class)))
 	switch level {
 	case 1:
 		return gui.H1(attrs...)(children...)
@@ -151,12 +151,12 @@ func Heading(level int, class string, children ...gui.Node) gui.Node {
 
 // Paragraph renders a p element.
 func Paragraph(class string, children ...gui.Node) gui.Node {
-	return gui.P(collectAttrs(optClass(class))...)(children...)
+	return gui.P(collectAttrs(optClass(joinClass("paragraph", class)))...)(children...)
 }
 
 // CodeBlock renders a pre>code block for displaying code.
 func CodeBlock(class, content string) gui.Node {
-	return gui.Pre(collectAttrs(optClass(class))...)(
+	return gui.Pre(collectAttrs(optClass(joinClass("code-block", class)))...)(
 		gui.Code()(gui.Text(content)),
 	)
 }
@@ -193,7 +193,7 @@ type LinkProps struct {
 
 // Link renders an anchor element.
 func Link(props LinkProps, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("link", props.Class)))
 	if props.Href != "" {
 		attrs = append(attrs, gui.Attr_("href", props.Href))
 	}
@@ -223,7 +223,7 @@ type ImageProps struct {
 //   - data-rounded: rounded corners
 //   - data-avatar: circular
 func Image(props ImageProps) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("image", props.Class)))
 	if props.Src != "" {
 		attrs = append(attrs, gui.Attr_("src", props.Src))
 	}
@@ -243,12 +243,12 @@ func Image(props ImageProps) gui.Node {
 
 // UnorderedList renders a ul with li children.
 func UnorderedList(class string, items ...gui.Node) gui.Node {
-	return gui.Ul(collectAttrs(optClass(class))...)(items...)
+	return gui.Ul(collectAttrs(optClass(joinClass("unordered-list", class)))...)(items...)
 }
 
 // OrderedList renders an ol with li children.
 func OrderedList(class string, items ...gui.Node) gui.Node {
-	return gui.Ol(collectAttrs(optClass(class))...)(items...)
+	return gui.Ol(collectAttrs(optClass(joinClass("ordered-list", class)))...)(items...)
 }
 
 // ListItem renders a single li element.
@@ -264,7 +264,7 @@ func ListItem(children ...gui.Node) gui.Node {
 // Data attributes:
 //   - data-rich-text
 func MarkdownContent(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class), dataAttr("rich-text", ""))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("markdown-content", class)), dataAttr("rich-text", ""))...)(children...)
 }
 
 // SectionHeader renders a titled section divider with an optional trailing action slot.
@@ -276,7 +276,7 @@ func SectionHeader(class, title string, actions ...gui.Node) gui.Node {
 	if len(actions) > 0 {
 		children = append(children, gui.Div()(actions...))
 	}
-	return gui.Div(collectAttrs(optClass(class), dataAttr("section-header", ""))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("section-header", class)), dataAttr("section-header", ""))...)(children...)
 }
 
 // CollapsibleProps configures the Collapsible component.
@@ -292,7 +292,7 @@ type CollapsibleProps struct {
 //   - data-collapsible
 //   - data-open: "true" (when open)
 func Collapsible(props CollapsibleProps, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(props.Class), dataAttr("collapsible", ""))
+	attrs := collectAttrs(optClass(joinClass("collapsible", props.Class)), dataAttr("collapsible", ""))
 	if props.Open {
 		attrs = append(attrs, dataAttr("open", "true"))
 		attrs = append(attrs, gui.Attr_("open", ""))
@@ -307,14 +307,14 @@ func Collapsible(props CollapsibleProps, children ...gui.Node) gui.Node {
 // Data attributes:
 //   - data-animate: animation name (e.g. "pulse", "fade-in", "spin")
 func Animate(class, animation string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class), dataAttr("animate", animation))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("animate", class)), dataAttr("animate", animation))...)(children...)
 }
 
 // ─── Blockquote ───
 
 // Quote renders a blockquote element.
 func Quote(class string, children ...gui.Node) gui.Node {
-	return gui.Blockquote(collectAttrs(optClass(class))...)(children...)
+	return gui.Blockquote(collectAttrs(optClass(joinClass("quote", class)))...)(children...)
 }
 
 // ─── Truncate ───
@@ -324,7 +324,7 @@ func Quote(class string, children ...gui.Node) gui.Node {
 // Data attributes:
 //   - data-truncate
 func Truncate(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class), dataAttr("truncate", ""))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("truncate", class)), dataAttr("truncate", ""))...)(children...)
 }
 
 // ─── Screen Reader Only ───

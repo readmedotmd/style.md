@@ -17,7 +17,7 @@ type MessageBubbleProps struct {
 //   - data-role: "user" or "assistant"
 //   - data-streaming: "true" (when streaming)
 func MessageBubble(props MessageBubbleProps, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("message", props.Class)))
 	if props.Role != "" {
 		attrs = append(attrs, dataAttr("role", props.Role))
 	}
@@ -31,7 +31,7 @@ func MessageBubble(props MessageBubbleProps, children ...gui.Node) gui.Node {
 
 // ThinkingIndicator renders a spinner with a text label.
 func ThinkingIndicator(class, label string) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("thinking-indicator", class)))...)(
 		Spinner(SpinnerProps{Size: SpinnerSmall}),
 		gui.Text(label),
 	)
@@ -41,12 +41,12 @@ func ThinkingIndicator(class, label string) gui.Node {
 func ThinkingCollapsible(class, label string, children ...gui.Node) gui.Node {
 	inner := []gui.Node{gui.Summary()(gui.Text(label))}
 	inner = append(inner, children...)
-	return gui.Details(collectAttrs(optClass(class))...)(inner...)
+	return gui.Details(collectAttrs(optClass(joinClass("thinking-collapsible", class)))...)(inner...)
 }
 
 // ToolBadge renders a small pill badge for a tool invocation.
 func ToolBadge(class, name string) gui.Node {
-	return gui.Span(collectAttrs(optClass(class))...)(
+	return gui.Span(collectAttrs(optClass(joinClass("tool-badge", class)))...)(
 		gui.Span()(),
 		gui.Text(name),
 	)
@@ -75,7 +75,7 @@ func QuestionPrompt(class, question string, options []QuestionPromptOption) gui.
 		}
 		optNodes[i] = gui.Button(btnAttrs...)(optChildren...)
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("question-prompt", class)))...)(
 		gui.Div()(gui.Text(question)),
 		gui.Div()(optNodes...),
 	)
@@ -97,7 +97,7 @@ const (
 // Data attributes:
 //   - data-status: "running", "stopped", "starting", "pending", "error"
 func StatusBadge(class string, status StatusBadgeStatus, label string) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("status-badge", class)))
 	attrs = append(attrs, dataAttr("status", string(status)))
 	return gui.Span(attrs...)(gui.Text(label))
 }
@@ -107,7 +107,7 @@ func StatusBadge(class string, status StatusBadgeStatus, label string) gui.Node 
 // Data attributes:
 //   - data-status: "running", "stopped", "starting", "pending", "error"
 func StatusDot(class string, status StatusBadgeStatus) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("status-dot", class)))
 	attrs = append(attrs, dataAttr("status", string(status)))
 	return gui.Span(attrs...)()
 }
@@ -119,7 +119,7 @@ func LabelBadge(class, icon, text string) gui.Node {
 		children = append(children, gui.I(gui.Class(icon))())
 	}
 	children = append(children, gui.Text(text))
-	return gui.Span(collectAttrs(optClass(class))...)(children...)
+	return gui.Span(collectAttrs(optClass(joinClass("label-badge", class)))...)(children...)
 }
 
 // UsageBadge renders CPU and memory usage indicators.
@@ -130,7 +130,7 @@ func UsageBadge(class, cpu, memory string, onClick func()) gui.Node {
 		gui.Span()(gui.Text("|")),
 		gui.Text(memory),
 	}
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("usage-badge", class)))
 	if onClick != nil {
 		attrs = append(attrs, gui.OnClick(onClick))
 		return gui.Button(attrs...)(children...)
@@ -153,7 +153,7 @@ func DiffViewer(class string, lines []DiffLine) gui.Node {
 	for i, line := range lines {
 		children[i] = gui.Div(dataAttr("diff", line.Type))(gui.Text(line.Content))
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("diff-viewer", class)))...)(children...)
 }
 
 // DataTable renders a simple data table.
@@ -174,12 +174,12 @@ func DataTable(class string, columns []string, rows [][]gui.Node) gui.Node {
 	}
 	tbody := gui.Tbody()(trs...)
 
-	return gui.Table(collectAttrs(optClass(class))...)(thead, tbody)
+	return gui.Table(collectAttrs(optClass(joinClass("data-table", class)))...)(thead, tbody)
 }
 
 // EmptyState renders an empty state placeholder.
 func EmptyState(class, heading, description string) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("empty-state", class)))...)(
 		gui.Div()(gui.Text(heading)),
 		gui.Div()(gui.Text(description)),
 	)
@@ -206,7 +206,7 @@ func ClusterStatsBar(class string, stats []ClusterStat, onClick func()) gui.Node
 		)
 		children[i] = gui.Div()(itemChildren...)
 	}
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("cluster-stats-bar", class)))
 	if onClick != nil {
 		attrs = append(attrs, gui.OnClick(onClick))
 	}
@@ -229,7 +229,7 @@ func MessageContent(class, role string, children ...gui.Node) gui.Node {
 
 // WorkingIndicator renders a pulsing "Working..." bar with spinner + text.
 func WorkingIndicator(class, label string) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("working-indicator", class)))...)(
 		Spinner(SpinnerProps{Size: SpinnerSmall}),
 		gui.Span()(gui.Text(label)),
 	)
@@ -251,7 +251,7 @@ func ThinkingHistory(class, summary string, content gui.Node) gui.Node {
 
 // ChatError renders a centered error message in the chat stream.
 func ChatError(class, message string) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(gui.Text(message))
+	return gui.Div(collectAttrs(optClass(joinClass("chat-error", class)))...)(gui.Text(message))
 }
 
 // AcceptPlanBar renders a bar with a button to accept a plan.
@@ -260,7 +260,7 @@ func AcceptPlanBar(class string, onAccept func()) gui.Node {
 	if onAccept != nil {
 		btnAttrs = append(btnAttrs, gui.OnClick(onAccept))
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("accept-plan-bar", class)))...)(
 		gui.Button(btnAttrs...)(gui.Text("Accept")),
 	)
 }

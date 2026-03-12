@@ -19,7 +19,7 @@ func TestNavLink(t *testing.T) {
 			OnClick: func() { clicked = true },
 		}))
 		screen.Assert(t).
-			HTMLContains(`class="nl"`).
+			HTMLContains(`class="nav-link nl"`).
 			HTMLContains(`data-active="true"`).
 			HasElement("button").
 			TextVisible("Home")
@@ -45,7 +45,7 @@ func TestTabBar(t *testing.T) {
 		}
 		screen := guitesting.Render(TabBar("tb", tabs))
 		screen.Assert(t).
-			HTMLContains(`class="tb"`).
+			HTMLContains(`class="tab-bar tb"`).
 			HTMLContains(`data-active="true"`).
 			TextVisible("Tab1").
 			TextVisible("Tab2")
@@ -65,7 +65,7 @@ func TestBottomTabBar(t *testing.T) {
 		}
 		screen := guitesting.Render(BottomTabBar("btb", items))
 		screen.Assert(t).
-			HTMLContains(`class="btb"`).
+			HTMLContains(`class="bottom-tab-bar btb"`).
 			HTMLContains(`data-active="true"`).
 			TextVisible("Chat").
 			TextVisible("Settings")
@@ -77,7 +77,7 @@ func TestChatBackButton(t *testing.T) {
 		clicked := false
 		screen := guitesting.Render(ChatBackButton("cbb", func() { clicked = true }))
 		screen.Assert(t).
-			HTMLContains(`class="cbb"`).
+			HTMLContains(`class="chat-back-btn cbb"`).
 			HasElement("button").
 			TextVisible("\u2190")
 		ref := screen.QueryAllByTag("button")[0]
@@ -108,7 +108,7 @@ func TestChatToolbar(t *testing.T) {
 		mobile := gui.Text("mobile-trigger")
 		screen := guitesting.Render(ChatToolbar("ct", desktop, mobile))
 		screen.Assert(t).
-			HTMLContains(`class="ct"`).
+			HTMLContains(`class="chat-toolbar ct"`).
 			TextVisible("desktop-tools").
 			TextVisible("mobile-trigger")
 	})
@@ -126,7 +126,7 @@ func TestToolbarButton(t *testing.T) {
 	t.Run("danger_with_icon_and_label", func(t *testing.T) {
 		screen := guitesting.Render(ToolbarButton("tbb", "icon-trash", "Delete", true, func() {}))
 		screen.Assert(t).
-			HTMLContains(`class="tbb"`).
+			HTMLContains(`class="chat-toolbar-btn chat-toolbar-btn-danger tbb"`).
 			HTMLContains(`data-danger="true"`).
 			HasElement("button").
 			TextVisible("Delete")

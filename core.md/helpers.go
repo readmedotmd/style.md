@@ -30,6 +30,14 @@ func collectAttrs(attrs ...gui.Attr) []gui.Attr {
 	return result
 }
 
+// joinClass returns base + " " + extra, or just base if extra is empty.
+func joinClass(base, extra string) string {
+	if extra == "" {
+		return base
+	}
+	return base + " " + extra
+}
+
 // boolStr returns "true" or "false" as a string.
 func boolStr(v bool) string {
 	if v {

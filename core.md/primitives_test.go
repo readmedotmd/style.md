@@ -12,13 +12,13 @@ func TestMarkdownContent(t *testing.T) {
 		s := guitesting.Render(MarkdownContent("prose", gui.Text("Hello world")))
 		a := s.Assert(t)
 		a.HasElement("div")
-		a.HTMLContains(`class="prose"`)
+		a.HTMLContains(`class="markdown-content prose"`)
 		a.HTMLContains(`data-rich-text`)
 		a.TextVisible("Hello world")
 	})
 	t.Run("empty_class", func(t *testing.T) {
 		s := guitesting.Render(MarkdownContent(""))
-		s.Assert(t).HasElement("div").HTMLNotContains("class=").HTMLContains(`data-rich-text`)
+		s.Assert(t).HasElement("div").HTMLContains(`class="markdown-content"`).HTMLContains(`data-rich-text`)
 	})
 }
 
@@ -27,7 +27,7 @@ func TestSectionHeader(t *testing.T) {
 		action := gui.Span()(gui.Text("Edit"))
 		s := guitesting.Render(SectionHeader("sec-hdr", "Settings", action))
 		a := s.Assert(t)
-		a.HTMLContains(`class="sec-hdr"`)
+		a.HTMLContains(`class="section-header sec-hdr"`)
 		a.HTMLContains(`data-section-header`)
 		a.TextVisible("Settings")
 		a.TextVisible("Edit")
@@ -37,7 +37,7 @@ func TestSectionHeader(t *testing.T) {
 		a := s.Assert(t)
 		a.HTMLContains(`data-section-header`)
 		a.TextVisible("Title")
-		a.HTMLNotContains("class=")
+		a.HTMLContains(`class="section-header"`)
 	})
 }
 
@@ -50,7 +50,7 @@ func TestCollapsible(t *testing.T) {
 		}, gui.Text("details here")))
 		a := s.Assert(t)
 		a.HasElement("details")
-		a.HTMLContains(`class="collapse"`)
+		a.HTMLContains(`class="collapsible collapse"`)
 		a.HTMLContains(`data-collapsible`)
 		a.HTMLContains(`data-open="true"`)
 		a.TextVisible("More info")
@@ -73,12 +73,12 @@ func TestAnimate(t *testing.T) {
 		s := guitesting.Render(Animate("anim-cls", "fade-in", gui.Text("content")))
 		a := s.Assert(t)
 		a.HasElement("div")
-		a.HTMLContains(`class="anim-cls"`)
+		a.HTMLContains(`class="animate anim-cls"`)
 		a.HTMLContains(`data-animate="fade-in"`)
 		a.TextVisible("content")
 	})
 	t.Run("empty_class", func(t *testing.T) {
 		s := guitesting.Render(Animate("", "spin"))
-		s.Assert(t).HTMLNotContains("class=").HTMLContains(`data-animate="spin"`)
+		s.Assert(t).HTMLContains(`class="animate"`).HTMLContains(`data-animate="spin"`)
 	})
 }

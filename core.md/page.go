@@ -76,7 +76,7 @@ func DashboardPage(class, heading, description string) gui.Node {
 //   - data-settings-card-header: on the header div
 //   - data-settings-card-body: on the body div
 func SettingsCard(class, title string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("settings-card", class)))...)(
 		gui.Div(dataAttr("settings-card-header", ""))(gui.Text(title)),
 		gui.Div(dataAttr("settings-card-body", ""))(children...),
 	)
@@ -86,7 +86,7 @@ func SettingsCard(class, title string, children ...gui.Node) gui.Node {
 
 // SettingsPage renders a centered, padded settings page container.
 func SettingsPage(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("settings-page", class)))...)(children...)
 }
 
 // SettingsCardFull renders a settings card with colored header (icon + title) + body.
@@ -118,7 +118,7 @@ func SettingsSection(class, icon, title, description string, children ...gui.Nod
 	}
 	all := []gui.Node{gui.Div()(headerChildren...)}
 	all = append(all, children...)
-	return gui.Div(collectAttrs(optClass(class))...)(all...)
+	return gui.Div(collectAttrs(optClass(joinClass("settings-section-group", class)))...)(all...)
 }
 
 // SettingsSubsection renders a bordered subsection within a settings card.
@@ -135,7 +135,7 @@ func SettingsSubsection(class, icon, title, description string, children ...gui.
 	if description != "" {
 		headerChildren = append(headerChildren, gui.Span()(gui.Text(description)))
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("settings-subsection", class)))...)(
 		gui.Div(dataAttr("settings-subsection-header", ""))(headerChildren...),
 		gui.Div(dataAttr("settings-subsection-body", ""))(children...),
 	)
@@ -148,7 +148,7 @@ func SettingsForm(class string, title gui.Node, children ...gui.Node) gui.Node {
 		all = append(all, title)
 	}
 	all = append(all, children...)
-	return gui.Div(collectAttrs(optClass(class))...)(all...)
+	return gui.Div(collectAttrs(optClass(joinClass("settings-form", class)))...)(all...)
 }
 
 // SettingsFormActions renders a button row at the bottom of a settings form.
@@ -158,7 +158,7 @@ func SettingsFormActions(class string, children ...gui.Node) gui.Node {
 
 // SettingsFormHelp renders a help text block within a settings form.
 func SettingsFormHelp(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("settings-form-help", class)))...)(children...)
 }
 
 // SettingsCodeInputProps configures the SettingsCodeInput component.
@@ -173,7 +173,7 @@ type SettingsCodeInputProps struct {
 
 // SettingsCodeInput renders a monospace code textarea for YAML/JSON editing.
 func SettingsCodeInput(props SettingsCodeInputProps) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("settings-code-input", props.Class)))
 	if props.Placeholder != "" {
 		attrs = append(attrs, gui.Placeholder(props.Placeholder))
 	}
@@ -205,7 +205,7 @@ func SettingsEnvRow(class, name string, badges []gui.Node, actions []gui.Node) g
 	if len(actions) > 0 {
 		children = append(children, gui.Div(dataAttr("settings-env-actions", ""))(actions...))
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("settings-env-row", class)))...)(children...)
 }
 
 // SettingsFieldError renders a small red field-level error text.
@@ -238,7 +238,7 @@ func AdminPage(class string, children ...gui.Node) gui.Node {
 
 // ClusterPage renders a cluster stats page container.
 func ClusterPage(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("cluster-page", class)))...)(children...)
 }
 
 // ClusterSummaryCard renders a summary stat card with icon + large number + label.
@@ -251,10 +251,10 @@ func ClusterSummaryCard(class, icon, value, label string) gui.Node {
 		gui.Div()(gui.Text(value)),
 		gui.Div()(gui.Text(label)),
 	)
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("cluster-summary-card", class)))...)(children...)
 }
 
 // ClusterSummaryRow renders a flex row of summary cards.
 func ClusterSummaryRow(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("cluster-summary", class)))...)(children...)
 }

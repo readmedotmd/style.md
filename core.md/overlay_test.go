@@ -14,7 +14,7 @@ func TestSearchOverlay(t *testing.T) {
 		input := gui.Span()(gui.Text("search-input"))
 		screen := guitesting.Render(SearchOverlay("so", tabs, input, gui.Text("result1")))
 		screen.Assert(t).
-			HTMLContains(`class="so"`).
+			HTMLContains(`class="search-overlay so"`).
 			TextVisible("Files").
 			TextVisible("search-input").
 			TextVisible("result1")
@@ -33,7 +33,7 @@ func TestContextMenu(t *testing.T) {
 		}
 		screen := guitesting.Render(ContextMenu("ctx", 100, 200, items))
 		screen.Assert(t).
-			HTMLContains(`class="ctx"`).
+			HTMLContains(`class="context-menu ctx"`).
 			HTMLContains("left: 100px").
 			HTMLContains("top: 200px").
 			TextVisible("Copy").
@@ -60,7 +60,7 @@ func TestBottomSheet(t *testing.T) {
 		}
 		screen := guitesting.Render(BottomSheet("bs", items))
 		screen.Assert(t).
-			HTMLContains(`class="bs"`).
+			HTMLContains(`class="bottom-sheet bs"`).
 			TextVisible("Share").
 			TextVisible("Delete").
 			HTMLContains(`data-danger="true"`)

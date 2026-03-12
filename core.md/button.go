@@ -37,7 +37,7 @@ type ButtonProps struct {
 //   - data-variant: "primary", "danger", "toolbar" (omitted when default)
 //   - data-size: "small" (omitted when medium/default)
 func Button(props ButtonProps, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("btn", props.Class)))
 	if props.Variant != "" {
 		attrs = append(attrs, dataAttr("variant", string(props.Variant)))
 	}

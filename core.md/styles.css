@@ -375,8 +375,30 @@ div:has(> button[data-active]) > button[data-active="true"] {
 }
 
 /* ─── Modal ─── */
-div:has(> div:has(> span:first-child:only-child) + div) {
-  /* This is a very basic modal default */
+.modal-backdrop {
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+.modal {
+    background: var(--core-surface);
+    border: 1px solid var(--core-border);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.modal > div:first-child {
+    border-bottom: 1px solid var(--core-border);
+}
+.modal > div:first-child > span {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--core-text);
+}
+.modal-body p {
+    margin: 0 0 12px;
+    color: var(--core-text-muted);
+}
+.modal-footer {
+    border-top: 1px solid var(--core-border);
 }
 
 /* ─── Sidebar: open/closed ─── */

@@ -15,7 +15,7 @@ func TestMessageBubble(t *testing.T) {
 	a := s.Assert(t)
 	a.HTMLContains(`data-role="assistant"`)
 	a.HTMLContains(`data-streaming="true"`)
-	a.HTMLContains(`class="my-bubble"`)
+	a.HTMLContains(`class="message my-bubble"`)
 	a.TextVisible("hello")
 }
 
@@ -27,7 +27,7 @@ func TestMessageBubble_NoStreaming(t *testing.T) {
 func TestThinkingIndicator(t *testing.T) {
 	s := guitesting.Render(ThinkingIndicator("ti-cls", "Thinking..."))
 	a := s.Assert(t)
-	a.HTMLContains(`class="ti-cls"`)
+	a.HTMLContains(`class="thinking-indicator ti-cls"`)
 	a.TextVisible("Thinking...")
 	a.HasElement("div")
 }
@@ -37,7 +37,7 @@ func TestThinkingCollapsible(t *testing.T) {
 	a := s.Assert(t)
 	a.HasElement("details")
 	a.HasElement("summary")
-	a.HTMLContains(`class="tc-cls"`)
+	a.HTMLContains(`class="thinking-collapsible tc-cls"`)
 	a.TextVisible("Details")
 	a.TextVisible("body")
 }
@@ -46,7 +46,7 @@ func TestToolBadge(t *testing.T) {
 	s := guitesting.Render(ToolBadge("tb-cls", "grep"))
 	a := s.Assert(t)
 	a.HasElement("span")
-	a.HTMLContains(`class="tb-cls"`)
+	a.HTMLContains(`class="tool-badge tb-cls"`)
 	a.TextVisible("grep")
 }
 
@@ -58,7 +58,7 @@ func TestQuestionPrompt(t *testing.T) {
 	}
 	s := guitesting.Render(QuestionPrompt("qp-cls", "Continue?", opts))
 	a := s.Assert(t)
-	a.HTMLContains(`class="qp-cls"`)
+	a.HTMLContains(`class="question-prompt qp-cls"`)
 	a.TextVisible("Continue?")
 	a.TextVisible("Yes")
 	a.TextVisible("Confirm")
@@ -84,20 +84,20 @@ func TestStatusBadge(t *testing.T) {
 	for _, st := range []StatusBadgeStatus{StatusRunning, StatusStopped, StatusStarting, StatusPending, StatusError} {
 		t.Run(string(st), func(t *testing.T) {
 			s := guitesting.Render(StatusBadge("sb", st, "lbl"))
-			s.Assert(t).HTMLContains(`data-status="` + string(st) + `"`).TextVisible("lbl").HTMLContains(`class="sb"`)
+			s.Assert(t).HTMLContains(`data-status="` + string(st) + `"`).TextVisible("lbl").HTMLContains(`class="status-badge sb"`)
 		})
 	}
 }
 
 func TestStatusDot(t *testing.T) {
 	s := guitesting.Render(StatusDot("sd", StatusError))
-	s.Assert(t).HTMLContains(`data-status="error"`).HTMLContains(`class="sd"`).HasElement("span")
+	s.Assert(t).HTMLContains(`data-status="error"`).HTMLContains(`class="status-dot sd"`).HasElement("span")
 }
 
 func TestLabelBadge_WithIcon(t *testing.T) {
 	s := guitesting.Render(LabelBadge("lb", "icon-star", "Star"))
 	a := s.Assert(t)
-	a.HTMLContains(`class="lb"`)
+	a.HTMLContains(`class="label-badge lb"`)
 	a.HasElement("i")
 	a.TextVisible("Star")
 }
@@ -114,7 +114,7 @@ func TestUsageBadge_WithClick(t *testing.T) {
 	a.HasElement("button")
 	a.TextVisible("50%")
 	a.TextVisible("2G")
-	a.HTMLContains(`class="ub"`)
+	a.HTMLContains(`class="usage-badge ub"`)
 
 	btn := s.GetByRole("button")
 	s.Click(btn)
@@ -137,7 +137,7 @@ func TestDiffViewer(t *testing.T) {
 	}
 	s := guitesting.Render(DiffViewer("dv", lines))
 	a := s.Assert(t)
-	a.HTMLContains(`class="dv"`)
+	a.HTMLContains(`class="diff-viewer dv"`)
 	a.HTMLContains(`data-diff="add"`)
 	a.HTMLContains(`data-diff="remove"`)
 	a.HTMLContains(`data-diff="context"`)
@@ -158,7 +158,7 @@ func TestDataTable(t *testing.T) {
 	a.HasElement("tbody")
 	a.HasElement("th")
 	a.HasElement("td")
-	a.HTMLContains(`class="dt"`)
+	a.HTMLContains(`class="data-table dt"`)
 	a.TextVisible("Name")
 	a.TextVisible("Val")
 	a.TextVisible("a")
@@ -169,7 +169,7 @@ func TestDataTable(t *testing.T) {
 func TestEmptyState(t *testing.T) {
 	s := guitesting.Render(EmptyState("es", "No items", "Try adding one"))
 	a := s.Assert(t)
-	a.HTMLContains(`class="es"`)
+	a.HTMLContains(`class="empty-state es"`)
 	a.TextVisible("No items")
 	a.TextVisible("Try adding one")
 }
@@ -181,7 +181,7 @@ func TestClusterStatsBar(t *testing.T) {
 	}
 	s := guitesting.Render(ClusterStatsBar("cs", stats, nil))
 	a := s.Assert(t)
-	a.HTMLContains(`class="cs"`)
+	a.HTMLContains(`class="cluster-stats-bar cs"`)
 	a.TextVisible("CPU: ")
 	a.TextVisible("80%")
 	a.TextVisible("Mem: ")
@@ -215,7 +215,7 @@ func TestMessageContent_NoRole(t *testing.T) {
 func TestWorkingIndicator(t *testing.T) {
 	s := guitesting.Render(WorkingIndicator("wi", "Working..."))
 	a := s.Assert(t)
-	a.HTMLContains(`class="wi"`)
+	a.HTMLContains(`class="working-indicator wi"`)
 	a.TextVisible("Working...")
 	a.HasElement("span")
 }
@@ -248,7 +248,7 @@ func TestThinkingHistory_NilContent(t *testing.T) {
 func TestChatError(t *testing.T) {
 	s := guitesting.Render(ChatError("ce", "Something went wrong"))
 	a := s.Assert(t)
-	a.HTMLContains(`class="ce"`)
+	a.HTMLContains(`class="chat-error ce"`)
 	a.TextVisible("Something went wrong")
 	a.HasElement("div")
 }
@@ -257,7 +257,7 @@ func TestAcceptPlanBar(t *testing.T) {
 	accepted := false
 	s := guitesting.Render(AcceptPlanBar("ap", func() { accepted = true }))
 	a := s.Assert(t)
-	a.HTMLContains(`class="ap"`)
+	a.HTMLContains(`class="accept-plan-bar ap"`)
 	a.TextVisible("Accept")
 	a.HasElement("button")
 

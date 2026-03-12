@@ -17,7 +17,7 @@ type ChatInputProps struct {
 // Data attributes:
 //   - data-streaming: "true" (when streaming)
 func ChatInput(props ChatInputProps) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("chat-input", props.Class)))
 	if props.Streaming {
 		attrs = append(attrs, dataAttr("streaming", "true"))
 	}
@@ -82,7 +82,7 @@ func AutocompletePopup(class string, items []AutocompleteItem, selectedIndex int
 		}
 		children[i] = gui.Div(itemAttrs...)(itemChildren...)
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("autocomplete-popup", class)))...)(children...)
 }
 
 // MessageQueueItem represents a queued message.
@@ -115,12 +115,12 @@ func MessageQueue(class string, items []MessageQueueItem) gui.Node {
 		}
 		children[i] = gui.Div()(itemChildren...)
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("message-queue", class)))...)(children...)
 }
 
 // SearchInputField renders a search input field.
 func SearchInputField(class, placeholder string, onInput func(gui.Event)) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("search-input-field", class)))
 	attrs = append(attrs, gui.Type("text"))
 	if placeholder != "" {
 		attrs = append(attrs, gui.Placeholder(placeholder))
@@ -152,7 +152,7 @@ func PastePreview(class string, items []PastePreviewItem) gui.Node {
 			gui.Button(removeAttrs...)(gui.Text("\u00d7")),
 		)
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("paste-preview", class)))...)(children...)
 }
 
 // ExpandButton renders a small icon button to expand/collapse the textarea.
@@ -160,7 +160,7 @@ func PastePreview(class string, items []PastePreviewItem) gui.Node {
 // Data attributes:
 //   - data-expanded: "true" (when expanded)
 func ExpandButton(class string, expanded bool, onToggle func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("expand-btn", class)))
 	if expanded {
 		attrs = append(attrs, dataAttr("expanded", "true"))
 	}
@@ -172,7 +172,7 @@ func ExpandButton(class string, expanded bool, onToggle func()) gui.Node {
 
 // AttachButton renders a button to attach files/images.
 func AttachButton(class string, onAttach func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("attach-btn", class)))
 	if onAttach != nil {
 		attrs = append(attrs, gui.OnClick(onAttach))
 	}
@@ -202,7 +202,7 @@ func CancelButton(class, label string, onClick func()) gui.Node {
 // Data attributes:
 //   - data-mode: "act" or "plan"
 func ModeButton(class, mode string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("mode-btn", class)))
 	if mode != "" {
 		attrs = append(attrs, dataAttr("mode", mode))
 	}
@@ -218,7 +218,7 @@ func ModeButton(class, mode string, onClick func()) gui.Node {
 
 // MessageQueueBar renders a bar above the chat input showing queued messages.
 func MessageQueueBar(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("message-queue", class)))...)(children...)
 }
 
 // QueuedItem renders a single queued message row with send/remove actions.
@@ -226,7 +226,7 @@ func MessageQueueBar(class string, children ...gui.Node) gui.Node {
 // Data attributes:
 //   - data-has-image: "true" (when hasImage is true)
 func QueuedItem(class, text string, hasImage bool, onSend func(), onRemove func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("queued-item", class)))
 	if hasImage {
 		attrs = append(attrs, dataAttr("has-image", "true"))
 	}

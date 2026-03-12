@@ -67,7 +67,7 @@ func TestSettingsCard(t *testing.T) {
 	t.Run("renders_title_and_children", func(t *testing.T) {
 		screen := guitesting.Render(SettingsCard("sc", "General", gui.Text("opt1")))
 		screen.Assert(t).
-			HTMLContains(`class="sc"`).
+			HTMLContains(`class="settings-card sc"`).
 			HTMLContains(`data-settings-card-header`).
 			HTMLContains(`data-settings-card-body`).
 			TextVisible("General").
@@ -78,11 +78,11 @@ func TestSettingsCard(t *testing.T) {
 func TestSettingsPage(t *testing.T) {
 	t.Run("renders_children", func(t *testing.T) {
 		screen := guitesting.Render(SettingsPage("sp", gui.Text("content")))
-		screen.Assert(t).HTMLContains(`class="sp"`).TextVisible("content")
+		screen.Assert(t).HTMLContains(`class="settings-page sp"`).TextVisible("content")
 	})
 	t.Run("empty_class", func(t *testing.T) {
 		screen := guitesting.Render(SettingsPage(""))
-		screen.Assert(t).HasElement("div").HTMLNotContains("class=")
+		screen.Assert(t).HasElement("div").HTMLContains(`class="settings-page"`)
 	})
 }
 
@@ -109,7 +109,7 @@ func TestSettingsSection(t *testing.T) {
 	t.Run("with_all_fields", func(t *testing.T) {
 		screen := guitesting.Render(SettingsSection("ss", "icon-lock", "Security", "Manage access", gui.Text("child")))
 		screen.Assert(t).
-			HTMLContains(`class="ss"`).
+			HTMLContains(`class="settings-section-group ss"`).
 			TextVisible("Security").
 			TextVisible("Manage access").
 			TextVisible("child")
@@ -124,7 +124,7 @@ func TestSettingsSubsection(t *testing.T) {
 	t.Run("renders_with_body_wrapper", func(t *testing.T) {
 		screen := guitesting.Render(SettingsSubsection("sub", "icon-key", "API Keys", "Manage keys", gui.Text("list")))
 		screen.Assert(t).
-			HTMLContains(`class="sub"`).
+			HTMLContains(`class="settings-subsection sub"`).
 			HTMLContains(`data-settings-subsection-header`).
 			HTMLContains(`data-settings-subsection-body`).
 			TextVisible("API Keys").
@@ -138,7 +138,7 @@ func TestSettingsForm(t *testing.T) {
 		title := gui.Span()(gui.Text("Form Title"))
 		screen := guitesting.Render(SettingsForm("sf", title, gui.Text("fields")))
 		screen.Assert(t).
-			HTMLContains(`class="sf"`).
+			HTMLContains(`class="settings-form sf"`).
 			TextVisible("Form Title").
 			TextVisible("fields")
 	})
@@ -158,7 +158,7 @@ func TestSettingsFormActions(t *testing.T) {
 func TestSettingsFormHelp(t *testing.T) {
 	t.Run("renders_children", func(t *testing.T) {
 		screen := guitesting.Render(SettingsFormHelp("sfh", gui.Text("Help text")))
-		screen.Assert(t).HTMLContains(`class="sfh"`).TextVisible("Help text")
+		screen.Assert(t).HTMLContains(`class="settings-form-help sfh"`).TextVisible("Help text")
 	})
 }
 
@@ -172,7 +172,7 @@ func TestSettingsCodeInput(t *testing.T) {
 			ID:          "code-input",
 		}))
 		screen.Assert(t).
-			HTMLContains(`class="sci"`).
+			HTMLContains(`class="settings-code-input sci"`).
 			HasElement("textarea").
 			HTMLContains(`placeholder="Enter YAML"`).
 			HTMLContains(`id="code-input"`).
@@ -191,7 +191,7 @@ func TestSettingsEnvRow(t *testing.T) {
 		actions := []gui.Node{gui.Span()(gui.Text("edit"))}
 		screen := guitesting.Render(SettingsEnvRow("ser", "staging", badges, actions))
 		screen.Assert(t).
-			HTMLContains(`class="ser"`).
+			HTMLContains(`class="settings-env-row ser"`).
 			HTMLContains(`data-settings-env-name`).
 			HTMLContains(`data-settings-env-badges`).
 			HTMLContains(`data-settings-env-actions`).
@@ -240,7 +240,7 @@ func TestAdminPage(t *testing.T) {
 func TestClusterPage(t *testing.T) {
 	t.Run("renders_children", func(t *testing.T) {
 		screen := guitesting.Render(ClusterPage("cp", gui.Text("cluster")))
-		screen.Assert(t).HTMLContains(`class="cp"`).TextVisible("cluster")
+		screen.Assert(t).HTMLContains(`class="cluster-page cp"`).TextVisible("cluster")
 	})
 }
 
@@ -248,7 +248,7 @@ func TestClusterSummaryCard(t *testing.T) {
 	t.Run("renders_icon_value_label", func(t *testing.T) {
 		screen := guitesting.Render(ClusterSummaryCard("csc", "icon-cpu", "42", "Nodes"))
 		screen.Assert(t).
-			HTMLContains(`class="csc"`).
+			HTMLContains(`class="cluster-summary-card csc"`).
 			TextVisible("42").
 			TextVisible("Nodes")
 		iElems := screen.QueryAllByTag("i")
@@ -266,7 +266,7 @@ func TestClusterSummaryRow(t *testing.T) {
 	t.Run("renders_children", func(t *testing.T) {
 		screen := guitesting.Render(ClusterSummaryRow("csr", gui.Text("card1"), gui.Text("card2")))
 		screen.Assert(t).
-			HTMLContains(`class="csr"`).
+			HTMLContains(`class="cluster-summary csr"`).
 			TextVisible("card1").
 			TextVisible("card2")
 	})

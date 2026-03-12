@@ -24,7 +24,7 @@ type SpinnerProps struct {
 // Data attributes:
 //   - data-size: "small" or "large" (omitted when default)
 func Spinner(props SpinnerProps) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("spinner", props.Class)))
 	if props.Size != "" {
 		attrs = append(attrs, dataAttr("size", string(props.Size)))
 	}
@@ -33,7 +33,7 @@ func Spinner(props SpinnerProps) gui.Node {
 
 // Icon renders an icon element with the given CSS class.
 func Icon(class, iconClass string) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("icon", class)))
 	return gui.I(attrs...)(gui.I(gui.Class(iconClass))())
 }
 
@@ -43,7 +43,7 @@ func Icon(class, iconClass string) gui.Node {
 // Data attributes:
 //   - data-scrollable: "true" (when scrollable is true)
 func AppShellFull(class string, scrollable bool, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("app", class)))
 	if scrollable {
 		attrs = append(attrs, dataAttr("scrollable", "true"))
 	}

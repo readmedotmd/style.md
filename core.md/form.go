@@ -108,7 +108,7 @@ type TextareaProps struct {
 //   - data-auto-grow: "true" (when AutoGrow is true)
 //   - data-fixed: "true" (when Fixed is true)
 func TextArea(props TextareaProps) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("text-area", props.Class)))
 	if props.AutoGrow {
 		attrs = append(attrs, dataAttr("auto-grow", "true"))
 	}
@@ -187,7 +187,7 @@ func Checkbox(props CheckboxProps) gui.Node {
 	if props.OnChange != nil {
 		inputAttrs = append(inputAttrs, gui.OnClick(props.OnChange))
 	}
-	return gui.Label(collectAttrs(optClass(props.Class))...)(
+	return gui.Label(collectAttrs(optClass(joinClass("checkbox", props.Class)))...)(
 		gui.Input(inputAttrs...)(),
 		gui.Span()(gui.Text(props.Label)),
 	)
@@ -216,7 +216,7 @@ func FeatureRow(props FeatureRowProps) gui.Node {
 	if props.OnChange != nil {
 		inputAttrs = append(inputAttrs, gui.OnClick(props.OnChange))
 	}
-	return gui.Div(collectAttrs(optClass(props.Class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("feature-row", props.Class)))...)(
 		gui.Div(dataAttr("feature-info", ""))(
 			gui.Div(dataAttr("feature-name", ""))(gui.Text(props.Name)),
 			gui.Div(dataAttr("feature-desc", ""))(gui.Text(props.Description)),
@@ -241,7 +241,7 @@ type VariableRowProps struct {
 //   - data-masked: "true" (when value is masked)
 func VariableRow(props VariableRowProps) gui.Node {
 	displayValue := props.Value
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("variable-row", props.Class)))
 	if props.Masked {
 		displayValue = "••••••••"
 		attrs = append(attrs, dataAttr("masked", "true"))
@@ -260,14 +260,14 @@ func VariableRow(props VariableRowProps) gui.Node {
 
 // ErrorMessage renders an error message.
 func ErrorMessage(class, text string) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("error-message", class)))
 	attrs = append(attrs, gui.Attr_("role", "alert"))
 	return gui.Div(attrs...)(gui.Text(text))
 }
 
 // SuccessMessage renders a success message.
 func SuccessMessage(class, text string) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("success-message", class)))
 	attrs = append(attrs, gui.Attr_("role", "status"))
 	return gui.Div(attrs...)(gui.Text(text))
 }

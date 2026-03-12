@@ -15,33 +15,34 @@ import (
 func TestSimpleContainers(t *testing.T) {
 	type testCase struct {
 		name   string
+		base   string
 		render func(class string, children ...gui.Node) gui.Node
 		tag    string
 	}
 	cases := []testCase{
-		{"AppShell", AppShell, "div"},
-		{"AppShellBody", AppShellBody, "div"},
-		{"ModalBackdrop", ModalBackdrop, "div"},
-		{"ModalBody", ModalBody, "div"},
-		{"ModalFooter", ModalFooter, "div"},
-		{"DashboardLayout", DashboardLayout, "div"},
-		{"CenterColumn", CenterColumn, "div"},
-		{"ChatArea", ChatArea, "div"},
-		{"MessageList", MessageList, "div"},
-		{"ChatInputArea", ChatInputArea, "div"},
-		{"ChatInputRow", ChatInputRow, "div"},
+		{"AppShell", "app", AppShell, "div"},
+		{"AppShellBody", "app-shell-body", AppShellBody, "div"},
+		{"ModalBackdrop", "modal-backdrop", ModalBackdrop, "div"},
+		{"ModalBody", "modal-body", ModalBody, "div"},
+		{"ModalFooter", "modal-footer", ModalFooter, "div"},
+		{"DashboardLayout", "dashboard-layout", DashboardLayout, "div"},
+		{"CenterColumn", "center-col", CenterColumn, "div"},
+		{"ChatArea", "chat-area", ChatArea, "div"},
+		{"MessageList", "message-list", MessageList, "div"},
+		{"ChatInputArea", "chat-input-area", ChatInputArea, "div"},
+		{"ChatInputRow", "chat-input-row", ChatInputRow, "div"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name+"/with_class_and_children", func(t *testing.T) {
 			screen := guitesting.Render(tc.render("my-class", gui.Text("hello")))
 			screen.Assert(t).
 				HasElement(tc.tag).
-				HTMLContains(`class="my-class"`).
+				HTMLContains(`class="`+tc.base+` my-class"`).
 				TextVisible("hello")
 		})
 		t.Run(tc.name+"/empty_class", func(t *testing.T) {
 			screen := guitesting.Render(tc.render(""))
-			screen.Assert(t).HasElement(tc.tag).HTMLNotContains("class=")
+			screen.Assert(t).HasElement(tc.tag).HTMLContains(`class="`+tc.base+`"`)
 		})
 	}
 }
@@ -51,12 +52,12 @@ func TestAppShellMain(t *testing.T) {
 		screen := guitesting.Render(AppShellMain("content", gui.Text("body")))
 		screen.Assert(t).
 			HasElement("main").
-			HTMLContains(`class="content"`).
+			HTMLContains(`class="app-shell-main content"`).
 			TextVisible("body")
 	})
 	t.Run("no_class", func(t *testing.T) {
 		screen := guitesting.Render(AppShellMain(""))
-		screen.Assert(t).HasElement("main").HTMLNotContains("class=")
+		screen.Assert(t).HasElement("main").HTMLContains(`class="app-shell-main"`)
 	})
 }
 
@@ -69,7 +70,7 @@ func TestNavbar(t *testing.T) {
 		}, link))
 		screen.Assert(t).
 			HasElement("nav").
-			HTMLContains(`class="topnav"`).
+			HTMLContains(`class="navbar topnav"`).
 			TextVisible("MyApp").
 			TextVisible("Home")
 	})
@@ -101,7 +102,7 @@ func TestSidebar(t *testing.T) {
 		}, header, gui.Text("content")))
 		screen.Assert(t).
 			HasElement("aside").
-			HTMLContains(`class="side"`).
+			HTMLContains(`class="sidebar side"`).
 			HTMLContains(`data-open="true"`).
 			TextVisible("Header").
 			TextVisible("content")
@@ -123,7 +124,7 @@ func TestSidebarHeader(t *testing.T) {
 		action := gui.Span()(gui.Text("X"))
 		screen := guitesting.Render(SidebarHeader("hdr", "Files", action))
 		screen.Assert(t).
-			HTMLContains(`class="hdr"`).
+			HTMLContains(`class="sidebar-header hdr"`).
 			TextVisible("Files").
 			TextVisible("X")
 	})
@@ -138,7 +139,7 @@ func TestPanel(t *testing.T) {
 			Expanded: true,
 		}, []gui.Node{action}, gui.Text("body")))
 		screen.Assert(t).
-			HTMLContains(`class="pnl"`).
+			HTMLContains(`class="panel pnl"`).
 			HTMLContains(`data-expanded="true"`).
 			TextVisible("Details").
 			TextVisible("toggle").
@@ -161,13 +162,13 @@ func TestModal(t *testing.T) {
 	t.Run("renders_title_and_children", func(t *testing.T) {
 		screen := guitesting.Render(Modal("dlg", "Confirm", gui.Text("Are you sure?")))
 		screen.Assert(t).
-			HTMLContains(`class="dlg"`).
+			HTMLContains(`class="modal dlg"`).
 			TextVisible("Confirm").
 			TextVisible("Are you sure?")
 	})
 	t.Run("empty_class", func(t *testing.T) {
 		screen := guitesting.Render(Modal("", "Title"))
-		screen.Assert(t).HTMLNotContains("class=").TextVisible("Title")
+		screen.Assert(t).HTMLContains(`class="modal"`).TextVisible("Title")
 	})
 }
 
@@ -175,7 +176,7 @@ func TestDragHandle(t *testing.T) {
 	t.Run("renders_nested_divs", func(t *testing.T) {
 		screen := guitesting.Render(DragHandle("grip"))
 		screen.Assert(t).
-			HTMLContains(`class="grip"`).
+			HTMLContains(`class="drag-handle grip"`).
 			HasElement("div")
 		// Should have an inner div
 		refs := screen.QueryAllByTag("div")
@@ -189,7 +190,7 @@ func TestSidebarColumn(t *testing.T) {
 	t.Run("open", func(t *testing.T) {
 		screen := guitesting.Render(SidebarColumn("col", true, gui.Text("nav")))
 		screen.Assert(t).
-			HTMLContains(`class="col"`).
+			HTMLContains(`class="sidebar-col col"`).
 			HTMLContains(`data-open="true"`).
 			TextVisible("nav")
 	})
@@ -203,7 +204,7 @@ func TestSidebarOverlay(t *testing.T) {
 	t.Run("with_onclick", func(t *testing.T) {
 		clicked := false
 		screen := guitesting.Render(SidebarOverlay("overlay", func() { clicked = true }))
-		screen.Assert(t).HTMLContains(`class="overlay"`)
+		screen.Assert(t).HTMLContains(`class="sidebar-overlay overlay"`)
 		ref := screen.QueryAllByTag("div")[0]
 		screen.Click(ref)
 		if !clicked {
@@ -227,18 +228,18 @@ func TestChatHeader(t *testing.T) {
 		toolbar := gui.Span()(gui.Text("Settings"))
 		screen := guitesting.Render(ChatHeader("hdr", title, toolbar))
 		screen.Assert(t).
-			HTMLContains(`class="hdr"`).
+			HTMLContains(`class="chat-header hdr"`).
 			TextVisible("Chat").
 			TextVisible("Settings")
 	})
 	t.Run("nil_title_and_toolbar", func(t *testing.T) {
 		screen := guitesting.Render(ChatHeader("hdr", nil, nil))
-		screen.Assert(t).HasElement("div")
+		screen.Assert(t).HasElement("div").HTMLContains(`class="chat-header hdr"`)
 	})
 	t.Run("only_title", func(t *testing.T) {
 		title := gui.Span()(gui.Text("Room"))
 		screen := guitesting.Render(ChatHeader("", title, nil))
-		screen.Assert(t).TextVisible("Room")
+		screen.Assert(t).HTMLContains(`class="chat-header"`).TextVisible("Room")
 	})
 }
 
@@ -246,7 +247,7 @@ func TestChatInputWrap(t *testing.T) {
 	t.Run("expanded", func(t *testing.T) {
 		screen := guitesting.Render(ChatInputWrap("wrap", true, gui.Text("input")))
 		screen.Assert(t).
-			HTMLContains(`class="wrap"`).
+			HTMLContains(`class="chat-input-wrap wrap"`).
 			HTMLContains(`data-expanded="true"`).
 			TextVisible("input")
 	})
@@ -268,7 +269,7 @@ func TestBox(t *testing.T) {
 		}, gui.Text("inside")))
 		a := s.Assert(t)
 		a.HasElement("div")
-		a.HTMLContains(`class="my-box"`)
+		a.HTMLContains(`class="box my-box"`)
 		a.HTMLContains(`data-box`)
 		a.HTMLContains(`data-pad="lg"`)
 		a.HTMLContains(`data-bg="surface"`)
@@ -286,7 +287,7 @@ func TestBox(t *testing.T) {
 		a.HTMLNotContains("data-box-border")
 		a.HTMLNotContains("data-box-flex")
 		a.HTMLNotContains("data-box-rounded")
-		a.HTMLNotContains("class=")
+		a.HTMLContains(`class="box"`)
 	})
 }
 
@@ -295,13 +296,13 @@ func TestScrollArea(t *testing.T) {
 		s := guitesting.Render(ScrollArea("scroll", gui.Text("scrollable")))
 		a := s.Assert(t)
 		a.HasElement("div")
-		a.HTMLContains(`class="scroll"`)
+		a.HTMLContains(`class="scroll-area scroll"`)
 		a.HTMLContains(`data-scroll-area`)
 		a.TextVisible("scrollable")
 	})
 	t.Run("empty_class", func(t *testing.T) {
 		s := guitesting.Render(ScrollArea(""))
-		s.Assert(t).HTMLNotContains("class=").HTMLContains(`data-scroll-area`)
+		s.Assert(t).HTMLContains(`class="scroll-area"`).HTMLContains(`data-scroll-area`)
 	})
 }
 
@@ -317,7 +318,7 @@ func TestSplitLayout(t *testing.T) {
 			gui.Text("panel"),
 		))
 		a := s.Assert(t)
-		a.HTMLContains(`class="split"`)
+		a.HTMLContains(`class="split-layout split"`)
 		a.HTMLContains(`data-split-layout`)
 		a.TextVisible("sidebar")
 		a.TextVisible("center")
@@ -346,7 +347,7 @@ func TestBackdrop(t *testing.T) {
 	t.Run("with_onclick", func(t *testing.T) {
 		clicked := false
 		s := guitesting.Render(Backdrop("overlay", func() { clicked = true }))
-		s.Assert(t).HTMLContains(`class="overlay"`).HTMLContains(`data-backdrop`)
+		s.Assert(t).HTMLContains(`class="backdrop overlay"`).HTMLContains(`data-backdrop`)
 		ref := s.QueryAllByTag("div")[0]
 		s.Click(ref)
 		if !clicked {
@@ -357,7 +358,7 @@ func TestBackdrop(t *testing.T) {
 		s := guitesting.Render(Backdrop("", nil))
 		a := s.Assert(t)
 		a.HTMLContains(`data-backdrop`)
-		a.HTMLNotContains("class=")
+		a.HTMLContains(`class="backdrop"`)
 		html := s.HTML()
 		if strings.Contains(html, "onclick") {
 			t.Errorf("expected no onclick, got: %s", html)
@@ -371,7 +372,7 @@ func TestIconButton(t *testing.T) {
 		s := guitesting.Render(IconButton("ib-cls", "icon-close", "Close", func() { clicked = true }))
 		a := s.Assert(t)
 		a.HasElement("button")
-		a.HTMLContains(`class="ib-cls"`)
+		a.HTMLContains(`class="icon-button ib-cls"`)
 		a.HTMLContains(`data-icon-button`)
 		a.HTMLContains(`aria-label="Close"`)
 		a.HTMLContains(`class="icon-close"`)
@@ -399,13 +400,13 @@ func TestToolbar(t *testing.T) {
 		s := guitesting.Render(Toolbar("tb", gui.Text("btn1"), gui.Text("btn2")))
 		a := s.Assert(t)
 		a.HasElement("div")
-		a.HTMLContains(`class="tb"`)
+		a.HTMLContains(`class="toolbar tb"`)
 		a.HTMLContains(`data-toolbar`)
 		a.TextVisible("btn1")
 		a.TextVisible("btn2")
 	})
 	t.Run("empty_class", func(t *testing.T) {
 		s := guitesting.Render(Toolbar(""))
-		s.Assert(t).HTMLNotContains("class=").HTMLContains(`data-toolbar`)
+		s.Assert(t).HTMLContains(`class="toolbar"`).HTMLContains(`data-toolbar`)
 	})
 }

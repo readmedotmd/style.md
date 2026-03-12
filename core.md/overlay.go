@@ -17,7 +17,7 @@ func SearchOverlay(class string, tabs []TabBarTab, input gui.Node, results ...gu
 	}
 	panelChildren = append(panelChildren, gui.Div()(results...))
 
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("search-overlay", class)))...)(
 		gui.Div()(panelChildren...),
 	)
 }
@@ -46,7 +46,7 @@ func ContextMenu(class string, x, y int, items []ContextMenuItem) gui.Node {
 		menuItems[i] = gui.Button(btnAttrs...)(gui.Text(item.Label))
 	}
 	style := fmt.Sprintf("left: %dpx; top: %dpx;", x, y)
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("context-menu", class)))
 	attrs = append(attrs, gui.Style(style))
 	return gui.Div(attrs...)(menuItems...)
 }
@@ -82,7 +82,7 @@ func BottomSheet(class string, items []BottomSheetItem) gui.Node {
 		children = append(children, gui.Text(item.Label))
 		rows[i] = gui.Button(btnAttrs...)(children...)
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("bottom-sheet", class)))...)(
 		gui.Div()(), // handle
 		gui.Div()(rows...),
 	)

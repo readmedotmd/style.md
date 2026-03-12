@@ -18,7 +18,7 @@ type NavLinkProps struct {
 // Data attributes:
 //   - data-active: "true" (when active)
 func NavLink(props NavLinkProps) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("nav-link", props.Class)))
 	if props.Active {
 		attrs = append(attrs, dataAttr("active", "true"))
 	}
@@ -54,9 +54,10 @@ func TabBar(class string, tabs []TabBarTab) gui.Node {
 		if tab.OnClick != nil {
 			tabAttrs = append(tabAttrs, gui.OnClick(tab.OnClick))
 		}
+		tabAttrs = append(tabAttrs, gui.Class("tab-bar-item"))
 		children[i] = gui.Button(tabAttrs...)(gui.Text(tab.Label))
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("tab-bar", class)))...)(children...)
 }
 
 // BottomTabItem represents a single item in a BottomTabBar.
@@ -86,14 +87,14 @@ func BottomTabBar(class string, items []BottomTabItem) gui.Node {
 			gui.Span()(gui.Text(item.Label)),
 		)
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("bottom-tab-bar", class)))...)(children...)
 }
 
 // ─── New Navigation Components ───
 
 // ChatBackButton renders a mobile-only back arrow button in the chat header.
 func ChatBackButton(class string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("chat-back-btn", class)))
 	if onClick != nil {
 		attrs = append(attrs, gui.OnClick(onClick))
 	}
@@ -119,7 +120,7 @@ func ChatToolbar(class string, desktop gui.Node, mobile gui.Node) gui.Node {
 	if mobile != nil {
 		children = append(children, gui.Div()(mobile))
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("chat-toolbar", class)))...)(children...)
 }
 
 // ToolbarButton renders a small outlined button used in the chat toolbar.
@@ -127,7 +128,8 @@ func ChatToolbar(class string, desktop gui.Node, mobile gui.Node) gui.Node {
 // Data attributes:
 //   - data-danger: "true" (when danger is true)
 func ToolbarButton(class, icon, label string, danger bool, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	base := ClassIf("chat-toolbar-btn", danger, "chat-toolbar-btn-danger")
+	attrs := collectAttrs(optClass(joinClass(base, class)))
 	if danger {
 		attrs = append(attrs, dataAttr("danger", "true"))
 	}

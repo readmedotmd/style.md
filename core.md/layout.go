@@ -6,17 +6,17 @@ import (
 
 // AppShell wraps content in the top-level app-shell container.
 func AppShell(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("app", class)))...)(children...)
 }
 
 // AppShellBody wraps the flex body area of the app shell.
 func AppShellBody(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("app-shell-body", class)))...)(children...)
 }
 
 // AppShellMain wraps the main scrollable content area.
 func AppShellMain(class string, children ...gui.Node) gui.Node {
-	return gui.Main(collectAttrs(optClass(class))...)(children...)
+	return gui.Main(collectAttrs(optClass(joinClass("app-shell-main", class)))...)(children...)
 }
 
 // NavbarProps configures the Navbar component.
@@ -30,12 +30,12 @@ type NavbarProps struct {
 func Navbar(props NavbarProps, links ...gui.Node) gui.Node {
 	children := []gui.Node{
 		gui.Span()(gui.Text(props.Brand)),
-		gui.Div()(links...),
+		gui.Div(gui.Class("nav-links"))(links...),
 	}
 	if props.Stats != nil {
 		children = append(children, gui.Div()(props.Stats))
 	}
-	return gui.Nav(collectAttrs(optClass(props.Class))...)(children...)
+	return gui.Nav(collectAttrs(optClass(joinClass("navbar", props.Class)))...)(children...)
 }
 
 // SidebarProps configures the Sidebar component.
@@ -49,7 +49,7 @@ type SidebarProps struct {
 // Data attributes:
 //   - data-open: "true" (when open)
 func Sidebar(props SidebarProps, header gui.Node, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("sidebar", props.Class)))
 	if props.Open {
 		attrs = append(attrs, dataAttr("open", "true"))
 	}
@@ -63,7 +63,7 @@ func Sidebar(props SidebarProps, header gui.Node, children ...gui.Node) gui.Node
 
 // SidebarHeader renders the header area of a sidebar.
 func SidebarHeader(class, title string, actions ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("sidebar-header", class)))...)(
 		gui.Span()(gui.Text(title)),
 		gui.Div()(actions...),
 	)
@@ -81,7 +81,7 @@ type PanelProps struct {
 // Data attributes:
 //   - data-expanded: "true" (when expanded)
 func Panel(props PanelProps, actions []gui.Node, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("panel", props.Class)))
 	if props.Expanded {
 		attrs = append(attrs, dataAttr("expanded", "true"))
 	}
@@ -100,7 +100,7 @@ func Panel(props PanelProps, actions []gui.Node, children ...gui.Node) gui.Node 
 
 // ModalBackdrop renders a full-screen backdrop for modals.
 func ModalBackdrop(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("modal-backdrop", class)))...)(children...)
 }
 
 // Modal renders a modal dialog with a title header.
@@ -110,22 +110,22 @@ func Modal(class, title string, children ...gui.Node) gui.Node {
 	)
 	all := []gui.Node{header}
 	all = append(all, children...)
-	return gui.Div(collectAttrs(optClass(class))...)(all...)
+	return gui.Div(collectAttrs(optClass(joinClass("modal", class)))...)(all...)
 }
 
 // ModalBody wraps content in the modal body area.
 func ModalBody(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("modal-body", class)))...)(children...)
 }
 
 // ModalFooter renders the bottom action area of a modal.
 func ModalFooter(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("modal-footer", class)))...)(children...)
 }
 
 // DragHandle renders a drag handle indicator.
 func DragHandle(class string) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("drag-handle", class)))...)(
 		gui.Div()(),
 	)
 }
@@ -134,7 +134,7 @@ func DragHandle(class string) gui.Node {
 
 // DashboardLayout renders a flex row container for sidebar + center column + right panels.
 func DashboardLayout(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("dashboard-layout", class)))...)(children...)
 }
 
 // SidebarColumn renders a fixed-width sidebar column wrapper.
@@ -142,7 +142,7 @@ func DashboardLayout(class string, children ...gui.Node) gui.Node {
 // Data attributes:
 //   - data-open: "true" (when open)
 func SidebarColumn(class string, open bool, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("sidebar-col", class)))
 	if open {
 		attrs = append(attrs, dataAttr("open", "true"))
 	}
@@ -151,7 +151,7 @@ func SidebarColumn(class string, open bool, children ...gui.Node) gui.Node {
 
 // SidebarOverlay renders a semi-transparent overlay behind the sidebar on tablet.
 func SidebarOverlay(class string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("sidebar-overlay", class)))
 	if onClick != nil {
 		attrs = append(attrs, gui.OnClick(onClick))
 	}
@@ -160,14 +160,14 @@ func SidebarOverlay(class string, onClick func()) gui.Node {
 
 // CenterColumn renders a flex:1 center column that stacks chat area + terminal panel.
 func CenterColumn(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("center-col", class)))...)(children...)
 }
 
 // ─── Chat Layout Components ───
 
 // ChatArea renders a flex column container for chat header + message list + input area.
 func ChatArea(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("chat-area", class)))...)(children...)
 }
 
 // ChatHeader renders a fixed-height header bar with title + toolbar buttons.
@@ -179,22 +179,22 @@ func ChatHeader(class string, title gui.Node, toolbar gui.Node) gui.Node {
 	if toolbar != nil {
 		children = append(children, toolbar)
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("chat-header", class)))...)(children...)
 }
 
 // MessageList renders a scrollable flex column for messages with gap.
 func MessageList(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("message-list", class)))...)(children...)
 }
 
 // ChatInputArea renders a bottom-pinned input area container.
 func ChatInputArea(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("chat-input-area", class)))...)(children...)
 }
 
 // ChatInputRow renders a horizontal row holding textarea + send/cancel/mode buttons.
 func ChatInputRow(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("chat-input-row", class)))...)(children...)
 }
 
 // ChatInputWrap renders a wrapper around the textarea + expand button.
@@ -202,7 +202,7 @@ func ChatInputRow(class string, children ...gui.Node) gui.Node {
 // Data attributes:
 //   - data-expanded: "true" (when expanded)
 func ChatInputWrap(class string, expanded bool, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	attrs := collectAttrs(optClass(joinClass("chat-input-wrap", class)))
 	if expanded {
 		attrs = append(attrs, dataAttr("expanded", "true"))
 	}
@@ -231,7 +231,7 @@ type BoxProps struct {
 //   - data-box-flex: "true"
 //   - data-box-rounded: "true"
 func Box(props BoxProps, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(props.Class), dataAttr("box", ""))
+	attrs := collectAttrs(optClass(joinClass("box", props.Class)), dataAttr("box", ""))
 	if props.Pad != "" {
 		attrs = append(attrs, dataAttr("pad", props.Pad))
 	}
@@ -255,7 +255,7 @@ func Box(props BoxProps, children ...gui.Node) gui.Node {
 // Data attributes:
 //   - data-scroll-area
 func ScrollArea(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class), dataAttr("scroll-area", ""))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("scroll-area", class)), dataAttr("scroll-area", ""))...)(children...)
 }
 
 // SplitLayoutProps configures the SplitLayout component.
@@ -270,7 +270,7 @@ type SplitLayoutProps struct {
 // Data attributes:
 //   - data-split-layout
 func SplitLayout(props SplitLayoutProps, sidebar, center, panel gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(props.Class), dataAttr("split-layout", ""))
+	attrs := collectAttrs(optClass(joinClass("split-layout", props.Class)), dataAttr("split-layout", ""))
 	children := []gui.Node{}
 	if sidebar != nil {
 		sideAttrs := []gui.Attr{}
@@ -297,7 +297,7 @@ func SplitLayout(props SplitLayoutProps, sidebar, center, panel gui.Node) gui.No
 // Data attributes:
 //   - data-backdrop
 func Backdrop(class string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(class), dataAttr("backdrop", ""))
+	attrs := collectAttrs(optClass(joinClass("backdrop", class)), dataAttr("backdrop", ""))
 	if onClick != nil {
 		attrs = append(attrs, gui.OnClick(onClick))
 	}
@@ -309,7 +309,7 @@ func Backdrop(class string, onClick func()) gui.Node {
 // Data attributes:
 //   - data-icon-button
 func IconButton(class, icon, ariaLabel string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(class), dataAttr("icon-button", ""))
+	attrs := collectAttrs(optClass(joinClass("icon-button", class)), dataAttr("icon-button", ""))
 	if ariaLabel != "" {
 		attrs = append(attrs, gui.Attr_("aria-label", ariaLabel))
 	}
@@ -324,5 +324,5 @@ func IconButton(class, icon, ariaLabel string, onClick func()) gui.Node {
 // Data attributes:
 //   - data-toolbar
 func Toolbar(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class), dataAttr("toolbar", ""))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("toolbar", class)), dataAttr("toolbar", ""))...)(children...)
 }

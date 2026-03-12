@@ -125,7 +125,7 @@ func TerminalPanel(class string, tabs []TerminalTab, onAddTab func(), terminalCo
 	addBtn := gui.Button(gui.OnClick(onAddTab))(gui.Text("+"))
 	tabBarChildren := append(tabNodes, addBtn)
 
-	return gui.Div(collectAttrs(optClass(class))...)(
+	return gui.Div(collectAttrs(optClass(joinClass("terminal-panel", class)))...)(
 		gui.Div()(tabBarChildren...),
 		gui.Div()(terminalContent),
 	)

@@ -11,7 +11,7 @@ func TestSpinner(t *testing.T) {
 	t.Run("with_size", func(t *testing.T) {
 		screen := guitesting.Render(Spinner(SpinnerProps{Class: "sp", Size: SpinnerSmall}))
 		screen.Assert(t).
-			HTMLContains(`class="sp"`).
+			HTMLContains(`class="spinner sp"`).
 			HTMLContains(`data-size="small"`).
 			HasElement("div")
 	})
@@ -29,7 +29,7 @@ func TestIcon(t *testing.T) {
 	t.Run("renders_nested_i_elements", func(t *testing.T) {
 		screen := guitesting.Render(Icon("ic", "icon-star"))
 		screen.Assert(t).
-			HTMLContains(`class="ic"`).
+			HTMLContains(`class="icon ic"`).
 			HasElement("i")
 		iElems := screen.QueryAllByTag("i")
 		if len(iElems) < 2 {
@@ -42,7 +42,7 @@ func TestAppShellFull(t *testing.T) {
 	t.Run("scrollable", func(t *testing.T) {
 		screen := guitesting.Render(AppShellFull("asf", true, gui.Text("app")))
 		screen.Assert(t).
-			HTMLContains(`class="asf"`).
+			HTMLContains(`class="app asf"`).
 			HTMLContains(`data-scrollable="true"`).
 			TextVisible("app")
 	})

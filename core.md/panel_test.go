@@ -99,7 +99,7 @@ func TestTerminalPanel(t *testing.T) {
 		}
 		screen := guitesting.Render(TerminalPanel("tp", tabs, func() {}, gui.Text("$ ls")))
 		screen.Assert(t).
-			HTMLContains(`class="tp"`).
+			HTMLContains(`class="terminal-panel tp"`).
 			TextVisible("bash").
 			TextVisible("node").
 			TextVisible("$ ls").
