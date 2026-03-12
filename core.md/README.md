@@ -140,6 +140,132 @@ coremd.SrOnly("screen only") // Screen reader only
 | **Pages**       | LoginPage, SetupWizard, DashboardPage, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsFormActions, SettingsFormHelp, SettingsCodeInput, SettingsEnvRow, SettingsFieldError, SettingsSchemaTable, AdminPage, ClusterPage, ClusterSummaryCard, ClusterSummaryRow | `page.go` |
 | **Utility**     | Spinner, Icon, AppShellFull | `utility.go` |
 
+## CSS Base Classes
+
+Every component renders a **semantic base class** by default, even when no custom class is provided. This guarantees CSS hooks are always present for styling. When you pass a custom `class`, it's appended after the base class.
+
+```go
+// Always renders class="btn"
+coremd.Button(coremd.ButtonProps{}, gui.Text("OK"))
+
+// Renders class="btn my-btn"
+coremd.Button(coremd.ButtonProps{Class: "my-btn"}, gui.Text("OK"))
+```
+
+| Component | Base Class | File |
+|-----------|-----------|------|
+| AppShell | `app` | layout.go |
+| AppShellBody | `app-shell-body` | layout.go |
+| AppShellMain | `app-shell-main` | layout.go |
+| Navbar | `navbar` | layout.go |
+| Sidebar | `sidebar` | layout.go |
+| SidebarHeader | `sidebar-header` | layout.go |
+| Panel | `panel` | layout.go |
+| ModalBackdrop | `modal-backdrop` | layout.go |
+| Modal | `modal` | layout.go |
+| ModalBody | `modal-body` | layout.go |
+| ModalFooter | `modal-footer` | layout.go |
+| DragHandle | `drag-handle` | layout.go |
+| DashboardLayout | `dashboard-layout` | layout.go |
+| SidebarColumn | `sidebar-col` | layout.go |
+| SidebarOverlay | `sidebar-overlay` | layout.go |
+| CenterColumn | `center-col` | layout.go |
+| ChatArea | `chat-area` | layout.go |
+| ChatHeader | `chat-header` | layout.go |
+| MessageList | `message-list` | layout.go |
+| ChatInputArea | `chat-input-area` | layout.go |
+| ChatInputRow | `chat-input-row` | layout.go |
+| ChatInputWrap | `chat-input-wrap` | layout.go |
+| Box | `box` | layout.go |
+| ScrollArea | `scroll-area` | layout.go |
+| SplitLayout | `split-layout` | layout.go |
+| Backdrop | `backdrop` | layout.go |
+| IconButton | `icon-button` | layout.go |
+| Toolbar | `toolbar` | layout.go |
+| Button | `btn` | button.go |
+| NavLink | `nav-link` | navigation.go |
+| TabBar | `tab-bar` | navigation.go |
+| BottomTabBar | `bottom-tab-bar` | navigation.go |
+| ChatBackButton | `chat-back-btn` | navigation.go |
+| ChatToolbar | `chat-toolbar` | navigation.go |
+| ToolbarButton | `chat-toolbar-btn` | navigation.go |
+| MessageBubble | `message` | display.go |
+| ThinkingIndicator | `thinking-indicator` | display.go |
+| ThinkingCollapsible | `thinking-collapsible` | display.go |
+| ToolBadge | `tool-badge` | display.go |
+| QuestionPrompt | `question-prompt` | display.go |
+| StatusBadge | `status-badge` | display.go |
+| StatusDot | `status-dot` | display.go |
+| LabelBadge | `label-badge` | display.go |
+| UsageBadge | `usage-badge` | display.go |
+| DiffViewer | `diff-viewer` | display.go |
+| DataTable | `data-table` | display.go |
+| EmptyState | `empty-state` | display.go |
+| ClusterStatsBar | `cluster-stats-bar` | display.go |
+| WorkingIndicator | `working-indicator` | display.go |
+| ChatError | `chat-error` | display.go |
+| AcceptPlanBar | `accept-plan-bar` | display.go |
+| ChatInput | `chat-input` | input.go |
+| AutocompletePopup | `autocomplete-popup` | input.go |
+| MessageQueue | `message-queue` | input.go |
+| SearchInputField | `search-input-field` | input.go |
+| PastePreview | `paste-preview` | input.go |
+| ExpandButton | `expand-btn` | input.go |
+| AttachButton | `attach-btn` | input.go |
+| ModeButton | `mode-btn` | input.go |
+| MessageQueueBar | `message-queue` | input.go |
+| QueuedItem | `queued-item` | input.go |
+| Checkbox | `checkbox` | form.go |
+| FeatureRow | `feature-row` | form.go |
+| VariableRow | `variable-row` | form.go |
+| ErrorMessage | `error-message` | form.go |
+| SuccessMessage | `success-message` | form.go |
+| TextArea | `text-area` | form.go |
+| SearchOverlay | `search-overlay` | overlay.go |
+| ContextMenu | `context-menu` | overlay.go |
+| BottomSheet | `bottom-sheet` | overlay.go |
+| SettingsCard | `settings-card` | page.go |
+| SettingsPage | `settings-page` | page.go |
+| SettingsSection | `settings-section-group` | page.go |
+| SettingsSubsection | `settings-subsection` | page.go |
+| SettingsForm | `settings-form` | page.go |
+| SettingsFormHelp | `settings-form-help` | page.go |
+| SettingsCodeInput | `settings-code-input` | page.go |
+| SettingsEnvRow | `settings-env-row` | page.go |
+| ClusterPage | `cluster-page` | page.go |
+| ClusterSummaryCard | `cluster-summary-card` | page.go |
+| ClusterSummaryRow | `cluster-summary` | page.go |
+| Spinner | `spinner` | utility.go |
+| Icon | `icon` | utility.go |
+| AppShellFull | `app` | utility.go |
+| Grid | `grid` | primitives.go |
+| Center | `center` | primitives.go |
+| Card | `card` | primitives.go |
+| Badge | `badge` | primitives.go |
+| Divider | `divider` | primitives.go |
+| Heading | `heading` | primitives.go |
+| Paragraph | `paragraph` | primitives.go |
+| CodeBlock | `code-block` | primitives.go |
+| Link | `link` | primitives.go |
+| Image | `image` | primitives.go |
+| UnorderedList | `unordered-list` | primitives.go |
+| OrderedList | `ordered-list` | primitives.go |
+| Quote | `quote` | primitives.go |
+| Truncate | `truncate` | primitives.go |
+| MarkdownContent | `markdown-content` | primitives.go |
+| SectionHeader | `section-header` | primitives.go |
+| Collapsible | `collapsible` | primitives.go |
+| Animate | `animate` | primitives.go |
+
+Components **without** a base class (styled via element selectors or `data-*` attributes only): FormGroup, TextInput, SelectInput, SendButton, CancelButton, HamburgerButton, AutocompleteHeader.
+
+Internally, base classes are built with the `joinClass` helper:
+
+```go
+// joinClass("btn", "my-btn") → "btn my-btn"
+// joinClass("btn", "")       → "btn"
+```
+
 ## Data Attributes
 
 Components use `data-*` attributes for state, which CSS themes can target:

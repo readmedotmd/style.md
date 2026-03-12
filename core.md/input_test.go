@@ -19,7 +19,12 @@ func TestChatInput_Basic(t *testing.T) {
 
 func TestChatInput_Class(t *testing.T) {
 	s := guitesting.Render(ChatInput(ChatInputProps{Class: "my-chat"}))
-	s.Assert(t).HTMLContains("my-chat")
+	s.Assert(t).HTMLContains(`class="chat-input my-chat"`)
+}
+
+func TestChatInput_BaseClass(t *testing.T) {
+	s := guitesting.Render(ChatInput(ChatInputProps{}))
+	s.Assert(t).HTMLContains(`class="chat-input"`)
 }
 
 func TestChatInput_Streaming(t *testing.T) {
@@ -43,7 +48,12 @@ func TestChatInput_StreamingWithoutCancel(t *testing.T) {
 
 func TestAutocompletePopup_Empty(t *testing.T) {
 	s := guitesting.Render(AutocompletePopup("ac", nil, 0))
-	s.Assert(t).HTMLContains("ac")
+	s.Assert(t).HTMLContains(`class="autocomplete-popup ac"`)
+}
+
+func TestAutocompletePopup_BaseClass(t *testing.T) {
+	s := guitesting.Render(AutocompletePopup("", nil, 0))
+	s.Assert(t).HTMLContains(`class="autocomplete-popup"`)
 }
 
 func TestAutocompletePopup_Items(t *testing.T) {
@@ -90,7 +100,7 @@ func TestMessageQueue_Basic(t *testing.T) {
 	}
 	s := guitesting.Render(MessageQueue("mq", items))
 	s.Assert(t).
-		HTMLContains("mq").
+		HTMLContains(`class="message-queue mq"`).
 		TextVisible("Hello").
 		TextVisible("IMG").
 		HTMLContains(`data-tag="image"`).
@@ -106,7 +116,12 @@ func TestMessageQueue_NoImage(t *testing.T) {
 
 func TestMessageQueue_Empty(t *testing.T) {
 	s := guitesting.Render(MessageQueue("q", nil))
-	s.Assert(t).HTMLContains("q")
+	s.Assert(t).HTMLContains(`class="message-queue q"`)
+}
+
+func TestMessageQueue_BaseClass(t *testing.T) {
+	s := guitesting.Render(MessageQueue("", nil))
+	s.Assert(t).HTMLContains(`class="message-queue"`)
 }
 
 // ---------------------------------------------------------------------------
@@ -115,7 +130,12 @@ func TestMessageQueue_Empty(t *testing.T) {
 
 func TestSearchInputField_Basic(t *testing.T) {
 	s := guitesting.Render(SearchInputField("sf", "Search...", nil))
-	s.Assert(t).HasElement("input").HTMLContains("sf").HTMLContains("Search...")
+	s.Assert(t).HasElement("input").HTMLContains(`class="search-input-field sf"`).HTMLContains("Search...")
+}
+
+func TestSearchInputField_BaseClass(t *testing.T) {
+	s := guitesting.Render(SearchInputField("", "", nil))
+	s.Assert(t).HTMLContains(`class="search-input-field"`)
 }
 
 func TestSearchInputField_NoPlaceholder(t *testing.T) {
@@ -149,7 +169,7 @@ func TestPastePreview_Basic(t *testing.T) {
 	}
 	s := guitesting.Render(PastePreview("pp", items))
 	s.Assert(t).
-		HTMLContains("pp").
+		HTMLContains(`class="paste-preview pp"`).
 		HTMLContains("data:image/png;base64,abc").
 		HTMLContains("blob://img2").
 		HasElement("img").
@@ -169,7 +189,12 @@ func TestPastePreview_RemoveButton(t *testing.T) {
 
 func TestPastePreview_Empty(t *testing.T) {
 	s := guitesting.Render(PastePreview("pp", nil))
-	s.Assert(t).HasNoElement("img")
+	s.Assert(t).HasNoElement("img").HTMLContains(`class="paste-preview pp"`)
+}
+
+func TestPastePreview_BaseClass(t *testing.T) {
+	s := guitesting.Render(PastePreview("", nil))
+	s.Assert(t).HTMLContains(`class="paste-preview"`)
 }
 
 // ---------------------------------------------------------------------------
@@ -180,9 +205,14 @@ func TestExpandButton_Collapsed(t *testing.T) {
 	s := guitesting.Render(ExpandButton("eb", false, nil))
 	s.Assert(t).
 		HasElement("button").
-		HTMLContains("eb").
+		HTMLContains(`class="expand-btn eb"`).
 		TextVisible("\u2922").
 		HTMLNotContains("data-expanded")
+}
+
+func TestExpandButton_BaseClass(t *testing.T) {
+	s := guitesting.Render(ExpandButton("", false, nil))
+	s.Assert(t).HTMLContains(`class="expand-btn"`)
 }
 
 func TestExpandButton_Expanded(t *testing.T) {
@@ -206,7 +236,12 @@ func TestExpandButton_Toggle(t *testing.T) {
 
 func TestAttachButton_Basic(t *testing.T) {
 	s := guitesting.Render(AttachButton("ab", nil))
-	s.Assert(t).HasElement("button").HTMLContains("ab")
+	s.Assert(t).HasElement("button").HTMLContains(`class="attach-btn ab"`)
+}
+
+func TestAttachButton_BaseClass(t *testing.T) {
+	s := guitesting.Render(AttachButton("", nil))
+	s.Assert(t).HTMLContains(`class="attach-btn"`)
 }
 
 func TestAttachButton_Click(t *testing.T) {
@@ -265,9 +300,14 @@ func TestModeButton_Act(t *testing.T) {
 	s := guitesting.Render(ModeButton("mb", "act", nil))
 	s.Assert(t).
 		HasElement("button").
-		HTMLContains("mb").
+		HTMLContains(`class="mode-btn mb"`).
 		HTMLContains(`data-mode="act"`).
 		TextVisible("Act")
+}
+
+func TestModeButton_BaseClass(t *testing.T) {
+	s := guitesting.Render(ModeButton("", "act", nil))
+	s.Assert(t).HTMLContains(`class="mode-btn"`)
 }
 
 func TestModeButton_Plan(t *testing.T) {
@@ -297,12 +337,17 @@ func TestModeButton_Click(t *testing.T) {
 func TestMessageQueueBar_Basic(t *testing.T) {
 	child := gui.Span()(gui.Text("item1"))
 	s := guitesting.Render(MessageQueueBar("mqb", child))
-	s.Assert(t).HTMLContains("mqb").TextVisible("item1")
+	s.Assert(t).HTMLContains(`class="message-queue mqb"`).TextVisible("item1")
 }
 
 func TestMessageQueueBar_Empty(t *testing.T) {
 	s := guitesting.Render(MessageQueueBar("bar"))
-	s.Assert(t).HTMLContains("bar").HasElement("div")
+	s.Assert(t).HTMLContains(`class="message-queue bar"`).HasElement("div")
+}
+
+func TestMessageQueueBar_BaseClass(t *testing.T) {
+	s := guitesting.Render(MessageQueueBar(""))
+	s.Assert(t).HTMLContains(`class="message-queue"`)
 }
 
 // ---------------------------------------------------------------------------
@@ -311,7 +356,12 @@ func TestMessageQueueBar_Empty(t *testing.T) {
 
 func TestQueuedItem_Basic(t *testing.T) {
 	s := guitesting.Render(QueuedItem("qi", "hello", false, nil, nil))
-	s.Assert(t).HTMLContains("qi").TextVisible("hello").HTMLNotContains("data-has-image")
+	s.Assert(t).HTMLContains(`class="queued-item qi"`).TextVisible("hello").HTMLNotContains("data-has-image")
+}
+
+func TestQueuedItem_BaseClass(t *testing.T) {
+	s := guitesting.Render(QueuedItem("", "x", false, nil, nil))
+	s.Assert(t).HTMLContains(`class="queued-item"`)
 }
 
 func TestQueuedItem_HasImage(t *testing.T) {
