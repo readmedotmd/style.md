@@ -121,10 +121,12 @@ func TestSettingsSection(t *testing.T) {
 }
 
 func TestSettingsSubsection(t *testing.T) {
-	t.Run("renders_like_section", func(t *testing.T) {
+	t.Run("renders_with_body_wrapper", func(t *testing.T) {
 		screen := guitesting.Render(SettingsSubsection("sub", "icon-key", "API Keys", "Manage keys", gui.Text("list")))
 		screen.Assert(t).
 			HTMLContains(`class="sub"`).
+			HTMLContains(`data-settings-subsection-header`).
+			HTMLContains(`data-settings-subsection-body`).
 			TextVisible("API Keys").
 			TextVisible("Manage keys").
 			TextVisible("list")
@@ -190,13 +192,18 @@ func TestSettingsEnvRow(t *testing.T) {
 		screen := guitesting.Render(SettingsEnvRow("ser", "staging", badges, actions))
 		screen.Assert(t).
 			HTMLContains(`class="ser"`).
+			HTMLContains(`data-settings-env-name`).
+			HTMLContains(`data-settings-env-badges`).
+			HTMLContains(`data-settings-env-actions`).
 			TextVisible("staging").
 			TextVisible("prod").
 			TextVisible("edit")
 	})
 	t.Run("no_badges_no_actions", func(t *testing.T) {
 		screen := guitesting.Render(SettingsEnvRow("", "dev", nil, nil))
-		screen.Assert(t).TextVisible("dev")
+		screen.Assert(t).
+			HTMLContains(`data-settings-env-name`).
+			TextVisible("dev")
 	})
 }
 

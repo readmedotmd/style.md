@@ -122,6 +122,10 @@ func SettingsSection(class, icon, title, description string, children ...gui.Nod
 }
 
 // SettingsSubsection renders a bordered subsection within a settings card.
+//
+// Data attributes:
+//   - data-settings-subsection-header: on the header div
+//   - data-settings-subsection-body: on the body wrapper div
 func SettingsSubsection(class, icon, title, description string, children ...gui.Node) gui.Node {
 	headerChildren := []gui.Node{}
 	if icon != "" {
@@ -131,9 +135,10 @@ func SettingsSubsection(class, icon, title, description string, children ...gui.
 	if description != "" {
 		headerChildren = append(headerChildren, gui.Span()(gui.Text(description)))
 	}
-	all := []gui.Node{gui.Div()(headerChildren...)}
-	all = append(all, children...)
-	return gui.Div(collectAttrs(optClass(class))...)(all...)
+	return gui.Div(collectAttrs(optClass(class))...)(
+		gui.Div(dataAttr("settings-subsection-header", ""))(headerChildren...),
+		gui.Div(dataAttr("settings-subsection-body", ""))(children...),
+	)
 }
 
 // SettingsForm renders a form area within settings (raised bg, bordered).
@@ -185,15 +190,20 @@ func SettingsCodeInput(props SettingsCodeInputProps) gui.Node {
 }
 
 // SettingsEnvRow renders a row in the environments list showing name + badges + actions.
+//
+// Data attributes:
+//   - data-settings-env-name: on the name span
+//   - data-settings-env-badges: on the badges div
+//   - data-settings-env-actions: on the actions div
 func SettingsEnvRow(class, name string, badges []gui.Node, actions []gui.Node) gui.Node {
 	children := []gui.Node{
-		gui.Span()(gui.Text(name)),
+		gui.Span(dataAttr("settings-env-name", ""))(gui.Text(name)),
 	}
 	if len(badges) > 0 {
-		children = append(children, gui.Div()(badges...))
+		children = append(children, gui.Div(dataAttr("settings-env-badges", ""))(badges...))
 	}
 	if len(actions) > 0 {
-		children = append(children, gui.Div()(actions...))
+		children = append(children, gui.Div(dataAttr("settings-env-actions", ""))(actions...))
 	}
 	return gui.Div(collectAttrs(optClass(class))...)(children...)
 }
