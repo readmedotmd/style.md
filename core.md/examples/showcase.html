@@ -23,8 +23,48 @@
     }
     .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
     .col { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .card-demo {
+      background: var(--core-surface); border: 1px solid var(--core-border);
+      border-radius: var(--core-radius); padding: 20px; margin-bottom: 16px;
+    }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
     .demo-label { font-size: 12px; color: var(--core-text-muted); margin-bottom: 6px; font-weight: 600; }
+
+    /* App shell demo inline */
+    .app-shell-demo { border: 1px solid var(--core-border); border-radius: var(--core-radius); overflow: hidden; min-height: 280px; display: flex; flex-direction: column; }
+    .app-shell-demo nav { display: flex; align-items: center; gap: 16px; padding: 10px 16px; background: var(--core-surface); border-bottom: 1px solid var(--core-border); }
+    .app-shell-demo nav span:first-child { font-weight: 700; }
+    .app-shell-demo .body-area { display: flex; flex: 1; }
+    .app-shell-demo aside { width: 180px; padding: 12px; border-right: 1px solid var(--core-border); background: var(--core-bg); display: flex; flex-direction: column; gap: 2px; }
+    .app-shell-demo main { flex: 1; padding: 16px; }
+
+    /* Modal demo inline */
+    .modal-demo { position: relative; min-height: 320px; background: rgba(0,0,0,0.3); border-radius: var(--core-radius); display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .modal-box { background: var(--core-bg); border: 1px solid var(--core-border); border-radius: var(--core-radius); width: 100%; max-width: 420px; overflow: hidden; }
+    .modal-box-header { padding: 16px 20px; border-bottom: 1px solid var(--core-border); font-weight: 600; }
+    .modal-box-body { padding: 20px; }
+    .modal-box-footer { padding: 12px 20px; border-top: 1px solid var(--core-border); display: flex; justify-content: flex-end; gap: 8px; }
+
+    /* Chat demo */
+    .chat-demo { max-width: 600px; }
+    .msg { padding: 10px 14px; border-radius: var(--core-radius); margin-bottom: 8px; max-width: 80%; font-size: 14px; }
+    .msg-user { background: var(--core-accent); color: #fff; margin-left: auto; }
+    .msg-assistant { background: var(--core-surface); border: 1px solid var(--core-border); }
+    .chat-input-demo { border: 1px solid var(--core-border); border-radius: var(--core-radius); overflow: hidden; }
+    .chat-input-demo textarea { border: none; border-radius: 0; }
+    .chat-input-demo .toolbar { display: flex; justify-content: flex-end; padding: 8px; border-top: 1px solid var(--core-border); }
+
+    /* Search overlay demo */
+    .search-demo { position: relative; min-height: 320px; background: rgba(0,0,0,0.3); border-radius: var(--core-radius); display: flex; justify-content: center; padding: 24px; padding-top: 40px; }
+    .search-panel { background: var(--core-bg); border: 1px solid var(--core-border); border-radius: var(--core-radius); width: 100%; max-width: 560px; height: fit-content; overflow: hidden; }
+    .search-panel input { border-radius: 0; border: none; border-bottom: 1px solid var(--core-border); }
+
+    /* Context menu demo */
+    .context-demo { position: relative; min-height: 180px; background: var(--core-surface); border: 1px solid var(--core-border); border-radius: var(--core-radius); display: flex; align-items: center; justify-content: center; }
+    .ctx-menu { background: var(--core-bg); border: 1px solid var(--core-border); border-radius: var(--core-radius); min-width: 160px; padding: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .ctx-menu button { display: block; width: 100%; text-align: left; border: none; padding: 8px 12px; border-radius: 4px; font-size: 13px; background: none; }
+    .ctx-menu button:hover { background: var(--core-surface); }
+    .ctx-menu button[data-danger="true"] { color: var(--core-danger); }
   </style>
 </head>
 <body>
@@ -304,33 +344,28 @@
     </div>
 
     <div class="demo-label">Empty State</div>
-    <div data-empty-state>
-      <h3>Welcome to Devbox</h3>
-      <p>Get started by creating a new project or connecting to an existing repository.</p>
+    <div class="card-demo" style="text-align:center;padding:40px;">
+      <div style="font-size:16px;font-weight:600;margin-bottom:4px;">Welcome to Devbox</div>
+      <div style="color:var(--core-text-muted);">Get started by creating a new project or connecting to an existing repository.</div>
     </div>
   </div>
 
   <!-- APP SHELL -->
   <div class="section">
     <div class="section-title">App Shell</div>
-    <div style="border:1px solid var(--core-border);border-radius:var(--core-radius);overflow:hidden;min-height:280px;display:flex;flex-direction:column;">
-      <nav data-navbar style="position:relative;height:auto;padding:10px 16px;">
-        <span data-nav-brand>Devbox</span>
-        <div data-nav-links>
-          <a data-nav-link data-active href="#">Dashboard</a>
-          <a data-nav-link href="#">Settings</a>
-        </div>
+    <div class="app-shell-demo">
+      <nav>
+        <span>Devbox</span>
+        <span style="color:var(--core-text-muted);font-size:13px;">Dashboard</span>
+        <span style="color:var(--core-text-muted);font-size:13px;">Settings</span>
       </nav>
-      <div style="display:flex;flex:1;">
-        <aside data-sidebar style="width:180px;position:relative;">
-          <div data-sidebar-header><h3>Menu</h3></div>
-          <div data-stack="xs" style="padding:0 8px;">
-            <div data-list-item data-active style="font-weight:600;">Chat</div>
-            <div data-list-item>Cluster</div>
-            <div data-list-item>Settings</div>
-          </div>
+      <div class="body-area">
+        <aside>
+          <button data-active="true" style="text-align:left;border:none;padding:8px 12px;border-radius:4px;background:var(--core-surface);font-weight:600;">Chat</button>
+          <button data-active="" style="text-align:left;border:none;padding:8px 12px;border-radius:4px;background:transparent;">Cluster</button>
+          <button data-active="" style="text-align:left;border:none;padding:8px 12px;border-radius:4px;background:transparent;">Settings</button>
         </aside>
-        <main style="flex:1;padding:16px;">
+        <main>
           <div style="font-size:16px;font-weight:600;margin-bottom:8px;">Dashboard</div>
           <div style="color:var(--core-text-muted);">Overview of your project.</div>
         </main>
@@ -341,12 +376,10 @@
   <!-- MODAL -->
   <div class="section">
     <div class="section-title">Modal</div>
-    <div style="position:relative;min-height:320px;background:var(--core-backdrop);border-radius:var(--core-radius);display:flex;align-items:center;justify-content:center;padding:24px;">
-      <div data-modal style="position:relative;max-width:420px;">
-        <div data-modal-header>
-          <span data-modal-title>Create New Project</span>
-        </div>
-        <div data-modal-body>
+    <div class="modal-demo">
+      <div class="modal-box">
+        <div class="modal-box-header">Create New Project</div>
+        <div class="modal-box-body">
           <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px;">
             <label>Project Name</label>
             <input type="text" placeholder="my-project">
@@ -356,7 +389,7 @@
             <input type="text" placeholder="https://github.com/...">
           </div>
         </div>
-        <div data-modal-actions>
+        <div class="modal-box-footer">
           <button>Cancel</button>
           <button data-variant="primary">Create</button>
         </div>
@@ -367,39 +400,35 @@
   <!-- CHAT -->
   <div class="section">
     <div class="section-title">Chat</div>
-    <div data-stack="sm" style="max-width:600px;">
-      <div data-message="outgoing">How do I deploy to production?</div>
-      <div data-message="incoming">
-        <div data-rich-text>
-          <p>To deploy your application to production, follow these steps:</p>
-          <ol>
-            <li>Ensure all tests pass</li>
-            <li>Build the application</li>
-            <li>Push to the main branch</li>
-          </ol>
+    <div class="chat-demo">
+      <div class="msg msg-user">How do I deploy to production?</div>
+      <div class="msg msg-assistant">To deploy your application to production, follow these steps:<br><br>1. Ensure all tests pass<br>2. Build the application<br>3. Push to the main branch</div>
+      <div class="msg msg-user">Thanks! Can you show the config?</div>
+
+      <div class="chat-input-demo" style="margin-top:16px;">
+        <textarea rows="2" placeholder="Type a message..." style="width:100%;padding:12px;"></textarea>
+        <div class="toolbar">
+          <button data-variant="primary" data-size="small">Send</button>
         </div>
       </div>
-      <div data-message="outgoing">Thanks! Can you show the config?</div>
-      <div data-message="error">Connection lost. Please try again.</div>
     </div>
   </div>
 
   <!-- SEARCH OVERLAY -->
   <div class="section">
     <div class="section-title">Search Overlay</div>
-    <div style="position:relative;min-height:320px;background:var(--core-backdrop);border-radius:var(--core-radius);display:flex;justify-content:center;padding:24px;padding-top:40px;">
-      <div data-search-card style="position:relative;height:fit-content;">
-        <input data-search-input type="text" placeholder="Search files...">
-        <div data-search-results>
-          <div data-search-result style="background:var(--core-raised);">
-            <span data-search-match>src/main.go</span>
-          </div>
-          <div data-search-result>
-            <span>src/config.go</span>
-          </div>
-          <div data-search-result>
-            <span>src/handler.go</span>
-          </div>
+    <div class="search-demo">
+      <div class="search-panel">
+        <div style="border-bottom: 1px solid var(--core-border);">
+          <button data-active="true" style="border:none;border-bottom:2px solid var(--core-accent);padding:8px 16px;background:none;color:var(--core-accent);font-weight:600;">Files</button>
+          <button style="border:none;border-bottom:2px solid transparent;padding:8px 16px;background:none;color:var(--core-text-muted);">In Files</button>
+          <button style="border:none;border-bottom:2px solid transparent;padding:8px 16px;background:none;color:var(--core-text-muted);">Skills</button>
+        </div>
+        <input type="text" placeholder="Search files..." style="padding:12px;">
+        <div style="padding:8px;">
+          <div style="padding:8px 12px;border-radius:4px;background:var(--core-surface);margin-bottom:2px;font-size:13px;">src/main.go</div>
+          <div style="padding:8px 12px;border-radius:4px;margin-bottom:2px;font-size:13px;">src/config.go</div>
+          <div style="padding:8px 12px;border-radius:4px;margin-bottom:2px;font-size:13px;">src/handler.go</div>
         </div>
       </div>
     </div>
@@ -408,12 +437,12 @@
   <!-- CONTEXT MENU -->
   <div class="section">
     <div class="section-title">Context Menu</div>
-    <div style="position:relative;min-height:180px;background:var(--core-surface);border:1px solid var(--core-border);border-radius:var(--core-radius);display:flex;align-items:center;justify-content:center;">
-      <div data-context-menu style="position:relative;">
-        <button data-context-menu-item>Edit</button>
-        <button data-context-menu-item>Duplicate</button>
-        <button data-context-menu-item>Move to...</button>
-        <button data-context-menu-item data-danger>Delete</button>
+    <div class="context-demo">
+      <div class="ctx-menu">
+        <button>Edit</button>
+        <button>Duplicate</button>
+        <button>Move to...</button>
+        <button data-danger="true">Delete</button>
       </div>
     </div>
   </div>
@@ -438,320 +467,6 @@
           </div>
           <button data-variant="primary" style="width:100%;justify-content:center;">Sign In</button>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- NEW BUTTON VARIANTS -->
-  <div class="section">
-    <div class="section-title">New Button Variants</div>
-    <div class="row">
-      <button data-variant="send">Send</button>
-      <button data-variant="cancel">Cancel</button>
-      <button data-variant="success-outline">Success Outline</button>
-      <button data-variant="warning-outline">Warning Outline</button>
-      <button data-variant="info-outline">Info Outline</button>
-      <button data-variant="ghost">Ghost</button>
-    </div>
-  </div>
-
-  <!-- CHAT MESSAGES (data-message) -->
-  <div class="section">
-    <div class="section-title">Chat Messages</div>
-    <div data-stack="sm" style="max-width:600px;">
-      <div data-message="outgoing">This is an outgoing message from the user.</div>
-      <div data-message="incoming">
-        <div data-rich-text>
-          <p>This is an incoming message with <code>inline code</code> and rich formatting.</p>
-          <pre><code>console.log("hello world");</code></pre>
-        </div>
-      </div>
-      <div data-message="error">An error occurred while processing your request.</div>
-    </div>
-  </div>
-
-  <!-- RICH TEXT -->
-  <div class="section">
-    <div class="section-title">Rich Text</div>
-    <div data-rich-text>
-      <h3>Rich Text Container</h3>
-      <p>This container provides consistent styling for rendered markdown content, including <code>inline code</code>, <strong>bold</strong>, and <em>italic</em> text.</p>
-      <blockquote>Blockquotes are styled with a left border.</blockquote>
-      <pre><code>func example() {
-    return "styled code block"
-}</code></pre>
-      <p>Tables are also supported:</p>
-      <table>
-        <thead><tr><th>Feature</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td>Markdown</td><td>Supported</td></tr>
-          <tr><td>Code blocks</td><td>Supported</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- COLLAPSIBLE -->
-  <div class="section">
-    <div class="section-title">Collapsible</div>
-    <details data-collapsible>
-      <summary data-collapsible-summary>Click to expand details...</summary>
-      <div data-collapsible-content>This is the collapsible content that was hidden. It can contain any text or information that should be tucked away until the user needs it.</div>
-    </details>
-    <div style="margin-top:12px;">
-      <details data-collapsible open>
-        <summary data-collapsible-summary>Already expanded section</summary>
-        <div data-collapsible-content>This section starts in the open state so you can see how expanded content looks.</div>
-      </details>
-    </div>
-  </div>
-
-  <!-- INDICATOR PILLS -->
-  <div class="section">
-    <div class="section-title">Indicator Pills</div>
-    <div class="row">
-      <span data-indicator>Idle</span>
-      <span data-indicator="working">Working...</span>
-    </div>
-  </div>
-
-  <!-- AUTOCOMPLETE -->
-  <div class="section">
-    <div class="section-title">Autocomplete</div>
-    <div data-autocomplete style="max-width:400px;">
-      <div data-autocomplete-header>Suggestions</div>
-      <div data-autocomplete-item data-selected>
-        <span data-autocomplete-trigger>@</span>
-        <span>main.go</span>
-        <span data-autocomplete-detail>src/main.go</span>
-      </div>
-      <div data-autocomplete-item>
-        <span data-autocomplete-trigger>@</span>
-        <span>config.go</span>
-        <span data-autocomplete-detail>src/config.go</span>
-      </div>
-      <div data-autocomplete-item>
-        <span data-autocomplete-trigger>@</span>
-        <span>handler.go</span>
-        <span data-autocomplete-detail>pkg/handler.go</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- FILE TREE -->
-  <div class="section">
-    <div class="section-title">File Tree</div>
-    <div data-file-tree data-card style="max-width:300px;">
-      <div data-file-item="dir">src/</div>
-      <div data-file-item="file" style="padding-left:24px;">main.go</div>
-      <div data-file-item="file" style="padding-left:24px;">config.go</div>
-      <div data-file-item="dir">pkg/</div>
-      <div data-file-item="file" style="padding-left:24px;">handler.go</div>
-      <div data-file-item="file" style="padding-left:24px;">utils.go</div>
-      <div data-file-item="file">go.mod</div>
-      <div data-file-item="file">README.md</div>
-    </div>
-  </div>
-
-  <!-- SELECTABLE LIST -->
-  <div class="section">
-    <div class="section-title">Selectable List</div>
-    <div data-list data-card style="max-width:360px;">
-      <div data-list-item data-active>
-        <div style="font-weight:600;">Active conversation</div>
-        <div style="font-size:12px;color:var(--core-text-muted);">Last message 2 minutes ago</div>
-      </div>
-      <div data-list-item>
-        <div style="font-weight:600;">Another conversation</div>
-        <div style="font-size:12px;color:var(--core-text-muted);">Last message 1 hour ago</div>
-      </div>
-      <div data-list-item>
-        <div style="font-weight:600;">Archived thread</div>
-        <div style="font-size:12px;color:var(--core-text-muted);">Last message yesterday</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION HEADERS -->
-  <div class="section">
-    <div class="section-title">Section Headers</div>
-    <div data-card>
-      <div data-section-header>Default Section</div>
-      <p style="padding:0 12px 12px;font-size:13px;color:var(--core-text-muted);">Content under the default section header.</p>
-      <div data-section-header="success">Success Section</div>
-      <p style="padding:0 12px 12px;font-size:13px;color:var(--core-text-muted);">Content under a success-colored section header.</p>
-      <div data-section-header="warning">Warning Section</div>
-      <p style="padding:0 12px 12px;font-size:13px;color:var(--core-text-muted);">Content under a warning-colored section header.</p>
-    </div>
-  </div>
-
-  <!-- QUESTION PROMPT -->
-  <div class="section">
-    <div class="section-title">Question Prompt</div>
-    <div data-question style="max-width:480px;">
-      <div data-question-text>How would you like to deploy?</div>
-      <button data-question-option>
-        <strong>Automatic</strong>
-        <small>Deploy on every push to main branch</small>
-      </button>
-      <button data-question-option>
-        <strong>Manual</strong>
-        <small>Trigger deployments manually via the dashboard</small>
-      </button>
-      <button data-question-option>
-        <strong>Scheduled</strong>
-        <small>Deploy at a specific time each day</small>
-      </button>
-    </div>
-  </div>
-
-  <!-- EMPTY STATE -->
-  <div class="section">
-    <div class="section-title">Empty State</div>
-    <div data-empty-state data-card>
-      <h3>No projects yet</h3>
-      <p>Create your first project to get started.</p>
-      <button data-variant="primary" style="margin-top:8px;">+ New Project</button>
-    </div>
-  </div>
-
-  <!-- FEATURE ROW -->
-  <div class="section">
-    <div class="section-title">Feature Row</div>
-    <div data-stack="sm" style="max-width:480px;">
-      <div data-feature-row>
-        <input type="checkbox" checked>
-        <div>
-          <div data-label>Auto-format on save</div>
-          <div data-desc>Automatically format files when saving</div>
-        </div>
-      </div>
-      <div data-feature-row>
-        <input type="checkbox">
-        <div>
-          <div data-label>Telemetry</div>
-          <div data-desc>Send anonymous usage data to help improve the product</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- KEY-VALUE ROW -->
-  <div class="section">
-    <div class="section-title">Key-Value Row</div>
-    <div data-stack="sm" style="max-width:480px;">
-      <div data-kv-row>
-        <input type="text" placeholder="Key" value="DATABASE_URL">
-        <input type="text" placeholder="Value" value="postgres://localhost:5432/mydb">
-        <button data-kv-remove title="Remove">&#10005;</button>
-      </div>
-      <div data-kv-row>
-        <input type="text" placeholder="Key" value="API_KEY">
-        <input type="text" placeholder="Value" value="sk-...">
-        <button data-kv-remove title="Remove">&#10005;</button>
-      </div>
-      <div data-kv-row>
-        <input type="text" placeholder="Key">
-        <input type="text" placeholder="Value">
-        <button data-kv-remove title="Remove">&#10005;</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MICRO BADGE -->
-  <div class="section">
-    <div class="section-title">Micro Badge</div>
-    <div class="row">
-      <span data-micro-badge>v1.2.3</span>
-      <span data-micro-badge>beta</span>
-      <span data-micro-badge>Go 1.21</span>
-      <span data-micro-badge>MIT</span>
-    </div>
-  </div>
-
-  <!-- CODE TEXTAREA -->
-  <div class="section">
-    <div class="section-title">Code Textarea</div>
-    <div data-stack="md" style="max-width:480px;">
-      <div>
-        <div class="demo-label">Short</div>
-        <textarea data-code="short" placeholder="Enter code...">package main
-
-import "fmt"</textarea>
-      </div>
-      <div>
-        <div class="demo-label">Medium</div>
-        <textarea data-code="medium" placeholder="Enter code...">func main() {
-    fmt.Println("hello, world")
-}</textarea>
-      </div>
-    </div>
-  </div>
-
-  <!-- BOTTOM SHEET -->
-  <div class="section">
-    <div class="section-title">Bottom Sheet</div>
-    <div style="position:relative;min-height:220px;background:var(--core-backdrop);border-radius:var(--core-radius);display:flex;align-items:flex-end;">
-      <div data-bottom-sheet style="position:relative;width:100%;border-radius:16px 16px 0 0;">
-        <div data-drag-handle style="display:block;"></div>
-        <button data-sheet-item>Share</button>
-        <button data-sheet-item>Copy Link</button>
-        <button data-sheet-item>Rename</button>
-        <button data-sheet-item data-danger>Delete</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- IMAGE PREVIEW -->
-  <div class="section">
-    <div class="section-title">Image Preview</div>
-    <div data-image-preview style="max-width:400px;">
-      <img data-preview-thumbnail src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='108' height='72'%3E%3Crect width='108' height='72' fill='%23e5e7eb'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='11' fill='%236b7280'%3E108x72%3C/text%3E%3C/svg%3E" alt="preview">
-      <img data-preview-thumbnail src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='108' height='72'%3E%3Crect width='108' height='72' fill='%23dbeafe'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='11' fill='%233b82f6'%3Escreenshot%3C/text%3E%3C/svg%3E" alt="preview">
-    </div>
-  </div>
-
-  <!-- TERMINAL PANEL -->
-  <div class="section">
-    <div class="section-title">Terminal Panel</div>
-    <div data-terminal-panel style="height:200px;border:1px solid var(--core-border);border-radius:var(--core-radius);overflow:hidden;">
-      <div data-terminal-tabs>
-        <button data-terminal-tab data-active>Terminal 1</button>
-        <button data-terminal-tab>Terminal 2</button>
-        <button data-terminal-tab>Output</button>
-      </div>
-      <div style="padding:12px;font-family:var(--core-font-mono);font-size:13px;color:var(--core-text-muted);">
-        <div>$ go build ./...</div>
-        <div style="color:var(--core-success);">Build succeeded.</div>
-        <div>$ _</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MESSAGE QUEUE -->
-  <div class="section">
-    <div class="section-title">Message Queue</div>
-    <div data-card="flush" style="max-width:480px;overflow:hidden;">
-      <div style="padding:12px 16px;font-weight:600;">Pending Actions</div>
-      <div data-queue>
-        <div data-queue-item>Formatting main.go...</div>
-        <div data-queue-item>Running tests...</div>
-        <div data-queue-item>Deploying to staging...</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ANIMATIONS -->
-  <div class="section">
-    <div class="section-title">Animations</div>
-    <div class="row">
-      <div>
-        <div class="demo-label">Pulse</div>
-        <div data-animate="pulse" data-card style="padding:12px;text-align:center;">Pulsing element</div>
-      </div>
-      <div>
-        <div class="demo-label">Appear</div>
-        <div data-animate="appear" data-card style="padding:12px;text-align:center;">Appeared element</div>
       </div>
     </div>
   </div>
