@@ -46,6 +46,19 @@ const (
 
 	ClassDragHandle = "drag-handle"
 
+	ClassDashboardLayout = "dashboard"
+	ClassSidebarCol      = "sidebar-col"
+	ClassSidebarColOpen  = "sidebar-col--open"
+	ClassSidebarOverlay  = "sidebar-overlay"
+	ClassCenterCol       = "center-col"
+	ClassChatArea        = "chat-area"
+	ClassChatHeader      = "chat-header"
+	ClassMsgList         = "message-list"
+	ClassChatInputArea   = "chat-input-area"
+	ClassChatInputRow    = "chat-input-row"
+	ClassChatInputWrap   = "chat-input-wrap"
+	ClassChatInputWrapEx = "chat-input-wrap--expanded"
+
 	// Navigation
 	ClassNavLink       = "nav-link"
 	ClassNavLinkActive = "nav-link--active"
@@ -60,11 +73,17 @@ const (
 	ClassBottomTabBarItemActive = "bottom-tab-bar__item--active"
 	ClassBottomTabBarIcon       = "bottom-tab-bar__icon"
 
+	ClassChatBackBtn   = "chat-back-btn"
+	ClassHamburgerBtn  = "hamburger-btn"
+	ClassChatToolbar   = "chat-toolbar"
+	ClassToolbarBtn    = "chat-toolbar-btn"
+	ClassToolbarBtnDgr = "chat-toolbar-btn--danger"
+
 	// Data Display
 	ClassMessage          = "message"
 	ClassMessageUser      = "message--user"
 	ClassMessageAssistant = "message--assistant"
-	ClassMessageStreaming = "message--streaming"
+	ClassMessageStreaming  = "message--streaming"
 	ClassMessageBubble    = "message__bubble"
 
 	ClassThinking          = "thinking"
@@ -103,6 +122,14 @@ const (
 	ClassClusterStats      = "cluster-stats"
 	ClassClusterStatsItem  = "cluster-stats__item"
 	ClassClusterStatsValue = "cluster-stats__value"
+
+	ClassMessageContent     = "message-content"
+	ClassMessageContentUser = "message-content--user"
+	ClassWorkingIndicator   = "working-indicator"
+	ClassChatStatusBadge    = "chat-header-status"
+	ClassThinkingHistory    = "thinking-history"
+	ClassChatError          = "chat-error"
+	ClassAcceptPlanBar      = "accept-plan-bar"
 
 	// List
 	ClassConversationItem       = "conversation-item"
@@ -199,6 +226,16 @@ const (
 
 	ClassSearchInput = "search-input"
 
+	ClassPastePreview    = "paste-preview"
+	ClassExpandBtn       = "expand-btn"
+	ClassAttachBtn       = "attach-btn"
+	ClassSendBtn         = "send-btn"
+	ClassCancelBtn       = "cancel-btn"
+	ClassModeBtn         = "mode-btn"
+	ClassMsgQueueBar     = "message-queue-bar"
+	ClassQueuedItem      = "queued-item"
+	ClassAutocompleteHdr = "ac-header"
+
 	// Overlay
 	ClassSearchOverlay        = "search-overlay"
 	ClassSearchOverlayPanel   = "search-overlay__panel"
@@ -208,6 +245,12 @@ const (
 	ClassContextMenu         = "context-menu"
 	ClassContextMenuItem     = "context-menu__item"
 	ClassContextMenuDanger   = "context-menu__item--danger"
+
+	ClassBottomSheet         = "bottom-sheet-overlay"
+	ClassSearchCard          = "search-card"
+	ClassSearchResult        = "search-result"
+	ClassSearchResultContent = "search-result search-result-content"
+	ClassSearchSnippet       = "search-snippet"
 
 	// Panel compositions
 	ClassTerminalPanel       = "terminal-panel"
@@ -222,6 +265,17 @@ const (
 	ClassSkillCardName = "skill-card__name"
 	ClassSkillCardDesc = "skill-card__description"
 
+	ClassGitPanel          = "git-panel"
+	ClassGitSectionHdr     = "git-section-header"
+	ClassGitFileList       = "git-file-list"
+	ClassGitFile           = "git-file"
+	ClassGitFileSelected   = "git-file--selected"
+	ClassGitCommitArea     = "git-commit-area"
+	ClassDiffCommentBtn    = "diff-comment-btn"
+	ClassDiffInlineComment = "diff-inline-comment"
+	ClassSvcActionBtn      = "svc-action-btn"
+	ClassRunnerEmpty       = "run-panel-empty"
+
 	// Page
 	ClassLoginPage      = "login-page"
 	ClassLoginCard      = "login-card"
@@ -235,11 +289,28 @@ const (
 	ClassSetupWizardConnector = "setup-wizard__step-connector"
 	ClassSetupWizardBody      = "setup-wizard__body"
 
+	ClassSettingsPage        = "settings-page"
+	ClassSettingsCardFull    = "settings-card"
+	ClassSettingsSection     = "settings-section-group"
+	ClassSettingsSubsection  = "settings-subsection"
+	ClassSettingsForm        = "settings-env-form"
+	ClassSettingsFormActions  = "settings-env-form-actions"
+	ClassSettingsFormHelp     = "settings-env-form-help"
+	ClassSettingsCodeInput   = "settings-code-input"
+	ClassSettingsEnvRow      = "settings-env-row"
+	ClassSettingsFieldError  = "settings-field-error"
+	ClassSettingsSchemaTable = "settings-schema"
+	ClassAdminPage           = "users-page"
+	ClassClusterPage         = "cluster-page"
+	ClassClusterSummaryCard  = "cluster-summary-card"
+	ClassClusterSummaryRow   = "cluster-summary"
+
 	// Utility
 	ClassSpinner      = "spinner"
 	ClassSpinnerSmall = "spinner--small"
 	ClassSpinnerLarge = "spinner--large"
 	ClassIcon         = "icon"
+	ClassAppShellFull = "app"
 )
 
 // classes joins multiple CSS class names into a single string.

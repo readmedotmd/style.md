@@ -21,6 +21,7 @@
   --core-danger: #ef4444;
   --core-success: #22c55e;
   --core-warning: #f59e0b;
+  --core-info: #3b82f6;
   --core-radius: 6px;
   --core-space: 8px;
   --core-transition: 150ms ease;
@@ -37,6 +38,7 @@
     --core-danger: #f87171;
     --core-success: #4ade80;
     --core-warning: #fbbf24;
+    --core-info: #60a5fa;
   }
 }
 
@@ -50,6 +52,7 @@
   --core-danger: #f87171;
   --core-success: #4ade80;
   --core-warning: #fbbf24;
+  --core-info: #60a5fa;
 }
 
 body {

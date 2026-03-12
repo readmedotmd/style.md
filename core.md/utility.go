@@ -36,3 +36,16 @@ func Icon(class, iconClass string) gui.Node {
 	attrs := collectAttrs(optClass(class))
 	return gui.I(attrs...)(gui.I(gui.Class(iconClass))())
 }
+
+// AppShellFull renders a top-level app shell with safe area handling, 100vh height,
+// and optional scrollable mode.
+//
+// Data attributes:
+//   - data-scrollable: "true" (when scrollable is true)
+func AppShellFull(class string, scrollable bool, children ...gui.Node) gui.Node {
+	attrs := collectAttrs(optClass(class))
+	if scrollable {
+		attrs = append(attrs, dataAttr("scrollable", "true"))
+	}
+	return gui.Div(attrs...)(children...)
+}

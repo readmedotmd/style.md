@@ -71,3 +71,53 @@ func ModalFooter(children ...gui.Node) gui.Node {
 func DragHandle() gui.Node {
 	return theme.DragHandle()
 }
+
+// DashboardLayout renders a themed flex row container.
+func DashboardLayout(children ...gui.Node) gui.Node {
+	return theme.DashboardLayout(children...)
+}
+
+// SidebarColumn renders a themed sidebar column wrapper.
+func SidebarColumn(open bool, children ...gui.Node) gui.Node {
+	return theme.SidebarColumn(open, children...)
+}
+
+// SidebarOverlay renders a themed semi-transparent overlay.
+func SidebarOverlay(onClick func()) gui.Node {
+	return theme.SidebarOverlay(onClick)
+}
+
+// CenterColumn renders a themed flex:1 center column.
+func CenterColumn(children ...gui.Node) gui.Node {
+	return theme.CenterColumn(children...)
+}
+
+// ChatArea renders a themed chat area container.
+func ChatArea(children ...gui.Node) gui.Node {
+	return theme.ChatArea(children...)
+}
+
+// ChatHeader renders a themed chat header bar.
+func ChatHeader(title gui.Node, toolbar gui.Node) gui.Node {
+	return theme.ChatHeader(title, toolbar)
+}
+
+// MessageList renders a themed scrollable message list.
+func MessageList(children ...gui.Node) gui.Node {
+	return theme.MessageList(children...)
+}
+
+// ChatInputArea renders a themed bottom-pinned input area.
+func ChatInputArea(children ...gui.Node) gui.Node {
+	return theme.ChatInputArea(children...)
+}
+
+// ChatInputRow renders a themed horizontal input row.
+func ChatInputRow(children ...gui.Node) gui.Node {
+	return theme.ChatInputRow(children...)
+}
+
+// ChatInputWrap renders a themed textarea wrapper.
+func ChatInputWrap(expanded bool, children ...gui.Node) gui.Node {
+	return theme.ChatInputWrap(expanded, children...)
+}

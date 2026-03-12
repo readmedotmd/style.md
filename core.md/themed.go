@@ -35,6 +35,19 @@ type ClassMap struct {
 
 	DragHandle string
 
+	DashboardLayout string
+	SidebarCol      string
+	SidebarColOpen  string
+	SidebarOverlay  string
+	CenterCol       string
+	ChatArea        string
+	ChatHeaderCls   string
+	MsgList         string
+	ChatInputArea   string
+	ChatInputRow    string
+	ChatInputWrap   string
+	ChatInputWrapEx string
+
 	// Navigation
 	NavLink       string
 	NavLinkActive string
@@ -42,6 +55,12 @@ type ClassMap struct {
 	TabBar string
 
 	BottomTabBar string
+
+	ChatBackBtn    string
+	HamburgerBtn   string
+	ChatToolbar    string
+	ToolbarBtn     string
+	ToolbarBtnDgr  string
 
 	// Data Display
 	Message          string
@@ -72,6 +91,14 @@ type ClassMap struct {
 	EmptyState string
 
 	ClusterStats string
+
+	MessageContent     string
+	MessageContentUser string
+	WorkingIndicator   string
+	ChatStatusBadge    string
+	ThinkingHistory    string
+	ChatError          string
+	AcceptPlanBar      string
 
 	// List
 	ConversationItem       string
@@ -108,27 +135,67 @@ type ClassMap struct {
 	SuccessMessage string
 
 	// Input
-	ChatInput    string
-	Autocomplete string
-	MessageQueue string
-	SearchInput  string
+	ChatInput        string
+	Autocomplete     string
+	MessageQueue     string
+	SearchInput      string
+	PastePreview     string
+	ExpandBtn        string
+	AttachBtn        string
+	SendBtn          string
+	CancelBtn        string
+	ModeBtn          string
+	MsgQueueBar      string
+	QueuedItem       string
+	AutocompleteHdr  string
 
 	// Overlay
-	SearchOverlay string
-	ContextMenu   string
+	SearchOverlay       string
+	ContextMenu         string
+	BottomSheet         string
+	SearchCard          string
+	SearchResult        string
+	SearchResultContent string
+	SearchSnippet       string
 
 	// Panel compositions
-	SkillCard     string
-	TerminalPanel string
+	SkillCard        string
+	TerminalPanel    string
+	GitPanelCls      string
+	GitSectionHdr    string
+	GitFileList      string
+	GitFile          string
+	GitFileSelected  string
+	GitCommitArea    string
+	DiffCommentBtn   string
+	DiffInlineComment string
+	SvcActionBtn     string
+	RunnerEmpty      string
 
 	// Page
-	LoginPage string
+	LoginPage          string
+	SettingsPage       string
+	SettingsCardFull   string
+	SettingsSection    string
+	SettingsSubsection string
+	SettingsForm       string
+	SettingsFormActions string
+	SettingsFormHelp   string
+	SettingsCodeInput  string
+	SettingsEnvRow     string
+	SettingsFieldError string
+	SettingsSchemaTable string
+	AdminPage          string
+	ClusterPageCls     string
+	ClusterSummaryCard string
+	ClusterSummaryRow  string
 
 	// Utility
 	Spinner      string
 	SpinnerSmall string
 	SpinnerLarge string
 	Icon         string
+	AppShellFull string
 }
 
 // Themed wraps a ClassMap and provides methods for every themed component.
@@ -222,6 +289,58 @@ func (t *Themed) DragHandle() gui.Node {
 	return DragHandle(t.ClassMap.DragHandle)
 }
 
+// DashboardLayout renders a themed flex row container.
+func (t *Themed) DashboardLayout(children ...gui.Node) gui.Node {
+	return DashboardLayout(t.ClassMap.DashboardLayout, children...)
+}
+
+// SidebarColumn renders a themed sidebar column wrapper.
+func (t *Themed) SidebarColumn(open bool, children ...gui.Node) gui.Node {
+	cls := ClassIf(t.ClassMap.SidebarCol, open, t.SidebarColOpen)
+	return SidebarColumn(cls, open, children...)
+}
+
+// SidebarOverlay renders a themed semi-transparent overlay.
+func (t *Themed) SidebarOverlay(onClick func()) gui.Node {
+	return SidebarOverlay(t.ClassMap.SidebarOverlay, onClick)
+}
+
+// CenterColumn renders a themed flex:1 center column.
+func (t *Themed) CenterColumn(children ...gui.Node) gui.Node {
+	return CenterColumn(t.ClassMap.CenterCol, children...)
+}
+
+// ChatArea renders a themed chat area container.
+func (t *Themed) ChatArea(children ...gui.Node) gui.Node {
+	return ChatArea(t.ClassMap.ChatArea, children...)
+}
+
+// ChatHeader renders a themed chat header bar.
+func (t *Themed) ChatHeader(title gui.Node, toolbar gui.Node) gui.Node {
+	return ChatHeader(t.ClassMap.ChatHeaderCls, title, toolbar)
+}
+
+// MessageList renders a themed scrollable message list.
+func (t *Themed) MessageList(children ...gui.Node) gui.Node {
+	return MessageList(t.ClassMap.MsgList, children...)
+}
+
+// ChatInputArea renders a themed bottom-pinned input area.
+func (t *Themed) ChatInputArea(children ...gui.Node) gui.Node {
+	return ChatInputArea(t.ClassMap.ChatInputArea, children...)
+}
+
+// ChatInputRow renders a themed horizontal input row.
+func (t *Themed) ChatInputRow(children ...gui.Node) gui.Node {
+	return ChatInputRow(t.ClassMap.ChatInputRow, children...)
+}
+
+// ChatInputWrap renders a themed textarea wrapper.
+func (t *Themed) ChatInputWrap(expanded bool, children ...gui.Node) gui.Node {
+	cls := ClassIf(t.ClassMap.ChatInputWrap, expanded, t.ChatInputWrapEx)
+	return ChatInputWrap(cls, expanded, children...)
+}
+
 // ─── Navigation ───
 
 // NavLink renders a themed navigation link.
@@ -238,6 +357,27 @@ func (t *Themed) TabBar(tabs []TabBarTab) gui.Node {
 // BottomTabBar renders a themed mobile bottom tab bar.
 func (t *Themed) BottomTabBar(items []BottomTabItem) gui.Node {
 	return BottomTabBar(t.ClassMap.BottomTabBar, items)
+}
+
+// ChatBackButton renders a themed mobile back button.
+func (t *Themed) ChatBackButton(onClick func()) gui.Node {
+	return ChatBackButton(t.ClassMap.ChatBackBtn, onClick)
+}
+
+// HamburgerButton renders a themed mobile menu button.
+func (t *Themed) HamburgerButton(onClick func()) gui.Node {
+	return HamburgerButton(t.ClassMap.HamburgerBtn, onClick)
+}
+
+// ChatToolbar renders a themed chat toolbar.
+func (t *Themed) ChatToolbar(desktop gui.Node, mobile gui.Node) gui.Node {
+	return ChatToolbar(t.ClassMap.ChatToolbar, desktop, mobile)
+}
+
+// ToolbarButton renders a themed toolbar button.
+func (t *Themed) ToolbarButton(icon, label string, danger bool, onClick func()) gui.Node {
+	cls := ClassIf(t.ClassMap.ToolbarBtn, danger, t.ToolbarBtnDgr)
+	return ToolbarButton(cls, icon, label, danger, onClick)
 }
 
 // ─── Data Display ───
@@ -295,8 +435,8 @@ func (t *Themed) LabelBadge(icon, text string) gui.Node {
 }
 
 // UsageBadge renders themed CPU and memory usage indicators.
-func (t *Themed) UsageBadge(cpu, memory string) gui.Node {
-	return UsageBadge(t.ClassMap.UsageBadge, cpu, memory)
+func (t *Themed) UsageBadge(cpu, memory string, onClick func()) gui.Node {
+	return UsageBadge(t.ClassMap.UsageBadge, cpu, memory, onClick)
 }
 
 // DiffViewer renders a themed code diff view.
@@ -317,6 +457,40 @@ func (t *Themed) EmptyState(heading, description string) gui.Node {
 // ClusterStatsBar renders a themed row of cluster statistics.
 func (t *Themed) ClusterStatsBar(stats []ClusterStat, onClick func()) gui.Node {
 	return ClusterStatsBar(t.ClassMap.ClusterStats, stats, onClick)
+}
+
+// MessageContent renders a themed message content wrapper.
+func (t *Themed) MessageContent(role string, children ...gui.Node) gui.Node {
+	cls := t.ClassMap.MessageContent
+	if role == "user" && t.MessageContentUser != "" {
+		cls += " " + t.MessageContentUser
+	}
+	return MessageContent(cls, role, children...)
+}
+
+// WorkingIndicator renders a themed pulsing working bar.
+func (t *Themed) WorkingIndicator(label string) gui.Node {
+	return WorkingIndicator(t.ClassMap.WorkingIndicator, label)
+}
+
+// ChatStatusBadge renders a themed streaming status badge.
+func (t *Themed) ChatStatusBadge(label string) gui.Node {
+	return ChatStatusBadge(t.ClassMap.ChatStatusBadge, label)
+}
+
+// ThinkingHistory renders a themed collapsible thinking history block.
+func (t *Themed) ThinkingHistory(summary string, content gui.Node) gui.Node {
+	return ThinkingHistory(t.ClassMap.ThinkingHistory, summary, content)
+}
+
+// ChatError renders a themed chat error message.
+func (t *Themed) ChatError(message string) gui.Node {
+	return ChatError(t.ClassMap.ChatError, message)
+}
+
+// AcceptPlanBar renders a themed accept plan bar.
+func (t *Themed) AcceptPlanBar(onAccept func()) gui.Node {
+	return AcceptPlanBar(t.ClassMap.AcceptPlanBar, onAccept)
 }
 
 // ─── List ───
@@ -438,6 +612,51 @@ func (t *Themed) SearchInputField(placeholder string, onInput func(gui.Event)) g
 	return SearchInputField(t.ClassMap.SearchInput, placeholder, onInput)
 }
 
+// PastePreview renders a themed paste preview row.
+func (t *Themed) PastePreview(items []PastePreviewItem) gui.Node {
+	return PastePreview(t.ClassMap.PastePreview, items)
+}
+
+// ExpandButton renders a themed expand/collapse button.
+func (t *Themed) ExpandButton(expanded bool, onToggle func()) gui.Node {
+	return ExpandButton(t.ClassMap.ExpandBtn, expanded, onToggle)
+}
+
+// AttachButton renders a themed attach button.
+func (t *Themed) AttachButton(onAttach func()) gui.Node {
+	return AttachButton(t.ClassMap.AttachBtn, onAttach)
+}
+
+// SendButton renders a themed send button.
+func (t *Themed) SendButton(label string, onClick func()) gui.Node {
+	return SendButton(t.ClassMap.SendBtn, label, onClick)
+}
+
+// CancelButton renders a themed cancel button.
+func (t *Themed) CancelButton(label string, onClick func()) gui.Node {
+	return CancelButton(t.ClassMap.CancelBtn, label, onClick)
+}
+
+// ModeButton renders a themed mode toggle button.
+func (t *Themed) ModeButton(mode string, onClick func()) gui.Node {
+	return ModeButton(t.ClassMap.ModeBtn, mode, onClick)
+}
+
+// MessageQueueBar renders a themed queue bar.
+func (t *Themed) MessageQueueBar(children ...gui.Node) gui.Node {
+	return MessageQueueBar(t.ClassMap.MsgQueueBar, children...)
+}
+
+// QueuedItem renders a themed queued message row.
+func (t *Themed) QueuedItem(text string, hasImage bool, onSend func(), onRemove func()) gui.Node {
+	return QueuedItem(t.ClassMap.QueuedItem, text, hasImage, onSend, onRemove)
+}
+
+// AutocompleteHeader renders a themed autocomplete header.
+func (t *Themed) AutocompleteHeader(trigger, label string) gui.Node {
+	return AutocompleteHeader(t.ClassMap.AutocompleteHdr, trigger, label)
+}
+
 // ─── Overlay ───
 
 // SearchOverlay renders a themed full-screen search overlay.
@@ -448,6 +667,31 @@ func (t *Themed) SearchOverlay(tabs []TabBarTab, input gui.Node, results ...gui.
 // ContextMenu renders a themed positioned context menu.
 func (t *Themed) ContextMenu(x, y int, items []ContextMenuItem) gui.Node {
 	return ContextMenu(t.ClassMap.ContextMenu, x, y, items)
+}
+
+// BottomSheet renders a themed mobile bottom sheet.
+func (t *Themed) BottomSheet(items []BottomSheetItem) gui.Node {
+	return BottomSheet(t.ClassMap.BottomSheet, items)
+}
+
+// SearchOverlayCard renders a themed search overlay card.
+func (t *Themed) SearchOverlayCard(tabs gui.Node, input gui.Node, results gui.Node) gui.Node {
+	return SearchOverlayCard(t.ClassMap.SearchCard, tabs, input, results)
+}
+
+// SearchResult renders a themed search result row.
+func (t *Themed) SearchResult(icon, path, text string, onAdd func()) gui.Node {
+	return SearchResult(t.ClassMap.SearchResult, icon, path, text, onAdd)
+}
+
+// SearchResultContent renders a themed content search result.
+func (t *Themed) SearchResultContent(path string, snippet gui.Node, onAdd func()) gui.Node {
+	return SearchResultContent(t.ClassMap.SearchResultContent, path, snippet, onAdd)
+}
+
+// SearchSnippet renders a themed code snippet.
+func (t *Themed) SearchSnippet(lines []SearchSnippetLine) gui.Node {
+	return SearchSnippet(t.ClassMap.SearchSnippet, lines)
 }
 
 // ─── Panel Compositions ───
@@ -462,12 +706,10 @@ func (t *Themed) RunnerPanel(title string, runners ...gui.Node) gui.Node {
 	return t.Panel(PanelProps{Title: title}, nil, runners...)
 }
 
-// GitPanel renders a themed git panel with tabs.
-func (t *Themed) GitPanel(activeTab GitPanelTab, tabs []TabBarTab, content gui.Node) gui.Node {
-	return t.Panel(PanelProps{Title: "Git"}, nil,
-		t.TabBar(tabs),
-		content,
-	)
+// GitPanel renders a themed git panel.
+func (t *Themed) GitPanel(props GitPanelProps, headerActions []gui.Node, content gui.Node) gui.Node {
+	props.Class = t.ClassMap.GitPanelCls
+	return GitPanel(props, headerActions, content)
 }
 
 // SkillsPanel renders a themed skills panel.
@@ -483,6 +725,47 @@ func (t *Themed) TerminalPanel(tabs []TerminalTab, onAddTab func(), terminalCont
 // FileBrowser renders a themed file browser.
 func (t *Themed) FileBrowser(heading string, items []FileTreeItem) gui.Node {
 	return FileBrowser(heading, items)
+}
+
+// GitSectionHeader renders a themed git section header.
+func (t *Themed) GitSectionHeader(label string, staged bool) gui.Node {
+	return GitSectionHeader(t.ClassMap.GitSectionHdr, label, staged)
+}
+
+// GitFileList renders a themed git file list.
+func (t *Themed) GitFileList(children ...gui.Node) gui.Node {
+	return GitFileList(t.ClassMap.GitFileList, children...)
+}
+
+// GitFile renders a themed git file entry.
+func (t *Themed) GitFile(props GitFileProps) gui.Node {
+	props.Class = ClassIf(t.ClassMap.GitFile, props.Selected, t.GitFileSelected)
+	return GitFile(props)
+}
+
+// GitCommitArea renders a themed commit area.
+func (t *Themed) GitCommitArea(input gui.Node, actions ...gui.Node) gui.Node {
+	return GitCommitArea(t.ClassMap.GitCommitArea, input, actions...)
+}
+
+// DiffCommentButton renders a themed diff comment button.
+func (t *Themed) DiffCommentButton(onClick func()) gui.Node {
+	return DiffCommentButton(t.ClassMap.DiffCommentBtn, onClick)
+}
+
+// DiffInlineComment renders a themed diff inline comment.
+func (t *Themed) DiffInlineComment(input gui.Node) gui.Node {
+	return DiffInlineComment(t.ClassMap.DiffInlineComment, input)
+}
+
+// ServiceActionButton renders a themed service action button.
+func (t *Themed) ServiceActionButton(icon, variant string, onClick func()) gui.Node {
+	return ServiceActionButton(t.ClassMap.SvcActionBtn, icon, variant, onClick)
+}
+
+// RunnerPanelEmpty renders a themed runner panel empty state.
+func (t *Themed) RunnerPanelEmpty(message string) gui.Node {
+	return RunnerPanelEmpty(t.ClassMap.RunnerEmpty, message)
 }
 
 // ─── Page ───
@@ -507,6 +790,82 @@ func (t *Themed) SettingsCard(title string, children ...gui.Node) gui.Node {
 	return SettingsCard("p-5", title, children...)
 }
 
+// SettingsPage renders a themed settings page container.
+func (t *Themed) SettingsPage(children ...gui.Node) gui.Node {
+	return SettingsPage(t.ClassMap.SettingsPage, children...)
+}
+
+// SettingsCardFull renders a themed settings card with colored header.
+func (t *Themed) SettingsCardFull(icon, title string, children ...gui.Node) gui.Node {
+	return SettingsCardFull(t.ClassMap.SettingsCardFull, icon, title, children...)
+}
+
+// SettingsSection renders a themed settings section.
+func (t *Themed) SettingsSection(icon, title, description string, children ...gui.Node) gui.Node {
+	return SettingsSection(t.ClassMap.SettingsSection, icon, title, description, children...)
+}
+
+// SettingsSubsection renders a themed settings subsection.
+func (t *Themed) SettingsSubsection(icon, title, description string, children ...gui.Node) gui.Node {
+	return SettingsSubsection(t.ClassMap.SettingsSubsection, icon, title, description, children...)
+}
+
+// SettingsForm renders a themed settings form.
+func (t *Themed) SettingsForm(title gui.Node, children ...gui.Node) gui.Node {
+	return SettingsForm(t.ClassMap.SettingsForm, title, children...)
+}
+
+// SettingsFormActions renders a themed settings form actions row.
+func (t *Themed) SettingsFormActions(children ...gui.Node) gui.Node {
+	return SettingsFormActions(t.ClassMap.SettingsFormActions, children...)
+}
+
+// SettingsFormHelp renders a themed settings form help text.
+func (t *Themed) SettingsFormHelp(children ...gui.Node) gui.Node {
+	return SettingsFormHelp(t.ClassMap.SettingsFormHelp, children...)
+}
+
+// SettingsCodeInput renders a themed code input.
+func (t *Themed) SettingsCodeInput(props SettingsCodeInputProps) gui.Node {
+	props.Class = t.ClassMap.SettingsCodeInput
+	return SettingsCodeInput(props)
+}
+
+// SettingsEnvRow renders a themed environment row.
+func (t *Themed) SettingsEnvRow(name string, badges []gui.Node, actions []gui.Node) gui.Node {
+	return SettingsEnvRow(t.ClassMap.SettingsEnvRow, name, badges, actions)
+}
+
+// SettingsFieldError renders a themed field error.
+func (t *Themed) SettingsFieldError(message string) gui.Node {
+	return SettingsFieldError(t.ClassMap.SettingsFieldError, message)
+}
+
+// SettingsSchemaTable renders a themed schema table.
+func (t *Themed) SettingsSchemaTable(rows []SettingsSchemaRow) gui.Node {
+	return SettingsSchemaTable(t.ClassMap.SettingsSchemaTable, rows)
+}
+
+// AdminPage renders a themed admin page.
+func (t *Themed) AdminPage(children ...gui.Node) gui.Node {
+	return AdminPage(t.ClassMap.AdminPage, children...)
+}
+
+// ClusterPage renders a themed cluster page.
+func (t *Themed) ClusterPage(children ...gui.Node) gui.Node {
+	return ClusterPage(t.ClassMap.ClusterPageCls, children...)
+}
+
+// ClusterSummaryCard renders a themed cluster summary card.
+func (t *Themed) ClusterSummaryCard(icon, value, label string) gui.Node {
+	return ClusterSummaryCard(t.ClassMap.ClusterSummaryCard, icon, value, label)
+}
+
+// ClusterSummaryRow renders a themed cluster summary row.
+func (t *Themed) ClusterSummaryRow(children ...gui.Node) gui.Node {
+	return ClusterSummaryRow(t.ClassMap.ClusterSummaryRow, children...)
+}
+
 // ─── Utility ───
 
 // Spinner renders a themed loading spinner.
@@ -524,4 +883,9 @@ func (t *Themed) Spinner(size SpinnerSize) gui.Node {
 // Icon renders a themed icon element.
 func (t *Themed) Icon(class string) gui.Node {
 	return Icon(t.ClassMap.Icon+" "+class, class)
+}
+
+// AppShellFull renders a themed top-level app shell.
+func (t *Themed) AppShellFull(scrollable bool, children ...gui.Node) gui.Node {
+	return AppShellFull(t.ClassMap.AppShellFull, scrollable, children...)
 }

@@ -5,9 +5,9 @@
 // through CSS selectors. Include styles.css for functional base styles.
 //
 // The package includes layout primitives (Stack, HStack, Grid, Card, Badge, Divider),
-// typography helpers (Heading, Paragraph, CodeBlock, Link, Image), and 50+ application
-// components (Button, forms, modals, tables, navigation, panels) — everything a UI
-// needs without external CSS.
+// typography helpers (Heading, Paragraph, CodeBlock, Link, Image), and 120+ application
+// components (Button, forms, modals, tables, navigation, panels, chat, settings, git,
+// overlays) — everything a UI needs without external CSS.
 //
 // Use core.md directly for fully custom designs, or layer a theme on top:
 //

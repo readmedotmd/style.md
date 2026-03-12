@@ -130,3 +130,126 @@ func SearchInputField(class, placeholder string, onInput func(gui.Event)) gui.No
 	}
 	return gui.Input(attrs...)()
 }
+
+// ─── New Input Components ───
+
+// PastePreviewItem represents a pasted image thumbnail.
+type PastePreviewItem struct {
+	Src      string
+	OnRemove func()
+}
+
+// PastePreview renders a row of pasted image thumbnails with remove buttons.
+func PastePreview(class string, items []PastePreviewItem) gui.Node {
+	children := make([]gui.Node, len(items))
+	for i, item := range items {
+		removeAttrs := []gui.Attr{}
+		if item.OnRemove != nil {
+			removeAttrs = append(removeAttrs, gui.OnClick(item.OnRemove))
+		}
+		children[i] = gui.Div()(
+			gui.Img(gui.Src(item.Src), gui.Alt("paste preview"))(),
+			gui.Button(removeAttrs...)(gui.Text("\u00d7")),
+		)
+	}
+	return gui.Div(collectAttrs(optClass(class))...)(children...)
+}
+
+// ExpandButton renders a small icon button to expand/collapse the textarea.
+//
+// Data attributes:
+//   - data-expanded: "true" (when expanded)
+func ExpandButton(class string, expanded bool, onToggle func()) gui.Node {
+	attrs := collectAttrs(optClass(class))
+	if expanded {
+		attrs = append(attrs, dataAttr("expanded", "true"))
+	}
+	if onToggle != nil {
+		attrs = append(attrs, gui.OnClick(onToggle))
+	}
+	return gui.Button(attrs...)(gui.Text("\u2922"))
+}
+
+// AttachButton renders a button to attach files/images.
+func AttachButton(class string, onAttach func()) gui.Node {
+	attrs := collectAttrs(optClass(class))
+	if onAttach != nil {
+		attrs = append(attrs, gui.OnClick(onAttach))
+	}
+	return gui.Button(attrs...)(gui.Text("📎"))
+}
+
+// SendButton renders a primary-colored send button.
+func SendButton(class, label string, onClick func()) gui.Node {
+	attrs := collectAttrs(optClass(class))
+	if onClick != nil {
+		attrs = append(attrs, gui.OnClick(onClick))
+	}
+	return gui.Button(attrs...)(gui.Text(label))
+}
+
+// CancelButton renders a danger-outlined cancel button.
+func CancelButton(class, label string, onClick func()) gui.Node {
+	attrs := collectAttrs(optClass(class))
+	if onClick != nil {
+		attrs = append(attrs, gui.OnClick(onClick))
+	}
+	return gui.Button(attrs...)(gui.Text(label))
+}
+
+// ModeButton renders a plan/act toggle button.
+//
+// Data attributes:
+//   - data-mode: "act" or "plan"
+func ModeButton(class, mode string, onClick func()) gui.Node {
+	attrs := collectAttrs(optClass(class))
+	if mode != "" {
+		attrs = append(attrs, dataAttr("mode", mode))
+	}
+	if onClick != nil {
+		attrs = append(attrs, gui.OnClick(onClick))
+	}
+	label := "Act"
+	if mode == "plan" {
+		label = "Plan"
+	}
+	return gui.Button(attrs...)(gui.Text(label))
+}
+
+// MessageQueueBar renders a bar above the chat input showing queued messages.
+func MessageQueueBar(class string, children ...gui.Node) gui.Node {
+	return gui.Div(collectAttrs(optClass(class))...)(children...)
+}
+
+// QueuedItem renders a single queued message row with send/remove actions.
+//
+// Data attributes:
+//   - data-has-image: "true" (when hasImage is true)
+func QueuedItem(class, text string, hasImage bool, onSend func(), onRemove func()) gui.Node {
+	attrs := collectAttrs(optClass(class))
+	if hasImage {
+		attrs = append(attrs, dataAttr("has-image", "true"))
+	}
+	children := []gui.Node{
+		gui.Span()(gui.Text(text)),
+	}
+	actions := []gui.Node{}
+	if onSend != nil {
+		actions = append(actions, gui.Button(gui.OnClick(onSend))(gui.Text("Send")))
+	}
+	if onRemove != nil {
+		actions = append(actions, gui.Button(gui.OnClick(onRemove))(gui.Text("\u00d7")))
+	}
+	if len(actions) > 0 {
+		children = append(children, gui.Div()(actions...))
+	}
+	return gui.Div(attrs...)(children...)
+}
+
+// AutocompleteHeader renders a header row showing the trigger character + label.
+func AutocompleteHeader(class, trigger, label string) gui.Node {
+	return gui.Div(collectAttrs(optClass(class))...)(
+		gui.Span()(gui.Text(trigger)),
+		gui.Span()(gui.Text(label)),
+	)
+}

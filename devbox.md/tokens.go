@@ -46,6 +46,19 @@ const (
 
 	ClassDragHandle = "dbx-drag-handle"
 
+	ClassDashboardLayout = "dbx-dashboard"
+	ClassSidebarCol      = "dbx-sidebar-col"
+	ClassSidebarColOpen  = "dbx-sidebar-col--open"
+	ClassSidebarOverlay  = "dbx-sidebar-overlay"
+	ClassCenterCol       = "dbx-center-col"
+	ClassChatArea        = "dbx-chat-area"
+	ClassChatHeader      = "dbx-chat-header"
+	ClassMsgList         = "dbx-message-list"
+	ClassChatInputArea   = "dbx-chat-input-area"
+	ClassChatInputRow    = "dbx-chat-input-row"
+	ClassChatInputWrap   = "dbx-chat-input-wrap"
+	ClassChatInputWrapEx = "dbx-chat-input-wrap--expanded"
+
 	// Navigation
 	ClassNavLink       = "dbx-nav-link"
 	ClassNavLinkActive = "dbx-nav-link--active"
@@ -60,11 +73,17 @@ const (
 	ClassBottomTabBarItemActive = "dbx-bottom-tab-bar__item--active"
 	ClassBottomTabBarIcon       = "dbx-bottom-tab-bar__icon"
 
+	ClassChatBackBtn   = "dbx-chat-back-btn"
+	ClassHamburgerBtn  = "dbx-hamburger-btn"
+	ClassChatToolbar   = "dbx-chat-toolbar"
+	ClassToolbarBtn    = "dbx-chat-toolbar-btn"
+	ClassToolbarBtnDgr = "dbx-chat-toolbar-btn--danger"
+
 	// Data Display
 	ClassMessage          = "dbx-message"
 	ClassMessageUser      = "dbx-message--user"
 	ClassMessageAssistant = "dbx-message--assistant"
-	ClassMessageStreaming = "dbx-message--streaming"
+	ClassMessageStreaming  = "dbx-message--streaming"
 	ClassMessageBubble    = "dbx-message__bubble"
 
 	ClassThinking          = "dbx-thinking"
@@ -103,6 +122,14 @@ const (
 	ClassClusterStats      = "dbx-cluster-stats"
 	ClassClusterStatsItem  = "dbx-cluster-stats__item"
 	ClassClusterStatsValue = "dbx-cluster-stats__value"
+
+	ClassMessageContent     = "dbx-message-content"
+	ClassMessageContentUser = "dbx-message-content--user"
+	ClassWorkingIndicator   = "dbx-working-indicator"
+	ClassChatStatusBadge    = "dbx-chat-header-status"
+	ClassThinkingHistory    = "dbx-thinking-history"
+	ClassChatError          = "dbx-chat-error"
+	ClassAcceptPlanBar      = "dbx-accept-plan-bar"
 
 	// List
 	ClassConversationItem       = "dbx-conversation-item"
@@ -199,6 +226,16 @@ const (
 
 	ClassSearchInput = "dbx-search-input"
 
+	ClassPastePreview    = "dbx-paste-preview"
+	ClassExpandBtn       = "dbx-expand-btn"
+	ClassAttachBtn       = "dbx-attach-btn"
+	ClassSendBtn         = "dbx-send-btn"
+	ClassCancelBtn       = "dbx-cancel-btn"
+	ClassModeBtn         = "dbx-mode-btn"
+	ClassMsgQueueBar     = "dbx-message-queue-bar"
+	ClassQueuedItem      = "dbx-queued-item"
+	ClassAutocompleteHdr = "dbx-ac-header"
+
 	// Overlay
 	ClassSearchOverlay        = "dbx-search-overlay"
 	ClassSearchOverlayPanel   = "dbx-search-overlay__panel"
@@ -208,6 +245,12 @@ const (
 	ClassContextMenu         = "dbx-context-menu"
 	ClassContextMenuItem     = "dbx-context-menu__item"
 	ClassContextMenuDanger   = "dbx-context-menu__item--danger"
+
+	ClassBottomSheet         = "dbx-bottom-sheet-overlay"
+	ClassSearchCard          = "dbx-search-card"
+	ClassSearchResult        = "dbx-search-result"
+	ClassSearchResultContent = "dbx-search-result dbx-search-result-content"
+	ClassSearchSnippet       = "dbx-search-snippet"
 
 	// Panel compositions
 	ClassTerminalPanel       = "dbx-terminal-panel"
@@ -222,6 +265,17 @@ const (
 	ClassSkillCardName = "dbx-skill-card__name"
 	ClassSkillCardDesc = "dbx-skill-card__description"
 
+	ClassGitPanel          = "dbx-git-panel"
+	ClassGitSectionHdr     = "dbx-git-section-header"
+	ClassGitFileList       = "dbx-git-file-list"
+	ClassGitFile           = "dbx-git-file"
+	ClassGitFileSelected   = "dbx-git-file--selected"
+	ClassGitCommitArea     = "dbx-git-commit-area"
+	ClassDiffCommentBtn    = "dbx-diff-comment-btn"
+	ClassDiffInlineComment = "dbx-diff-inline-comment"
+	ClassSvcActionBtn      = "dbx-svc-action-btn"
+	ClassRunnerEmpty       = "dbx-run-panel-empty"
+
 	// Page
 	ClassLoginPage      = "dbx-login-page"
 	ClassLoginCard      = "dbx-login-card"
@@ -235,11 +289,28 @@ const (
 	ClassSetupWizardConnector = "dbx-setup-wizard__step-connector"
 	ClassSetupWizardBody      = "dbx-setup-wizard__body"
 
+	ClassSettingsPage        = "dbx-settings-page"
+	ClassSettingsCardFull    = "dbx-settings-card"
+	ClassSettingsSection     = "dbx-settings-section-group"
+	ClassSettingsSubsection  = "dbx-settings-subsection"
+	ClassSettingsForm        = "dbx-settings-env-form"
+	ClassSettingsFormActions  = "dbx-settings-env-form-actions"
+	ClassSettingsFormHelp     = "dbx-settings-env-form-help"
+	ClassSettingsCodeInput   = "dbx-settings-code-input"
+	ClassSettingsEnvRow      = "dbx-settings-env-row"
+	ClassSettingsFieldError  = "dbx-settings-field-error"
+	ClassSettingsSchemaTable = "dbx-settings-schema"
+	ClassAdminPage           = "dbx-users-page"
+	ClassClusterPage         = "dbx-cluster-page"
+	ClassClusterSummaryCard  = "dbx-cluster-summary-card"
+	ClassClusterSummaryRow   = "dbx-cluster-summary"
+
 	// Utility
 	ClassSpinner      = "dbx-spinner"
 	ClassSpinnerSmall = "dbx-spinner--small"
 	ClassSpinnerLarge = "dbx-spinner--large"
 	ClassIcon         = "dbx-icon"
+	ClassAppShellFull = "dbx-app"
 )
 
 // classes joins multiple CSS class names into a single string.

@@ -24,3 +24,8 @@ func Spinner(size SpinnerSize) gui.Node {
 func Icon(class string) gui.Node {
 	return theme.Icon(class)
 }
+
+// AppShellFull renders a themed top-level app shell.
+func AppShellFull(scrollable bool, children ...gui.Node) gui.Node {
+	return theme.AppShellFull(scrollable, children...)
+}

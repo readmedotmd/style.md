@@ -96,12 +96,17 @@ All core.md components are re-exported with identical APIs:
 | **Primitives** | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly |
 | **Buttons** | Button |
 | **Forms** | FormGroup, TextInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, ErrorMessage, SuccessMessage |
-| **Display** | MessageBubble, ThinkingIndicator, StatusBadge, StatusDot, DiffViewer, DataTable, EmptyState |
-| **Layout** | AppShell, Navbar, Sidebar, Panel, Modal |
-| **Navigation** | NavLink, TabBar, BottomTabBar |
-| **Utility** | Spinner, Icon |
+| **Input** | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, ExpandButton, AttachButton, SendButton, CancelButton, ModeButton, MessageQueueBar, QueuedItem, AutocompleteHeader |
+| **Display** | MessageBubble, ThinkingIndicator, ThinkingCollapsible, ToolBadge, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent, WorkingIndicator, ChatStatusBadge, ThinkingHistory, ChatError, AcceptPlanBar |
+| **Lists** | ConversationItem, InstanceCard, ServiceRow, RunnerRow, FileTree |
+| **Layout** | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle, DashboardLayout, SidebarColumn, SidebarOverlay, CenterColumn, ChatArea, ChatHeader, MessageList, ChatInputArea, ChatInputRow, ChatInputWrap |
+| **Navigation** | NavLink, TabBar, BottomTabBar, ChatBackButton, HamburgerButton, ChatToolbar, ToolbarButton |
+| **Overlay** | SearchOverlay, ContextMenu, BottomSheet, SearchOverlayCard, SearchResult, SearchResultContent, SearchSnippet |
+| **Panels** | ServicesPanel, RunnerPanel, GitPanel, SkillsPanel, TerminalPanel, FileBrowser, GitSectionHeader, GitFileList, GitFile, GitCommitArea, DiffCommentButton, DiffInlineComment, ServiceActionButton, RunnerPanelEmpty |
+| **Pages** | LoginPage, SetupWizard, DashboardPage, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsFormActions, SettingsFormHelp, SettingsCodeInput, SettingsEnvRow, SettingsFieldError, SettingsSchemaTable, AdminPage, ClusterPage, ClusterSummaryCard, ClusterSummaryRow |
+| **Utility** | Spinner, Icon, AppShellFull |
 
-Plus 260+ exported CSS class constants in `tokens.go` for building custom components that stay on-system.
+Plus 310+ exported CSS class constants in `tokens.go` for building custom components that stay on-system.
 
 ## Files
 

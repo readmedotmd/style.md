@@ -15,7 +15,9 @@
 1. **[core.md](./core.md)** — Headless components with minimal base styles. Renders semantic HTML with `data-*` attributes for state. No opinions on visual design.
 2. **Themes** — CSS-only layers that target the same `data-*` selectors to apply a complete design language. Swap a `<link>` tag to switch themes at runtime.
 
-The first theme is **[industrial.md](./industrial.md)** — monospace typography, bold orange accents, hard shadows, high contrast.
+Current themes:
+- **[industrial.md](./industrial.md)** — monospace typography, bold orange accents, hard shadows, high contrast.
+- **[devbox.md](./devbox.md)** — Inter typography, green accents, soft shadows, dark-first developer tools aesthetic.
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -84,22 +86,22 @@ No HTML or Go code changes required.
 
 ### core.md — Headless Components
 
-60+ components with `data-*` attributes and minimal base styles. Includes layout primitives so your UI never needs external CSS.
+120+ components with `data-*` attributes and minimal base styles. Includes layout primitives so your UI never needs external CSS.
 
 | Category        | Components |
 |-----------------|------------|
 | **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly |
 | **Buttons**     | Button (primary, danger, toolbar; medium, small) |
 | **Forms**       | FormGroup, TextInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, ErrorMessage, SuccessMessage |
-| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField |
-| **Display**     | MessageBubble, ThinkingIndicator, ThinkingCollapsible, ToolBadge, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar |
+| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, ExpandButton, AttachButton, SendButton, CancelButton, ModeButton, MessageQueueBar, QueuedItem, AutocompleteHeader |
+| **Display**     | MessageBubble, ThinkingIndicator, ThinkingCollapsible, ToolBadge, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent, WorkingIndicator, ChatStatusBadge, ThinkingHistory, ChatError, AcceptPlanBar |
 | **Lists**       | ConversationItem, InstanceCard, ServiceRow, RunnerRow, FileTree |
-| **Navigation**  | NavLink, TabBar, BottomTabBar |
-| **Overlay**     | SearchOverlay, ContextMenu |
-| **Panels**      | ServicesPanel, RunnerPanel, GitPanel, SkillsPanel, TerminalPanel, FileBrowser |
-| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle |
-| **Pages**       | LoginPage, SetupWizard, DashboardPage, SettingsCard |
-| **Utility**     | Spinner, Icon |
+| **Navigation**  | NavLink, TabBar, BottomTabBar, ChatBackButton, HamburgerButton, ChatToolbar, ToolbarButton |
+| **Overlay**     | SearchOverlay, ContextMenu, BottomSheet, SearchOverlayCard, SearchResult, SearchResultContent, SearchSnippet |
+| **Panels**      | ServicesPanel, RunnerPanel, GitPanel, SkillsPanel, TerminalPanel, FileBrowser, GitSectionHeader, GitFileList, GitFile, GitCommitArea, DiffCommentButton, DiffInlineComment, ServiceActionButton, RunnerPanelEmpty |
+| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle, DashboardLayout, SidebarColumn, SidebarOverlay, CenterColumn, ChatArea, ChatHeader, MessageList, ChatInputArea, ChatInputRow, ChatInputWrap |
+| **Pages**       | LoginPage, SetupWizard, DashboardPage, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsFormActions, SettingsFormHelp, SettingsCodeInput, SettingsEnvRow, SettingsFieldError, SettingsSchemaTable, AdminPage, ClusterPage, ClusterSummaryCard, ClusterSummaryRow |
+| **Utility**     | Spinner, Icon, AppShellFull |
 
 **CSS primitives** in `styles.css` cover typography (h1-h6, p, code, pre, blockquote, kbd, mark), links, lists, images (`data-rounded`, `data-avatar`), layout (`data-stack`, `data-hstack`, `data-grid`, `data-align`, `data-justify`, `data-wrap`, `data-center`, `data-spacer`), cards (`data-card`), badges (`data-badge`), dividers, and utilities (`data-truncate`, `data-muted`, `data-mono`, `data-sr-only`).
 
@@ -131,8 +133,19 @@ Components communicate state through `data-*` attributes, which themes target vi
 | `data-status` | `running`, `stopped`, `starting`, `pending`, `error` | StatusBadge, StatusDot |
 | `data-error` | `true` | TextInput |
 | `data-streaming` | `true` | MessageBubble, ChatInput |
-| `data-open` | `true` | Sidebar |
-| `data-expanded` | `true` | Panel |
+| `data-open` | `true` | Sidebar, SidebarColumn |
+| `data-expanded` | `true` | Panel, ChatInputWrap, ExpandButton, GitPanel |
+| `data-role` | `user`, `assistant` | MessageBubble, MessageContent |
+| `data-mode` | `act`, `plan` | ModeButton |
+| `data-has-image` | `true` | QueuedItem |
+| `data-match` | `true` | SearchSnippet lines |
+| `data-danger` | `true` | ContextMenu items, BottomSheet items, ToolbarButton |
+| `data-staged` | `true` | GitSectionHeader, GitFile |
+| `data-state` | `M`, `A`, `D`, `??` | GitFile |
+| `data-selected` | `true` | AutocompletePopup items, GitFile |
+| `data-diff` | `add`, `remove`, `header`, `context` | DiffViewer lines |
+| `data-scrollable` | `true` | AppShellFull |
+| `data-completed` | `true` | SetupWizard steps |
 | `data-stack` | `xs`, `sm`, `md`, `lg`, `xl`, `none` | Stack layout |
 | `data-hstack` | `xs`, `sm`, `md`, `lg`, `xl`, `none` | HStack layout |
 | `data-grid` | `1`-`6` | Grid layout |
@@ -158,6 +171,7 @@ Themes override these tokens defined in `core.md/styles.css`:
   --core-danger:     #ef4444;
   --core-success:    #22c55e;
   --core-warning:    #f59e0b;
+  --core-info:       #3b82f6;
   --core-radius:     6px;
   --core-space:      8px;
   --core-transition: 150ms ease;
@@ -216,10 +230,17 @@ style.md/
 ├── industrial.md/             Industrial monospace theme
 │   ├── theme.css              CSS-only theme (targets data-* selectors)
 │   ├── styles.css             BEM class-based stylesheet
-│   ├── tokens.go              260+ CSS class constants
+│   ├── tokens.go              310+ CSS class constants
 │   ├── primitives.go          Re-exported primitives with theme wrappers
-│   ├── ...                    (14 Go files total)
+│   ├── ...                    (17 Go files total)
 │   └── examples/showcase.html Industrial showcase
+├── devbox.md/                 Developer tools theme
+│   ├── theme.css              CSS-only theme (targets data-* selectors)
+│   ├── styles.css             BEM class-based stylesheet
+│   ├── tokens.go              310+ CSS class constants
+│   ├── primitives.go          Re-exported primitives with theme wrappers
+│   ├── ...                    (17 Go files total)
+│   └── examples/showcase.html Devbox showcase
 ├── examples/
 │   └── theme-switcher.html    Interactive theme switching showcase
 ├── generate/                  SVG banner & icon generation server

@@ -14,21 +14,58 @@ func RunnerPanel(title string, runners ...gui.Node) gui.Node {
 	return Panel(PanelProps{Title: title}, nil, runners...)
 }
 
-// GitPanelTab represents the active tab in the git panel.
-type GitPanelTab string
+// GitPanelProps configures the GitPanel component.
+type GitPanelProps struct {
+	Class     string
+	Branch    string
+	Expanded  bool
+	ActiveTab string
+	Tabs      []TabBarTab
+	OnClose   func()
+	OnExpand  func()
+	OnRefresh func()
+}
 
-const (
-	GitPanelDiff   GitPanelTab = "diff"
-	GitPanelStatus GitPanelTab = "status"
-	GitPanelReview GitPanelTab = "review"
-)
+// GitPanel renders a git panel with branch, tabs, header actions, and content.
+//
+// Data attributes:
+//   - data-expanded: "true" (when expanded)
+func GitPanel(props GitPanelProps, headerActions []gui.Node, content gui.Node) gui.Node {
+	attrs := collectAttrs(optClass(props.Class))
+	if props.Expanded {
+		attrs = append(attrs, dataAttr("expanded", "true"))
+	}
 
-// GitPanel renders a git panel with tabs and content.
-func GitPanel(activeTab GitPanelTab, tabs []TabBarTab, content gui.Node) gui.Node {
-	return Panel(PanelProps{Title: "Git"}, nil,
-		TabBar("", tabs),
-		content,
-	)
+	// Header: branch name + action buttons
+	headerChildren := []gui.Node{
+		gui.Span()(gui.Text(props.Branch)),
+	}
+	actions := []gui.Node{}
+	if props.OnRefresh != nil {
+		actions = append(actions, gui.Button(gui.OnClick(props.OnRefresh))(gui.Text("\u21bb")))
+	}
+	if props.OnExpand != nil {
+		actions = append(actions, gui.Button(gui.OnClick(props.OnExpand))(gui.Text("\u2922")))
+	}
+	if props.OnClose != nil {
+		actions = append(actions, gui.Button(gui.OnClick(props.OnClose))(gui.Text("\u00d7")))
+	}
+	actions = append(actions, headerActions...)
+	if len(actions) > 0 {
+		headerChildren = append(headerChildren, gui.Div()(actions...))
+	}
+
+	panelChildren := []gui.Node{
+		gui.Div()(headerChildren...),
+	}
+	if len(props.Tabs) > 0 {
+		panelChildren = append(panelChildren, TabBar("", props.Tabs))
+	}
+	if content != nil {
+		panelChildren = append(panelChildren, gui.Div()(content))
+	}
+
+	return gui.Div(attrs...)(panelChildren...)
 }
 
 // SkillCard represents a skill in the skills panel.
@@ -99,4 +136,118 @@ func FileBrowser(heading string, items []FileTreeItem) gui.Node {
 	return Panel(PanelProps{Title: heading}, nil,
 		FileTree("", items),
 	)
+}
+
+// ─── New Panel Components ───
+
+// GitSectionHeader renders a "Staged Changes" / "Unstaged Changes" label.
+//
+// Data attributes:
+//   - data-staged: "true" (when staged is true)
+func GitSectionHeader(class, label string, staged bool) gui.Node {
+	attrs := collectAttrs(optClass(class))
+	if staged {
+		attrs = append(attrs, dataAttr("staged", "true"))
+	}
+	return gui.Div(attrs...)(gui.Text(label))
+}
+
+// GitFileList renders a scrollable list of git files.
+func GitFileList(class string, children ...gui.Node) gui.Node {
+	return gui.Div(collectAttrs(optClass(class))...)(children...)
+}
+
+// GitFileProps configures the GitFile component.
+type GitFileProps struct {
+	Class    string
+	Path     string
+	State    string // "M", "A", "D", "??"
+	Staged   bool
+	Selected bool
+	Desc     string
+	OnClick  func()
+}
+
+// GitFile renders a single git file entry.
+//
+// Data attributes:
+//   - data-state: "M", "A", "D", "??"
+//   - data-staged: "true" (when staged)
+//   - data-selected: "true" (when selected)
+func GitFile(props GitFileProps) gui.Node {
+	attrs := collectAttrs(optClass(props.Class))
+	if props.State != "" {
+		attrs = append(attrs, dataAttr("state", props.State))
+	}
+	if props.Staged {
+		attrs = append(attrs, dataAttr("staged", "true"))
+	}
+	if props.Selected {
+		attrs = append(attrs, dataAttr("selected", "true"))
+	}
+	if props.OnClick != nil {
+		attrs = append(attrs, gui.OnClick(props.OnClick))
+	}
+	children := []gui.Node{
+		gui.Span()(gui.Text(props.State)),
+		gui.Span()(gui.Text(props.Path)),
+	}
+	if props.Desc != "" {
+		children = append(children, gui.Span()(gui.Text(props.Desc)))
+	}
+	return gui.Div(attrs...)(children...)
+}
+
+// GitCommitArea renders the commit message form area with textarea + buttons.
+func GitCommitArea(class string, input gui.Node, actions ...gui.Node) gui.Node {
+	children := []gui.Node{}
+	if input != nil {
+		children = append(children, input)
+	}
+	if len(actions) > 0 {
+		children = append(children, gui.Div()(actions...))
+	}
+	return gui.Div(collectAttrs(optClass(class))...)(children...)
+}
+
+// DiffCommentButton renders a gutter button to add inline comment on a diff line.
+func DiffCommentButton(class string, onClick func()) gui.Node {
+	attrs := collectAttrs(optClass(class))
+	if onClick != nil {
+		attrs = append(attrs, gui.OnClick(onClick))
+	}
+	return gui.Button(attrs...)(gui.Text("+"))
+}
+
+// DiffInlineComment renders an inline comment input below a diff line.
+func DiffInlineComment(class string, input gui.Node) gui.Node {
+	children := []gui.Node{}
+	if input != nil {
+		children = append(children, input)
+	}
+	return gui.Div(collectAttrs(optClass(class))...)(children...)
+}
+
+// ServiceActionButton renders a colored action button for services (start/stop/restart).
+//
+// Data attributes:
+//   - data-variant: "start", "stop", "restart" or custom variant
+func ServiceActionButton(class, icon, variant string, onClick func()) gui.Node {
+	attrs := collectAttrs(optClass(class))
+	if variant != "" {
+		attrs = append(attrs, dataAttr("variant", variant))
+	}
+	if onClick != nil {
+		attrs = append(attrs, gui.OnClick(onClick))
+	}
+	children := []gui.Node{}
+	if icon != "" {
+		children = append(children, gui.I(gui.Class(icon))())
+	}
+	return gui.Button(attrs...)(children...)
+}
+
+// RunnerPanelEmpty renders an empty state for the runner panel.
+func RunnerPanelEmpty(class, message string) gui.Node {
+	return gui.Div(collectAttrs(optClass(class))...)(gui.Text(message))
 }

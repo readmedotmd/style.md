@@ -123,12 +123,19 @@ func LabelBadge(class, icon, text string) gui.Node {
 }
 
 // UsageBadge renders CPU and memory usage indicators.
-func UsageBadge(class, cpu, memory string) gui.Node {
-	return gui.Span(collectAttrs(optClass(class))...)(
+// When onClick is non-nil, renders as a button.
+func UsageBadge(class, cpu, memory string, onClick func()) gui.Node {
+	children := []gui.Node{
 		gui.Text(cpu),
 		gui.Span()(gui.Text("|")),
 		gui.Text(memory),
-	)
+	}
+	attrs := collectAttrs(optClass(class))
+	if onClick != nil {
+		attrs = append(attrs, gui.OnClick(onClick))
+		return gui.Button(attrs...)(children...)
+	}
+	return gui.Span(attrs...)(children...)
 }
 
 // DiffLine represents a single line in a diff.
@@ -204,4 +211,56 @@ func ClusterStatsBar(class string, stats []ClusterStat, onClick func()) gui.Node
 		attrs = append(attrs, gui.OnClick(onClick))
 	}
 	return gui.Div(attrs...)(children...)
+}
+
+// ─── New Display Components ───
+
+// MessageContent renders a wrapper for rendered markdown inside a message bubble.
+//
+// Data attributes:
+//   - data-role: "user" or "assistant"
+func MessageContent(class, role string, children ...gui.Node) gui.Node {
+	attrs := collectAttrs(optClass(class))
+	if role != "" {
+		attrs = append(attrs, dataAttr("role", role))
+	}
+	return gui.Div(attrs...)(children...)
+}
+
+// WorkingIndicator renders a pulsing "Working..." bar with spinner + text.
+func WorkingIndicator(class, label string) gui.Node {
+	return gui.Div(collectAttrs(optClass(class))...)(
+		Spinner(SpinnerProps{Size: SpinnerSmall}),
+		gui.Span()(gui.Text(label)),
+	)
+}
+
+// ChatStatusBadge renders a small pill badge showing streaming status.
+func ChatStatusBadge(class, label string) gui.Node {
+	return gui.Span(collectAttrs(optClass(class))...)(gui.Text(label))
+}
+
+// ThinkingHistory renders a collapsible <details> block for past thinking blocks.
+func ThinkingHistory(class, summary string, content gui.Node) gui.Node {
+	inner := []gui.Node{gui.Summary()(gui.Text(summary))}
+	if content != nil {
+		inner = append(inner, content)
+	}
+	return gui.Details(collectAttrs(optClass(class))...)(inner...)
+}
+
+// ChatError renders a centered error message in the chat stream.
+func ChatError(class, message string) gui.Node {
+	return gui.Div(collectAttrs(optClass(class))...)(gui.Text(message))
+}
+
+// AcceptPlanBar renders a bar with a button to accept a plan.
+func AcceptPlanBar(class string, onAccept func()) gui.Node {
+	btnAttrs := []gui.Attr{}
+	if onAccept != nil {
+		btnAttrs = append(btnAttrs, gui.OnClick(onAccept))
+	}
+	return gui.Div(collectAttrs(optClass(class))...)(
+		gui.Button(btnAttrs...)(gui.Text("Accept")),
+	)
 }

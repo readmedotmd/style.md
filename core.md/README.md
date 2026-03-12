@@ -18,7 +18,7 @@ go get github.com/readmedotmd/style.md/core.md
 
 ## What is core.md?
 
-**core.md** provides 60+ UI components that render semantic HTML with `data-*` attributes for state. Components include just enough CSS for usability — no visual opinions.
+**core.md** provides 120+ UI components that render semantic HTML with `data-*` attributes for state. Components include just enough CSS for usability — no visual opinions.
 
 Build your UI with core.md, then apply any theme on top with a single `<link>` tag.
 
@@ -130,15 +130,15 @@ coremd.SrOnly("screen only") // Screen reader only
 | **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly | `primitives.go` |
 | **Buttons**     | Button (primary, danger, toolbar; medium, small) | `button.go` |
 | **Forms**       | FormGroup, TextInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, ErrorMessage, SuccessMessage | `form.go` |
-| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField | `input.go` |
-| **Display**     | MessageBubble, ThinkingIndicator, ThinkingCollapsible, ToolBadge, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar | `display.go` |
+| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, ExpandButton, AttachButton, SendButton, CancelButton, ModeButton, MessageQueueBar, QueuedItem, AutocompleteHeader | `input.go` |
+| **Display**     | MessageBubble, ThinkingIndicator, ThinkingCollapsible, ToolBadge, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent, WorkingIndicator, ChatStatusBadge, ThinkingHistory, ChatError, AcceptPlanBar | `display.go` |
 | **Lists**       | ConversationItem, InstanceCard, ServiceRow, RunnerRow, FileTree | `list.go` |
-| **Navigation**  | NavLink, TabBar, BottomTabBar | `navigation.go` |
-| **Overlay**     | SearchOverlay, ContextMenu | `overlay.go` |
-| **Panels**      | ServicesPanel, RunnerPanel, GitPanel, SkillsPanel, TerminalPanel, FileBrowser | `panel.go` |
-| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle | `layout.go` |
-| **Pages**       | LoginPage, SetupWizard, DashboardPage, SettingsCard | `page.go` |
-| **Utility**     | Spinner, Icon | `utility.go` |
+| **Navigation**  | NavLink, TabBar, BottomTabBar, ChatBackButton, HamburgerButton, ChatToolbar, ToolbarButton | `navigation.go` |
+| **Overlay**     | SearchOverlay, ContextMenu, BottomSheet, SearchOverlayCard, SearchResult, SearchResultContent, SearchSnippet | `overlay.go` |
+| **Panels**      | ServicesPanel, RunnerPanel, GitPanel, SkillsPanel, TerminalPanel, FileBrowser, GitSectionHeader, GitFileList, GitFile, GitCommitArea, DiffCommentButton, DiffInlineComment, ServiceActionButton, RunnerPanelEmpty | `panel.go` |
+| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle, DashboardLayout, SidebarColumn, SidebarOverlay, CenterColumn, ChatArea, ChatHeader, MessageList, ChatInputArea, ChatInputRow, ChatInputWrap | `layout.go` |
+| **Pages**       | LoginPage, SetupWizard, DashboardPage, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsFormActions, SettingsFormHelp, SettingsCodeInput, SettingsEnvRow, SettingsFieldError, SettingsSchemaTable, AdminPage, ClusterPage, ClusterSummaryCard, ClusterSummaryRow | `page.go` |
+| **Utility**     | Spinner, Icon, AppShellFull | `utility.go` |
 
 ## Data Attributes
 
@@ -157,7 +157,20 @@ Components use `data-*` attributes for state, which CSS themes can target:
 | `data-badge` | `true`, `accent`, `success`, `danger`, `warning` | Badge |
 | `data-error` | `true` | TextInput |
 | `data-streaming` | `true` | MessageBubble, ChatInput |
-| `data-open` | `true` | Sidebar |
+| `data-open` | `true` | Sidebar, SidebarColumn |
+| `data-expanded` | `true` | Panel, ChatInputWrap, ExpandButton, GitPanel |
+| `data-role` | `user`, `assistant` | MessageBubble, MessageContent |
+| `data-mode` | `act`, `plan` | ModeButton |
+| `data-has-image` | `true` | QueuedItem |
+| `data-match` | `true` | SearchSnippet lines |
+| `data-danger` | `true` | ContextMenu items, BottomSheet items, ToolbarButton |
+| `data-staged` | `true` | GitSectionHeader, GitFile |
+| `data-state` | `M`, `A`, `D`, `??` | GitFile |
+| `data-selected` | `true` | AutocompletePopup items, GitFile |
+| `data-variant` | `start`, `stop`, `restart` | ServiceActionButton |
+| `data-diff` | `add`, `remove`, `header`, `context` | DiffViewer lines |
+| `data-scrollable` | `true` | AppShellFull |
+| `data-completed` | `true` | SetupWizard steps |
 
 ## CSS Custom Properties
 
@@ -176,6 +189,7 @@ Override these tokens to customize the base styles:
   --core-danger:     #ef4444;
   --core-success:    #22c55e;
   --core-warning:    #f59e0b;
+  --core-info:       #3b82f6;
   --core-radius:     6px;
   --core-space:      8px;
   --core-transition: 150ms ease;

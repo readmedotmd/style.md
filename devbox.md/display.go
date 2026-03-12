@@ -64,8 +64,8 @@ func LabelBadge(icon, text string) gui.Node {
 }
 
 // UsageBadge renders themed CPU and memory usage indicators.
-func UsageBadge(cpu, memory string) gui.Node {
-	return theme.UsageBadge(cpu, memory)
+func UsageBadge(cpu, memory string, onClick func()) gui.Node {
+	return theme.UsageBadge(cpu, memory, onClick)
 }
 
 // DiffViewer renders a themed code diff view.
@@ -86,4 +86,34 @@ func EmptyState(heading, description string) gui.Node {
 // ClusterStatsBar renders a themed row of cluster statistics.
 func ClusterStatsBar(stats []ClusterStat, onClick func()) gui.Node {
 	return theme.ClusterStatsBar(stats, onClick)
+}
+
+// MessageContent renders a themed message content wrapper.
+func MessageContent(role string, children ...gui.Node) gui.Node {
+	return theme.MessageContent(role, children...)
+}
+
+// WorkingIndicator renders a themed pulsing working bar.
+func WorkingIndicator(label string) gui.Node {
+	return theme.WorkingIndicator(label)
+}
+
+// ChatStatusBadge renders a themed streaming status badge.
+func ChatStatusBadge(label string) gui.Node {
+	return theme.ChatStatusBadge(label)
+}
+
+// ThinkingHistory renders a themed collapsible thinking history block.
+func ThinkingHistory(summary string, content gui.Node) gui.Node {
+	return theme.ThinkingHistory(summary, content)
+}
+
+// ChatError renders a themed chat error message.
+func ChatError(message string) gui.Node {
+	return theme.ChatError(message)
+}
+
+// AcceptPlanBar renders a themed accept plan bar.
+func AcceptPlanBar(onAccept func()) gui.Node {
+	return theme.AcceptPlanBar(onAccept)
 }
