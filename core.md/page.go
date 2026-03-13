@@ -6,19 +6,26 @@ import (
 	gui "github.com/readmedotmd/gui.md"
 )
 
-// LoginPage renders a centered login page.
+// LoginPage renders a centered login page with a styled card container.
+//
+// CSS classes:
+//   - .login-page: outer wrapper (flex centering)
+//   - .login-card: card container (surface background, border, padding)
+//   - .login-title: h2 title
+//   - .login-error: error message
+//   - .login-form: form content wrapper (stack with gap)
 func LoginPage(class, title string, form gui.Node, errorMsg string) gui.Node {
 	cardChildren := []gui.Node{
-		gui.Div()(gui.Text(title)),
+		gui.H2(gui.Class("login-title"))(gui.Text(title)),
 	}
 	if errorMsg != "" {
-		cardChildren = append(cardChildren, ErrorMessage("", errorMsg))
+		cardChildren = append(cardChildren, gui.Div(gui.Class("login-error"))(gui.Text(errorMsg)))
 	}
 	if form != nil {
-		cardChildren = append(cardChildren, form)
+		cardChildren = append(cardChildren, gui.Div(gui.Class("login-form"))(form))
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(
-		gui.Div()(cardChildren...),
+	return gui.Div(collectAttrs(optClass(joinClass("login-page", class)))...)(
+		gui.Div(gui.Class("login-card"))(cardChildren...),
 	)
 }
 

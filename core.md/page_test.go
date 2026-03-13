@@ -13,17 +13,32 @@ func TestLoginPage(t *testing.T) {
 		form := gui.Span()(gui.Text("form"))
 		screen := guitesting.Render(LoginPage("lp", "Sign In", form, "bad creds"))
 		screen.Assert(t).
-			HTMLContains(`class="lp"`).
+			HTMLContains(`class="login-page lp"`).
+			HTMLContains(`class="login-card"`).
+			HTMLContains(`class="login-title"`).
+			HTMLContains(`class="login-error"`).
+			HTMLContains(`class="login-form"`).
+			HasElement("h2").
 			TextVisible("Sign In").
 			TextVisible("form").
 			TextVisible("bad creds")
 	})
 	t.Run("no_error_no_form", func(t *testing.T) {
 		screen := guitesting.Render(LoginPage("", "Login", nil, ""))
-		screen.Assert(t).TextVisible("Login")
+		screen.Assert(t).
+			HTMLContains(`class="login-page"`).
+			HTMLContains(`class="login-card"`).
+			HasElement("h2").
+			TextVisible("Login")
 		html := screen.HTML()
 		if strings.Contains(html, "bad creds") {
 			t.Errorf("expected no error, got: %s", html)
+		}
+		if strings.Contains(html, "login-error") {
+			t.Errorf("expected no error element, got: %s", html)
+		}
+		if strings.Contains(html, "login-form") {
+			t.Errorf("expected no form element, got: %s", html)
 		}
 	})
 }

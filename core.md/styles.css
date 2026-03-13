@@ -71,18 +71,21 @@ button {
   cursor: pointer;
 }
 
-button[data-variant] ,
+button[data-variant],
 button:not([data-variant]) {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 8px 14px;
   border: 1px solid var(--core-border);
   border-radius: var(--core-radius);
   background: var(--core-bg);
   color: var(--core-text);
-  font-size: 13px;
+  font-size: 0.85rem;
   font-weight: 500;
+  min-height: 36px;
+  width: auto;
+  white-space: nowrap;
   transition: background var(--core-transition), border-color var(--core-transition);
 }
 
@@ -112,9 +115,11 @@ button[data-variant="danger"]:hover {
 }
 
 button[data-variant="toolbar"] {
+  padding: 6px 10px;
+  font-size: 0.82rem;
+  min-height: 28px;
   background: transparent;
   border-color: transparent;
-  padding: 6px 10px;
 }
 button[data-variant="toolbar"]:hover {
   background: var(--core-surface);
@@ -399,6 +404,34 @@ div:has(> button[data-active]) > button[data-active="true"] {
 }
 .modal-footer {
     border-top: 1px solid var(--core-border);
+}
+
+/* ─── Login Page ─── */
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+.login-card {
+  background: var(--core-surface);
+  border: 1px solid var(--core-border);
+  border-radius: 12px;
+  padding: 40px;
+}
+.login-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--core-text);
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.login-error {
+  color: var(--core-danger);
+  font-size: 13px;
 }
 
 /* ─── Sidebar: open/closed ─── */
