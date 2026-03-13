@@ -16,9 +16,10 @@ type NavLinkProps struct {
 // NavLink renders a navigation link button.
 //
 // Data attributes:
+//   - data-list-item
 //   - data-active: "true" (when active)
 func NavLink(props NavLinkProps) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("nav-link", props.Class)))
+	attrs := collectAttrs(optClass(joinClass("nav-link", props.Class)), dataAttr("list-item", ""))
 	if props.Active {
 		attrs = append(attrs, dataAttr("active", "true"))
 	}
@@ -90,58 +91,3 @@ func BottomTabBar(class string, items []BottomTabItem) gui.Node {
 	return gui.Div(collectAttrs(optClass(joinClass("bottom-tab-bar", class)))...)(children...)
 }
 
-// ─── New Navigation Components ───
-
-// ChatBackButton renders a mobile-only back arrow button in the chat header.
-func ChatBackButton(class string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("chat-back-btn", class)))
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	return gui.Button(attrs...)(gui.Text("\u2190"))
-}
-
-// HamburgerButton renders a mobile menu toggle button.
-func HamburgerButton(class string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	return gui.Button(attrs...)(gui.Text("\u2630"))
-}
-
-// ChatToolbar renders a container that shows desktop toolbar on large screens,
-// mobile trigger on small screens.
-func ChatToolbar(class string, desktop gui.Node, mobile gui.Node) gui.Node {
-	children := []gui.Node{}
-	if desktop != nil {
-		children = append(children, gui.Div()(desktop))
-	}
-	if mobile != nil {
-		children = append(children, gui.Div()(mobile))
-	}
-	return gui.Div(collectAttrs(optClass(joinClass("chat-toolbar", class)))...)(children...)
-}
-
-// ToolbarButton renders a small outlined button used in the chat toolbar.
-//
-// Data attributes:
-//   - data-danger: "true" (when danger is true)
-func ToolbarButton(class, icon, label string, danger bool, onClick func()) gui.Node {
-	base := ClassIf("chat-toolbar-btn", danger, "chat-toolbar-btn-danger")
-	attrs := collectAttrs(optClass(joinClass(base, class)))
-	if danger {
-		attrs = append(attrs, dataAttr("danger", "true"))
-	}
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	children := []gui.Node{}
-	if icon != "" {
-		children = append(children, gui.I(gui.Class(icon))())
-	}
-	if label != "" {
-		children = append(children, gui.Text(label))
-	}
-	return gui.Button(attrs...)(children...)
-}

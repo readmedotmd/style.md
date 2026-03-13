@@ -20,7 +20,7 @@ type ConversationItemProps struct {
 // Data attributes:
 //   - data-active: "true" (when active)
 func ConversationItem(props ConversationItemProps) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("conv-item", props.Class)), dataAttr("list-item", ""))
 	if props.Active {
 		attrs = append(attrs, dataAttr("active", "true"))
 	}

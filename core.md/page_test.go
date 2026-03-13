@@ -66,18 +66,6 @@ func TestSetupWizard(t *testing.T) {
 	})
 }
 
-func TestDashboardPage(t *testing.T) {
-	t.Run("renders_heading_and_description", func(t *testing.T) {
-		screen := guitesting.Render(DashboardPage("dp", "Welcome", "Overview"))
-		screen.Assert(t).
-			HTMLContains(`class="dp"`).
-			HasElement("h1").
-			HasElement("p").
-			TextVisible("Welcome").
-			TextVisible("Overview")
-	})
-}
-
 func TestSettingsCard(t *testing.T) {
 	t.Run("renders_title_and_children", func(t *testing.T) {
 		screen := guitesting.Render(SettingsCard("sc", "General", gui.Text("opt1")))
@@ -106,6 +94,7 @@ func TestSettingsCardFull(t *testing.T) {
 		screen := guitesting.Render(SettingsCardFull("scf", "icon-gear", "Prefs", gui.Text("body")))
 		screen.Assert(t).
 			HTMLContains(`class="scf"`).
+			HTMLContains("data-header").
 			TextVisible("Prefs").
 			TextVisible("body")
 		// Icon should be present
@@ -125,6 +114,7 @@ func TestSettingsSection(t *testing.T) {
 		screen := guitesting.Render(SettingsSection("ss", "icon-lock", "Security", "Manage access", gui.Text("child")))
 		screen.Assert(t).
 			HTMLContains(`class="settings-section-group ss"`).
+			HTMLContains("data-header").
 			TextVisible("Security").
 			TextVisible("Manage access").
 			TextVisible("child")
@@ -140,6 +130,7 @@ func TestSettingsSubsection(t *testing.T) {
 		screen := guitesting.Render(SettingsSubsection("sub", "icon-key", "API Keys", "Manage keys", gui.Text("list")))
 		screen.Assert(t).
 			HTMLContains(`class="settings-subsection sub"`).
+			HTMLContains("data-header").
 			HTMLContains(`data-settings-subsection-header`).
 			HTMLContains(`data-settings-subsection-body`).
 			TextVisible("API Keys").
@@ -163,20 +154,6 @@ func TestSettingsForm(t *testing.T) {
 	})
 }
 
-func TestSettingsFormActions(t *testing.T) {
-	t.Run("renders_children", func(t *testing.T) {
-		screen := guitesting.Render(SettingsFormActions("sfa", gui.Text("Save")))
-		screen.Assert(t).HTMLContains(`class="sfa"`).TextVisible("Save")
-	})
-}
-
-func TestSettingsFormHelp(t *testing.T) {
-	t.Run("renders_children", func(t *testing.T) {
-		screen := guitesting.Render(SettingsFormHelp("sfh", gui.Text("Help text")))
-		screen.Assert(t).HTMLContains(`class="settings-form-help sfh"`).TextVisible("Help text")
-	})
-}
-
 func TestSettingsCodeInput(t *testing.T) {
 	t.Run("renders_textarea", func(t *testing.T) {
 		screen := guitesting.Render(SettingsCodeInput(SettingsCodeInputProps{
@@ -197,65 +174,6 @@ func TestSettingsCodeInput(t *testing.T) {
 	t.Run("minimal", func(t *testing.T) {
 		screen := guitesting.Render(SettingsCodeInput(SettingsCodeInputProps{}))
 		screen.Assert(t).HasElement("textarea")
-	})
-}
-
-func TestSettingsEnvRow(t *testing.T) {
-	t.Run("with_badges_and_actions", func(t *testing.T) {
-		badges := []gui.Node{gui.Span()(gui.Text("prod"))}
-		actions := []gui.Node{gui.Span()(gui.Text("edit"))}
-		screen := guitesting.Render(SettingsEnvRow("ser", "staging", badges, actions))
-		screen.Assert(t).
-			HTMLContains(`class="settings-env-row ser"`).
-			HTMLContains(`data-settings-env-name`).
-			HTMLContains(`data-settings-env-badges`).
-			HTMLContains(`data-settings-env-actions`).
-			TextVisible("staging").
-			TextVisible("prod").
-			TextVisible("edit")
-	})
-	t.Run("no_badges_no_actions", func(t *testing.T) {
-		screen := guitesting.Render(SettingsEnvRow("", "dev", nil, nil))
-		screen.Assert(t).
-			HTMLContains(`data-settings-env-name`).
-			TextVisible("dev")
-	})
-}
-
-func TestSettingsFieldError(t *testing.T) {
-	t.Run("renders_message", func(t *testing.T) {
-		screen := guitesting.Render(SettingsFieldError("sfe", "Required"))
-		screen.Assert(t).HTMLContains(`class="sfe"`).TextVisible("Required")
-	})
-}
-
-func TestSettingsSchemaTable(t *testing.T) {
-	t.Run("renders_rows", func(t *testing.T) {
-		rows := []SettingsSchemaRow{
-			{Type: "string", Description: "The name"},
-			{Type: "int", Description: "The count"},
-		}
-		screen := guitesting.Render(SettingsSchemaTable("sst", rows))
-		screen.Assert(t).
-			HTMLContains(`class="sst"`).
-			TextVisible("string").
-			TextVisible("The name").
-			TextVisible("int").
-			TextVisible("The count")
-	})
-}
-
-func TestAdminPage(t *testing.T) {
-	t.Run("renders_children", func(t *testing.T) {
-		screen := guitesting.Render(AdminPage("ap", gui.Text("admin")))
-		screen.Assert(t).HTMLContains(`class="ap"`).TextVisible("admin")
-	})
-}
-
-func TestClusterPage(t *testing.T) {
-	t.Run("renders_children", func(t *testing.T) {
-		screen := guitesting.Render(ClusterPage("cp", gui.Text("cluster")))
-		screen.Assert(t).HTMLContains(`class="cluster-page cp"`).TextVisible("cluster")
 	})
 }
 

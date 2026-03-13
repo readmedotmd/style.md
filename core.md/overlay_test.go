@@ -72,26 +72,6 @@ func TestBottomSheet(t *testing.T) {
 	})
 }
 
-func TestSearchOverlayCard(t *testing.T) {
-	t.Run("with_all_children", func(t *testing.T) {
-		screen := guitesting.Render(SearchOverlayCard("soc",
-			gui.Text("tabs"), gui.Text("input"), gui.Text("results")))
-		screen.Assert(t).
-			HTMLContains(`class="soc"`).
-			TextVisible("tabs").
-			TextVisible("input").
-			TextVisible("results")
-	})
-	t.Run("nil_children_omitted", func(t *testing.T) {
-		screen := guitesting.Render(SearchOverlayCard("", nil, nil, nil))
-		html := screen.HTML()
-		// Should just be an empty div
-		if !strings.Contains(html, "<div>") {
-			t.Errorf("expected empty div, got: %s", html)
-		}
-	})
-}
-
 func TestSearchResult(t *testing.T) {
 	t.Run("with_icon_and_add_button", func(t *testing.T) {
 		clicked := false

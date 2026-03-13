@@ -18,7 +18,7 @@ go get github.com/readmedotmd/style.md/core.md
 
 ## What is core.md?
 
-**core.md** provides 120+ UI components that render semantic HTML with `data-*` attributes for state. Components include just enough CSS for usability — no visual opinions.
+**core.md** provides 110+ UI components that render semantic HTML with `data-*` attributes for state. Components include just enough CSS for usability — no visual opinions.
 
 Build your UI with core.md, then apply any theme by loading its CSS and setting `data-theme` on `<html>`.
 
@@ -130,14 +130,14 @@ coremd.SrOnly("screen only") // Screen reader only
 | **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly, MarkdownContent, SectionHeader, Collapsible, Animate | `primitives.go` |
 | **Buttons**     | Button (primary, danger, toolbar; medium, small) | `button.go` |
 | **Forms**       | FormGroup, TextInput, NumberInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, EditableVariableRow, SchemaField, ErrorMessage, SuccessMessage | `form.go` |
-| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, ExpandButton, AttachButton, SendButton, CancelButton, ModeButton, MessageQueueBar, QueuedItem, AutocompleteHeader | `input.go` |
-| **Display**     | MessageBubble, ThinkingIndicator, ThinkingCollapsible, ToolBadge, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent, WorkingIndicator, ChatStatusBadge, ThinkingHistory, ChatError, AcceptPlanBar | `display.go` |
-| **Lists**       | ConversationItem, InstanceCard, ServiceRow, RunnerRow, FileTree | `list.go` |
-| **Navigation**  | NavLink, TabBar, BottomTabBar, ChatBackButton, HamburgerButton, ChatToolbar, ToolbarButton | `navigation.go` |
-| **Overlay**     | SearchOverlay, ContextMenu, BottomSheet, SearchOverlayCard, SearchResult, SearchResultContent, SearchSnippet | `overlay.go` |
-| **Panels**      | ServicesPanel, RunnerPanel, GitPanel, SkillsPanel, TerminalPanel, FileBrowser, GitSectionHeader, GitFileList, GitFile, GitCommitArea, DiffCommentButton, DiffInlineComment, ServiceActionButton, RunnerPanelEmpty | `panel.go` |
-| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle, DashboardLayout, SidebarColumn, SidebarOverlay, CenterColumn, ChatArea, ChatHeader, MessageList, ChatInputArea, ChatInputRow, ChatInputWrap, Box, ScrollArea, SplitLayout, Backdrop, IconButton, Toolbar | `layout.go` |
-| **Pages**       | LoginPage, SetupWizard, DashboardPage, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsFormActions, SettingsFormHelp, SettingsCodeInput, SettingsEnvRow, SettingsFieldError, SettingsSchemaTable, AdminPage, ClusterPage, ClusterSummaryCard, ClusterSummaryRow | `page.go` |
+| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, MessageQueueBar, QueuedItem | `input.go` |
+| **Display**     | MessageBubble, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent | `display.go` |
+| **Lists**       | ConversationItem, InstanceCard, InstanceList, ServiceRow, RunnerRow, FileTree | `list.go` |
+| **Navigation**  | NavLink, TabBar, BottomTabBar | `navigation.go` |
+| **Overlay**     | SearchOverlay, ContextMenu, BottomSheet, SearchResult, SearchResultContent, SearchSnippet | `overlay.go` |
+| **Panels**      | GitPanel, SkillsPanel, TerminalPanel, GitSectionHeader, GitFileList, GitFile, GitCommitArea | `panel.go` |
+| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DashboardLayout, SidebarColumn, ChatHeader, Box, ScrollArea, SplitLayout, Backdrop, IconButton, Toolbar | `layout.go` |
+| **Pages**       | LoginPage, SetupWizard, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsCodeInput, ClusterSummaryCard, ClusterSummaryRow | `page.go` |
 | **Utility**     | Spinner, Icon, AppShellFull | `utility.go` |
 
 ## CSS Base Classes
@@ -165,17 +165,9 @@ coremd.Button(coremd.ButtonProps{Class: "my-btn"}, gui.Text("OK"))
 | Modal | `modal` | layout.go |
 | ModalBody | `modal-body` | layout.go |
 | ModalFooter | `modal-footer` | layout.go |
-| DragHandle | `drag-handle` | layout.go |
 | DashboardLayout | `dashboard-layout` | layout.go |
 | SidebarColumn | `sidebar-col` | layout.go |
-| SidebarOverlay | `sidebar-overlay` | layout.go |
-| CenterColumn | `center-col` | layout.go |
-| ChatArea | `chat-area` | layout.go |
 | ChatHeader | `chat-header` | layout.go |
-| MessageList | `message-list` | layout.go |
-| ChatInputArea | `chat-input-area` | layout.go |
-| ChatInputRow | `chat-input-row` | layout.go |
-| ChatInputWrap | `chat-input-wrap` | layout.go |
 | Box | `box` | layout.go |
 | ScrollArea | `scroll-area` | layout.go |
 | SplitLayout | `split-layout` | layout.go |
@@ -186,13 +178,7 @@ coremd.Button(coremd.ButtonProps{Class: "my-btn"}, gui.Text("OK"))
 | NavLink | `nav-link` | navigation.go |
 | TabBar | `tab-bar` | navigation.go |
 | BottomTabBar | `bottom-tab-bar` | navigation.go |
-| ChatBackButton | `chat-back-btn` | navigation.go |
-| ChatToolbar | `chat-toolbar` | navigation.go |
-| ToolbarButton | `chat-toolbar-btn` | navigation.go |
 | MessageBubble | `message` | display.go |
-| ThinkingIndicator | `thinking-indicator` | display.go |
-| ThinkingCollapsible | `thinking-collapsible` | display.go |
-| ToolBadge | `tool-badge` | display.go |
 | QuestionPrompt | `question-prompt` | display.go |
 | StatusBadge | `status-badge` | display.go |
 | StatusDot | `status-dot` | display.go |
@@ -202,17 +188,11 @@ coremd.Button(coremd.ButtonProps{Class: "my-btn"}, gui.Text("OK"))
 | DataTable | `data-table` | display.go |
 | EmptyState | `empty-state` | display.go |
 | ClusterStatsBar | `cluster-stats-bar` | display.go |
-| WorkingIndicator | `working-indicator` | display.go |
-| ChatError | `chat-error` | display.go |
-| AcceptPlanBar | `accept-plan-bar` | display.go |
 | ChatInput | `chat-input` | input.go |
 | AutocompletePopup | `autocomplete-popup` | input.go |
 | MessageQueue | `message-queue` | input.go |
 | SearchInputField | `search-input-field` | input.go |
 | PastePreview | `paste-preview` | input.go |
-| ExpandButton | `expand-btn` | input.go |
-| AttachButton | `attach-btn` | input.go |
-| ModeButton | `mode-btn` | input.go |
 | MessageQueueBar | `message-queue` | input.go |
 | QueuedItem | `queued-item` | input.go |
 | Checkbox | `checkbox` | form.go |
@@ -224,15 +204,19 @@ coremd.Button(coremd.ButtonProps{Class: "my-btn"}, gui.Text("OK"))
 | SearchOverlay | `search-overlay` | overlay.go |
 | ContextMenu | `context-menu` | overlay.go |
 | BottomSheet | `bottom-sheet` | overlay.go |
+| ConversationItem | `conv-item` | list.go |
+| GitPanel | `git-panel` | panel.go |
+| TerminalPanel | `terminal-panel` | panel.go |
+| GitSectionHeader | `git-section-header` | panel.go |
+| GitFileList | `git-file-list` | panel.go |
+| GitFile | `git-file` | panel.go |
+| GitCommitArea | `git-commit-area` | panel.go |
 | SettingsCard | `settings-card` | page.go |
 | SettingsPage | `settings-page` | page.go |
 | SettingsSection | `settings-section-group` | page.go |
 | SettingsSubsection | `settings-subsection` | page.go |
 | SettingsForm | `settings-form` | page.go |
-| SettingsFormHelp | `settings-form-help` | page.go |
 | SettingsCodeInput | `settings-code-input` | page.go |
-| SettingsEnvRow | `settings-env-row` | page.go |
-| ClusterPage | `cluster-page` | page.go |
 | ClusterSummaryCard | `cluster-summary-card` | page.go |
 | ClusterSummaryRow | `cluster-summary` | page.go |
 | Spinner | `spinner` | utility.go |
@@ -257,7 +241,7 @@ coremd.Button(coremd.ButtonProps{Class: "my-btn"}, gui.Text("OK"))
 | Collapsible | `collapsible` | primitives.go |
 | Animate | `animate` | primitives.go |
 
-Components **without** a base class (styled via element selectors or `data-*` attributes only): FormGroup, TextInput, SelectInput, SendButton, CancelButton, HamburgerButton, AutocompleteHeader.
+Components **without** a base class (styled via element selectors or `data-*` attributes only): FormGroup, TextInput, SelectInput.
 
 Internally, base classes are built with the `joinClass` helper:
 
@@ -284,16 +268,14 @@ Components use `data-*` attributes for state, which CSS themes can target:
 | `data-error` | `true` | TextInput |
 | `data-streaming` | `true` | MessageBubble, ChatInput |
 | `data-open` | `true` | Sidebar, SidebarColumn |
-| `data-expanded` | `true` | Panel, ChatInputWrap, ExpandButton, GitPanel |
+| `data-expanded` | `true` | Panel, GitPanel |
 | `data-role` | `user`, `assistant` | MessageBubble, MessageContent |
-| `data-mode` | `act`, `plan` | ModeButton |
 | `data-has-image` | `true` | QueuedItem |
 | `data-match` | `true` | SearchSnippet lines |
-| `data-danger` | `true` | ContextMenu items, BottomSheet items, ToolbarButton |
+| `data-danger` | `true` | ContextMenu items, BottomSheet items |
 | `data-staged` | `true` | GitSectionHeader, GitFile |
 | `data-state` | `M`, `A`, `D`, `??` | GitFile |
 | `data-selected` | `true` | AutocompletePopup items, GitFile |
-| `data-variant` | `start`, `stop`, `restart` | ServiceActionButton |
 | `data-diff` | `add`, `remove`, `header`, `context` | DiffViewer lines |
 | `data-scrollable` | `true` | AppShellFull |
 | `data-completed` | `true` | SetupWizard steps |
@@ -324,6 +306,16 @@ Components use `data-*` attributes for state, which CSS themes can target:
 | `data-schema-field-name` | | SchemaField name span |
 | `data-schema-field-type` | | SchemaField type span |
 | `data-schema-field-desc` | | SchemaField description span |
+| `data-header` | | Generic header primitive (SidebarHeader, ChatHeader, GitPanel, GitSectionHeader, SettingsSection, SettingsCardFull, SettingsSubsection) |
+| `data-list-item` | | Generic list item primitive (NavLink, ConversationItem, GitFile) |
+| `data-side-panel` | | Generic side panel primitive (GitPanel, TerminalPanel) |
+| `data-terminal-panel` | | TerminalPanel |
+| `data-terminal-tabs` | | TerminalPanel tab bar |
+| `data-terminal-tab` | | TerminalPanel individual tab |
+| `data-settings-subsection-header` | | SettingsSubsection header |
+| `data-settings-subsection-body` | | SettingsSubsection body |
+| `data-dir` | `true` | FileTree directory items |
+| `data-working` | `true` | InstanceCard |
 
 ## CSS Custom Properties
 

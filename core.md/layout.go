@@ -123,13 +123,6 @@ func ModalFooter(class string, children ...gui.Node) gui.Node {
 	return gui.Div(collectAttrs(optClass(joinClass("modal-footer", class)))...)(children...)
 }
 
-// DragHandle renders a drag handle indicator.
-func DragHandle(class string) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("drag-handle", class)))...)(
-		gui.Div()(),
-	)
-}
-
 // ─── Dashboard Layout Components ───
 
 // DashboardLayout renders a flex row container for sidebar + center column + right panels.
@@ -149,27 +142,6 @@ func SidebarColumn(class string, open bool, children ...gui.Node) gui.Node {
 	return gui.Div(attrs...)(children...)
 }
 
-// SidebarOverlay renders a semi-transparent overlay behind the sidebar on tablet.
-func SidebarOverlay(class string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("sidebar-overlay", class)))
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	return gui.Div(attrs...)()
-}
-
-// CenterColumn renders a flex:1 center column that stacks chat area + terminal panel.
-func CenterColumn(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("center-col", class)))...)(children...)
-}
-
-// ─── Chat Layout Components ───
-
-// ChatArea renders a flex column container for chat header + message list + input area.
-func ChatArea(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("chat-area", class)))...)(children...)
-}
-
 // ChatHeader renders a fixed-height header bar with title + toolbar buttons.
 func ChatHeader(class string, title gui.Node, toolbar gui.Node) gui.Node {
 	children := []gui.Node{}
@@ -180,33 +152,6 @@ func ChatHeader(class string, title gui.Node, toolbar gui.Node) gui.Node {
 		children = append(children, toolbar)
 	}
 	return gui.Div(collectAttrs(optClass(joinClass("chat-header", class)))...)(children...)
-}
-
-// MessageList renders a scrollable flex column for messages with gap.
-func MessageList(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("message-list", class)))...)(children...)
-}
-
-// ChatInputArea renders a bottom-pinned input area container.
-func ChatInputArea(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("chat-input-area", class)))...)(children...)
-}
-
-// ChatInputRow renders a horizontal row holding textarea + send/cancel/mode buttons.
-func ChatInputRow(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("chat-input-row", class)))...)(children...)
-}
-
-// ChatInputWrap renders a wrapper around the textarea + expand button.
-//
-// Data attributes:
-//   - data-expanded: "true" (when expanded)
-func ChatInputWrap(class string, expanded bool, children ...gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("chat-input-wrap", class)))
-	if expanded {
-		attrs = append(attrs, dataAttr("expanded", "true"))
-	}
-	return gui.Div(attrs...)(children...)
 }
 
 // ─── Generic Containers ───

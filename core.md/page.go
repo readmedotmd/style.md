@@ -69,14 +69,6 @@ func SetupWizard(class string, steps []SetupStep, content gui.Node) gui.Node {
 	)
 }
 
-// DashboardPage renders a dashboard page with a heading and description.
-func DashboardPage(class, heading, description string) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(
-		gui.H1()(gui.Text(heading)),
-		gui.P()(gui.Text(description)),
-	)
-}
-
 // SettingsCard renders a settings section card with a header and body.
 //
 // Data attributes:
@@ -96,21 +88,31 @@ func SettingsPage(class string, children ...gui.Node) gui.Node {
 	return gui.Div(collectAttrs(optClass(joinClass("settings-page", class)))...)(children...)
 }
 
-// SettingsCardFull renders a settings card with colored header (icon + title) + body.
-//
-// Data attributes:
-//   - data-settings-card-header: on the header div
-//   - data-settings-card-body: on the body div
-func SettingsCardFull(class, icon, title string, children ...gui.Node) gui.Node {
+// settingsBlock is a shared internal helper for settings card/section/subsection pattern:
+// header(icon + title + optional description) + body(children).
+func settingsBlock(class, icon, title, description string, headerAttr, bodyAttr gui.Attr, children ...gui.Node) gui.Node {
 	headerChildren := []gui.Node{}
 	if icon != "" {
 		headerChildren = append(headerChildren, gui.I(gui.Class(icon))())
 	}
-	headerChildren = append(headerChildren, gui.Text(title))
+	headerChildren = append(headerChildren, gui.Span()(gui.Text(title)))
+	if description != "" {
+		headerChildren = append(headerChildren, gui.Span()(gui.Text(description)))
+	}
 	return gui.Div(collectAttrs(optClass(class))...)(
-		gui.Div(dataAttr("settings-card-header", ""))(headerChildren...),
-		gui.Div(dataAttr("settings-card-body", ""))(children...),
+		gui.Div(headerAttr, dataAttr("header", ""))(headerChildren...),
+		gui.Div(bodyAttr)(children...),
 	)
+}
+
+// SettingsCardFull renders a settings card with colored header (icon + title) + body.
+//
+// Data attributes:
+//   - data-header: on the header div
+//   - data-settings-card-header: on the header div
+//   - data-settings-card-body: on the body div
+func SettingsCardFull(class, icon, title string, children ...gui.Node) gui.Node {
+	return settingsBlock(class, icon, title, "", dataAttr("settings-card-header", ""), dataAttr("settings-card-body", ""), children...)
 }
 
 // SettingsSection renders a section within a settings card with border-top separator.
@@ -123,7 +125,7 @@ func SettingsSection(class, icon, title, description string, children ...gui.Nod
 	if description != "" {
 		headerChildren = append(headerChildren, gui.Span()(gui.Text(description)))
 	}
-	all := []gui.Node{gui.Div()(headerChildren...)}
+	all := []gui.Node{gui.Div(dataAttr("header", ""))(headerChildren...)}
 	all = append(all, children...)
 	return gui.Div(collectAttrs(optClass(joinClass("settings-section-group", class)))...)(all...)
 }
@@ -131,21 +133,11 @@ func SettingsSection(class, icon, title, description string, children ...gui.Nod
 // SettingsSubsection renders a bordered subsection within a settings card.
 //
 // Data attributes:
+//   - data-header: on the header div
 //   - data-settings-subsection-header: on the header div
 //   - data-settings-subsection-body: on the body wrapper div
 func SettingsSubsection(class, icon, title, description string, children ...gui.Node) gui.Node {
-	headerChildren := []gui.Node{}
-	if icon != "" {
-		headerChildren = append(headerChildren, gui.I(gui.Class(icon))())
-	}
-	headerChildren = append(headerChildren, gui.Span()(gui.Text(title)))
-	if description != "" {
-		headerChildren = append(headerChildren, gui.Span()(gui.Text(description)))
-	}
-	return gui.Div(collectAttrs(optClass(joinClass("settings-subsection", class)))...)(
-		gui.Div(dataAttr("settings-subsection-header", ""))(headerChildren...),
-		gui.Div(dataAttr("settings-subsection-body", ""))(children...),
-	)
+	return settingsBlock(joinClass("settings-subsection", class), icon, title, description, dataAttr("settings-subsection-header", ""), dataAttr("settings-subsection-body", ""), children...)
 }
 
 // SettingsForm renders a form area within settings (raised bg, bordered).
@@ -156,16 +148,6 @@ func SettingsForm(class string, title gui.Node, children ...gui.Node) gui.Node {
 	}
 	all = append(all, children...)
 	return gui.Div(collectAttrs(optClass(joinClass("settings-form", class)))...)(all...)
-}
-
-// SettingsFormActions renders a button row at the bottom of a settings form.
-func SettingsFormActions(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
-}
-
-// SettingsFormHelp renders a help text block within a settings form.
-func SettingsFormHelp(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("settings-form-help", class)))...)(children...)
 }
 
 // SettingsCodeInputProps configures the SettingsCodeInput component.
@@ -194,58 +176,6 @@ func SettingsCodeInput(props SettingsCodeInputProps) gui.Node {
 		attrs = append(attrs, gui.On("input", props.OnInput))
 	}
 	return gui.Textarea(attrs...)(gui.Text(props.Value))
-}
-
-// SettingsEnvRow renders a row in the environments list showing name + badges + actions.
-//
-// Data attributes:
-//   - data-settings-env-name: on the name span
-//   - data-settings-env-badges: on the badges div
-//   - data-settings-env-actions: on the actions div
-func SettingsEnvRow(class, name string, badges []gui.Node, actions []gui.Node) gui.Node {
-	children := []gui.Node{
-		gui.Span(dataAttr("settings-env-name", ""))(gui.Text(name)),
-	}
-	if len(badges) > 0 {
-		children = append(children, gui.Div(dataAttr("settings-env-badges", ""))(badges...))
-	}
-	if len(actions) > 0 {
-		children = append(children, gui.Div(dataAttr("settings-env-actions", ""))(actions...))
-	}
-	return gui.Div(collectAttrs(optClass(joinClass("settings-env-row", class)))...)(children...)
-}
-
-// SettingsFieldError renders a small red field-level error text.
-func SettingsFieldError(class, message string) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(gui.Text(message))
-}
-
-// SettingsSchemaRow represents a row in a schema documentation table.
-type SettingsSchemaRow struct {
-	Type        string
-	Description string
-}
-
-// SettingsSchemaTable renders a documentation table for schema fields.
-func SettingsSchemaTable(class string, rows []SettingsSchemaRow) gui.Node {
-	children := make([]gui.Node, len(rows))
-	for i, row := range rows {
-		children[i] = gui.Div()(
-			gui.Span()(gui.Text(row.Type)),
-			gui.Span()(gui.Text(row.Description)),
-		)
-	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
-}
-
-// AdminPage renders a wider padded admin page container.
-func AdminPage(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
-}
-
-// ClusterPage renders a cluster stats page container.
-func ClusterPage(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("cluster-page", class)))...)(children...)
 }
 
 // ClusterSummaryCard renders a summary stat card with icon + large number + label.

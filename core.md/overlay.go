@@ -88,21 +88,6 @@ func BottomSheet(class string, items []BottomSheetItem) gui.Node {
 	)
 }
 
-// SearchOverlayCard renders the centered modal card used in the search overlay.
-func SearchOverlayCard(class string, tabs gui.Node, input gui.Node, results gui.Node) gui.Node {
-	children := []gui.Node{}
-	if tabs != nil {
-		children = append(children, tabs)
-	}
-	if input != nil {
-		children = append(children, input)
-	}
-	if results != nil {
-		children = append(children, results)
-	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
-}
-
 // SearchResult renders a single search result row.
 func SearchResult(class, icon, path, text string, onAdd func()) gui.Node {
 	children := []gui.Node{}

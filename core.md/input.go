@@ -155,67 +155,6 @@ func PastePreview(class string, items []PastePreviewItem) gui.Node {
 	return gui.Div(collectAttrs(optClass(joinClass("paste-preview", class)))...)(children...)
 }
 
-// ExpandButton renders a small icon button to expand/collapse the textarea.
-//
-// Data attributes:
-//   - data-expanded: "true" (when expanded)
-func ExpandButton(class string, expanded bool, onToggle func()) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("expand-btn", class)))
-	if expanded {
-		attrs = append(attrs, dataAttr("expanded", "true"))
-	}
-	if onToggle != nil {
-		attrs = append(attrs, gui.OnClick(onToggle))
-	}
-	return gui.Button(attrs...)(gui.Text("\u2922"))
-}
-
-// AttachButton renders a button to attach files/images.
-func AttachButton(class string, onAttach func()) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("attach-btn", class)))
-	if onAttach != nil {
-		attrs = append(attrs, gui.OnClick(onAttach))
-	}
-	return gui.Button(attrs...)(gui.Text("📎"))
-}
-
-// SendButton renders a primary-colored send button.
-func SendButton(class, label string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	return gui.Button(attrs...)(gui.Text(label))
-}
-
-// CancelButton renders a danger-outlined cancel button.
-func CancelButton(class, label string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	return gui.Button(attrs...)(gui.Text(label))
-}
-
-// ModeButton renders a plan/act toggle button.
-//
-// Data attributes:
-//   - data-mode: "act" or "plan"
-func ModeButton(class, mode string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("mode-btn", class)))
-	if mode != "" {
-		attrs = append(attrs, dataAttr("mode", mode))
-	}
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	label := "Act"
-	if mode == "plan" {
-		label = "Plan"
-	}
-	return gui.Button(attrs...)(gui.Text(label))
-}
-
 // MessageQueueBar renders a bar above the chat input showing queued messages.
 func MessageQueueBar(class string, children ...gui.Node) gui.Node {
 	return gui.Div(collectAttrs(optClass(joinClass("message-queue", class)))...)(children...)
@@ -244,12 +183,4 @@ func QueuedItem(class, text string, hasImage bool, onSend func(), onRemove func(
 		children = append(children, gui.Div()(actions...))
 	}
 	return gui.Div(attrs...)(children...)
-}
-
-// AutocompleteHeader renders a header row showing the trigger character + label.
-func AutocompleteHeader(class, trigger, label string) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(
-		gui.Span()(gui.Text(trigger)),
-		gui.Span()(gui.Text(label)),
-	)
 }

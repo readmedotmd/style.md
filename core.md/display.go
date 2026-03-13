@@ -29,29 +29,6 @@ func MessageBubble(props MessageBubbleProps, children ...gui.Node) gui.Node {
 	)
 }
 
-// ThinkingIndicator renders a spinner with a text label.
-func ThinkingIndicator(class, label string) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("thinking-indicator", class)))...)(
-		Spinner(SpinnerProps{Size: SpinnerSmall}),
-		gui.Text(label),
-	)
-}
-
-// ThinkingCollapsible renders a collapsible thinking section.
-func ThinkingCollapsible(class, label string, children ...gui.Node) gui.Node {
-	inner := []gui.Node{gui.Summary()(gui.Text(label))}
-	inner = append(inner, children...)
-	return gui.Details(collectAttrs(optClass(joinClass("thinking-collapsible", class)))...)(inner...)
-}
-
-// ToolBadge renders a small pill badge for a tool invocation.
-func ToolBadge(class, name string) gui.Node {
-	return gui.Span(collectAttrs(optClass(joinClass("tool-badge", class)))...)(
-		gui.Span()(),
-		gui.Text(name),
-	)
-}
-
 // QuestionPromptOption represents a selectable option in a QuestionPrompt.
 type QuestionPromptOption struct {
 	Label       string
@@ -213,8 +190,6 @@ func ClusterStatsBar(class string, stats []ClusterStat, onClick func()) gui.Node
 	return gui.Div(attrs...)(children...)
 }
 
-// ─── New Display Components ───
-
 // MessageContent renders a wrapper for rendered markdown inside a message bubble.
 //
 // Data attributes:
@@ -225,42 +200,4 @@ func MessageContent(class, role string, children ...gui.Node) gui.Node {
 		attrs = append(attrs, dataAttr("role", role))
 	}
 	return gui.Div(attrs...)(children...)
-}
-
-// WorkingIndicator renders a pulsing "Working..." bar with spinner + text.
-func WorkingIndicator(class, label string) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("working-indicator", class)))...)(
-		Spinner(SpinnerProps{Size: SpinnerSmall}),
-		gui.Span()(gui.Text(label)),
-	)
-}
-
-// ChatStatusBadge renders a small pill badge showing streaming status.
-func ChatStatusBadge(class, label string) gui.Node {
-	return gui.Span(collectAttrs(optClass(class))...)(gui.Text(label))
-}
-
-// ThinkingHistory renders a collapsible <details> block for past thinking blocks.
-func ThinkingHistory(class, summary string, content gui.Node) gui.Node {
-	inner := []gui.Node{gui.Summary()(gui.Text(summary))}
-	if content != nil {
-		inner = append(inner, content)
-	}
-	return gui.Details(collectAttrs(optClass(class))...)(inner...)
-}
-
-// ChatError renders a centered error message in the chat stream.
-func ChatError(class, message string) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("chat-error", class)))...)(gui.Text(message))
-}
-
-// AcceptPlanBar renders a bar with a button to accept a plan.
-func AcceptPlanBar(class string, onAccept func()) gui.Node {
-	btnAttrs := []gui.Attr{}
-	if onAccept != nil {
-		btnAttrs = append(btnAttrs, gui.OnClick(onAccept))
-	}
-	return gui.Div(collectAttrs(optClass(joinClass("accept-plan-bar", class)))...)(
-		gui.Button(btnAttrs...)(gui.Text("Accept")),
-	)
 }

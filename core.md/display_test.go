@@ -24,32 +24,6 @@ func TestMessageBubble_NoStreaming(t *testing.T) {
 	s.Assert(t).HTMLContains(`data-role="user"`).HTMLNotContains(`data-streaming`)
 }
 
-func TestThinkingIndicator(t *testing.T) {
-	s := guitesting.Render(ThinkingIndicator("ti-cls", "Thinking..."))
-	a := s.Assert(t)
-	a.HTMLContains(`class="thinking-indicator ti-cls"`)
-	a.TextVisible("Thinking...")
-	a.HasElement("div")
-}
-
-func TestThinkingCollapsible(t *testing.T) {
-	s := guitesting.Render(ThinkingCollapsible("tc-cls", "Details", gui.Text("body")))
-	a := s.Assert(t)
-	a.HasElement("details")
-	a.HasElement("summary")
-	a.HTMLContains(`class="thinking-collapsible tc-cls"`)
-	a.TextVisible("Details")
-	a.TextVisible("body")
-}
-
-func TestToolBadge(t *testing.T) {
-	s := guitesting.Render(ToolBadge("tb-cls", "grep"))
-	a := s.Assert(t)
-	a.HasElement("span")
-	a.HTMLContains(`class="tool-badge tb-cls"`)
-	a.TextVisible("grep")
-}
-
 func TestQuestionPrompt(t *testing.T) {
 	clicked := false
 	opts := []QuestionPromptOption{
@@ -210,68 +184,4 @@ func TestMessageContent(t *testing.T) {
 func TestMessageContent_NoRole(t *testing.T) {
 	s := guitesting.Render(MessageContent("", "", gui.Text("x")))
 	s.Assert(t).HTMLNotContains(`data-role`).TextVisible("x")
-}
-
-func TestWorkingIndicator(t *testing.T) {
-	s := guitesting.Render(WorkingIndicator("wi", "Working..."))
-	a := s.Assert(t)
-	a.HTMLContains(`class="working-indicator wi"`)
-	a.TextVisible("Working...")
-	a.HasElement("span")
-}
-
-func TestChatStatusBadge(t *testing.T) {
-	s := guitesting.Render(ChatStatusBadge("csb", "Streaming"))
-	a := s.Assert(t)
-	a.HTMLContains(`class="csb"`)
-	a.TextVisible("Streaming")
-	a.HasElement("span")
-}
-
-func TestThinkingHistory(t *testing.T) {
-	s := guitesting.Render(ThinkingHistory("th", "Past thinking", gui.Text("details")))
-	a := s.Assert(t)
-	a.HasElement("details")
-	a.HasElement("summary")
-	a.HTMLContains(`class="th"`)
-	a.TextVisible("Past thinking")
-	a.TextVisible("details")
-}
-
-func TestThinkingHistory_NilContent(t *testing.T) {
-	s := guitesting.Render(ThinkingHistory("", "Summary", nil))
-	a := s.Assert(t)
-	a.HasElement("details")
-	a.TextVisible("Summary")
-}
-
-func TestChatError(t *testing.T) {
-	s := guitesting.Render(ChatError("ce", "Something went wrong"))
-	a := s.Assert(t)
-	a.HTMLContains(`class="chat-error ce"`)
-	a.TextVisible("Something went wrong")
-	a.HasElement("div")
-}
-
-func TestAcceptPlanBar(t *testing.T) {
-	accepted := false
-	s := guitesting.Render(AcceptPlanBar("ap", func() { accepted = true }))
-	a := s.Assert(t)
-	a.HTMLContains(`class="accept-plan-bar ap"`)
-	a.TextVisible("Accept")
-	a.HasElement("button")
-
-	btn := s.GetByRole("button")
-	s.Click(btn)
-	if !accepted {
-		t.Error("expected onAccept to fire")
-	}
-}
-
-func TestAcceptPlanBar_NilOnAccept(t *testing.T) {
-	s := guitesting.Render(AcceptPlanBar("", nil))
-	a := s.Assert(t)
-	a.HasElement("button")
-	a.TextVisible("Accept")
-	// button should exist but have no onclick — just verify no panic on render
 }

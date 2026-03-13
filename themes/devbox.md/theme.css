@@ -455,3 +455,210 @@
 
 /* ─── Animate ─── */
 [data-theme="devbox"] [data-animate="pulse"] { animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   App Layout — Devbox decorative overrides
+   Layers on top of structural rules in core.md/styles.css
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Navbar ─── */
+[data-theme="devbox"] .navbar {
+  background: var(--dbx-navbar-bg);
+  box-shadow: var(--dbx-shadow-sm);
+}
+[data-theme="devbox"] .navbar > span:first-child {
+  letter-spacing: -0.02em;
+}
+[data-theme="devbox"] button.nav-link,
+[data-theme="devbox"] button.nav-link:not([data-variant]) {
+  box-shadow: none;
+  transition: all var(--core-transition);
+}
+[data-theme="devbox"] button.nav-link:hover,
+[data-theme="devbox"] button.nav-link:not([data-variant]):hover {
+  background: var(--dbx-hover-bg);
+  box-shadow: none;
+}
+[data-theme="devbox"] button.nav-link[data-active="true"],
+[data-theme="devbox"] button.nav-link:not([data-variant])[data-active="true"] {
+  background: var(--dbx-active-bg);
+  box-shadow: none;
+}
+
+/* ─── Cluster Stats Bar ─── */
+[data-theme="devbox"] .cluster-stats-bar {
+  box-shadow: var(--dbx-shadow-sm);
+}
+[data-theme="devbox"] .cluster-stats-bar:hover {
+  box-shadow: var(--dbx-shadow-md);
+}
+
+/* ─── Cluster Summary Card ─── */
+[data-theme="devbox"] .cluster-summary-card {
+  box-shadow: var(--dbx-shadow-sm);
+  transition: box-shadow var(--core-transition);
+}
+[data-theme="devbox"] .cluster-summary-card:hover {
+  box-shadow: var(--dbx-shadow-md);
+}
+
+/* ─── Sidebar ─── */
+[data-theme="devbox"] .sidebar-col {
+  background: var(--dbx-sidebar-bg);
+}
+[data-theme="devbox"] .conv-item:hover,
+[data-theme="devbox"] .git-file:hover,
+[data-theme="devbox"] [data-list-item]:hover {
+  background: var(--dbx-hover-bg);
+}
+[data-theme="devbox"] .conv-item[data-active="true"] {
+  background: var(--dbx-active-bg);
+  border-left-color: var(--dbx-active-border);
+}
+[data-theme="devbox"] [data-list-item][data-active="true"] {
+  background: var(--dbx-active-bg);
+}
+
+/* ─── Instance Card ─── */
+[data-theme="devbox"] [data-instance-card]:hover {
+  background: var(--dbx-hover-bg);
+}
+[data-theme="devbox"] [data-instance-card][data-active="true"] {
+  background: var(--dbx-active-bg);
+  border-left-color: var(--dbx-active-border);
+}
+
+/* ─── Chat Header ─── */
+[data-theme="devbox"] .chat-header {
+  background: var(--dbx-navbar-bg);
+  box-shadow: var(--dbx-shadow-sm);
+}
+
+/* ─── Messages ─── */
+[data-theme="devbox"] .message code {
+  font-family: var(--core-font-mono);
+}
+[data-theme="devbox"] .message pre {
+  font-family: var(--core-font-mono);
+}
+
+/* ─── Chat Input ─── */
+[data-theme="devbox"] .chat-input-area {
+  box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
+}
+[data-theme="devbox"] .chat-input:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+/* ─── Autocomplete ─── */
+[data-theme="devbox"] .autocomplete-popup {
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+}
+[data-theme="devbox"] .autocomplete-popup > div:hover {
+  background: var(--dbx-hover-bg);
+}
+
+/* ─── Chat Toolbar ─── */
+[data-theme="devbox"] button.chat-toolbar-btn:hover {
+  box-shadow: none;
+}
+[data-theme="devbox"] button.chat-toolbar-btn-danger:hover {
+  box-shadow: none;
+}
+
+/* ─── Panels ─── */
+[data-theme="devbox"] .panel {
+  box-shadow: var(--dbx-shadow-md);
+}
+[data-theme="devbox"] .panel-item:hover {
+  box-shadow: var(--dbx-shadow-sm);
+}
+
+/* ─── Search Card ─── */
+[data-theme="devbox"] .search-card {
+  box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+}
+
+/* ─── Bottom Sheet ─── */
+[data-theme="devbox"] .bottom-sheet {
+  box-shadow: 0 -4px 32px rgba(0,0,0,0.35);
+}
+
+/* ─── Modal ─── */
+[data-theme="devbox"] .modal {
+  box-shadow: var(--dbx-shadow-lg);
+}
+
+/* ─── Git Panel ─── */
+[data-theme="devbox"] .git-panel-expanded {
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+[data-theme="devbox"] .git-commit-input:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+/* ─── Side Panels ─── */
+[data-theme="devbox"] .services-panel,
+[data-theme="devbox"] .run-panel,
+[data-theme="devbox"] [data-side-panel] {
+  box-shadow: var(--dbx-shadow-md);
+}
+
+/* ─── Settings ─── */
+[data-theme="devbox"] .settings-card {
+  box-shadow: var(--dbx-shadow-sm);
+}
+[data-theme="devbox"] .settings-card:hover {
+  box-shadow: var(--dbx-shadow-md);
+}
+[data-theme="devbox"] .settings-env-row {
+  transition: box-shadow var(--core-transition);
+}
+[data-theme="devbox"] .settings-env-row:hover {
+  box-shadow: var(--dbx-shadow-sm);
+}
+[data-theme="devbox"] .settings-feature-row:hover {
+  box-shadow: var(--dbx-shadow-sm);
+}
+[data-theme="devbox"] .settings-var-input:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+[data-theme="devbox"] .settings-code-input:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+[data-theme="devbox"] .settings-subsection {
+  box-shadow: var(--dbx-shadow-sm);
+}
+
+/* ─── Users Page ─── */
+[data-theme="devbox"] .users-table {
+  box-shadow: var(--dbx-shadow-sm);
+}
+[data-theme="devbox"] .users-create-form {
+  box-shadow: var(--dbx-shadow-sm);
+}
+
+/* ─── Terminal Panel ─── */
+[data-theme="devbox"] [data-terminal-tabs] {
+  box-shadow: var(--dbx-shadow-sm);
+}
+[data-theme="devbox"] [data-terminal-tab]:hover {
+  background: var(--dbx-hover-bg);
+}
+
+/* ─── Auth Page ─── */
+[data-theme="devbox"] .auth-card,
+[data-theme="devbox"] .login-card,
+[data-theme="devbox"] .login-page > div {
+  box-shadow: var(--dbx-shadow-lg);
+}
+[data-theme="devbox"] .auth-input:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+[data-theme="devbox"] .auth-btn {
+  box-shadow: var(--dbx-shadow-sm);
+  transition: all var(--core-transition);
+}
+[data-theme="devbox"] .auth-btn:hover {
+  box-shadow: var(--dbx-shadow-md);
+}

@@ -102,21 +102,21 @@ Set `data-mode="dark"` on `<html>`, or let themes auto-detect via `prefers-color
 
 ### core.md — Headless Components
 
-120+ components with `data-*` attributes and minimal base styles. Includes layout primitives so your UI never needs external CSS.
+110+ components with `data-*` attributes and minimal base styles. Includes layout primitives so your UI never needs external CSS.
 
 | Category        | Components |
 |-----------------|------------|
 | **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly, MarkdownContent, SectionHeader, Collapsible, Animate |
 | **Buttons**     | Button (primary, danger, toolbar; medium, small) |
 | **Forms**       | FormGroup, TextInput, NumberInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, EditableVariableRow, SchemaField, ErrorMessage, SuccessMessage |
-| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, ExpandButton, AttachButton, SendButton, CancelButton, ModeButton, MessageQueueBar, QueuedItem, AutocompleteHeader |
-| **Display**     | MessageBubble, ThinkingIndicator, ThinkingCollapsible, ToolBadge, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent, WorkingIndicator, ChatStatusBadge, ThinkingHistory, ChatError, AcceptPlanBar |
-| **Lists**       | ConversationItem, InstanceCard, ServiceRow, RunnerRow, FileTree |
-| **Navigation**  | NavLink, TabBar, BottomTabBar, ChatBackButton, HamburgerButton, ChatToolbar, ToolbarButton |
-| **Overlay**     | SearchOverlay, ContextMenu, BottomSheet, SearchOverlayCard, SearchResult, SearchResultContent, SearchSnippet |
-| **Panels**      | ServicesPanel, RunnerPanel, GitPanel, SkillsPanel, TerminalPanel, FileBrowser, GitSectionHeader, GitFileList, GitFile, GitCommitArea, DiffCommentButton, DiffInlineComment, ServiceActionButton, RunnerPanelEmpty |
-| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DragHandle, DashboardLayout, SidebarColumn, SidebarOverlay, CenterColumn, ChatArea, ChatHeader, MessageList, ChatInputArea, ChatInputRow, ChatInputWrap, Box, ScrollArea, SplitLayout, Backdrop, IconButton, Toolbar |
-| **Pages**       | LoginPage, SetupWizard, DashboardPage, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsFormActions, SettingsFormHelp, SettingsCodeInput, SettingsEnvRow, SettingsFieldError, SettingsSchemaTable, AdminPage, ClusterPage, ClusterSummaryCard, ClusterSummaryRow |
+| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, MessageQueueBar, QueuedItem |
+| **Display**     | MessageBubble, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent |
+| **Lists**       | ConversationItem, InstanceCard, InstanceList, ServiceRow, RunnerRow, FileTree |
+| **Navigation**  | NavLink, TabBar, BottomTabBar |
+| **Overlay**     | SearchOverlay, ContextMenu, BottomSheet, SearchResult, SearchResultContent, SearchSnippet |
+| **Panels**      | GitPanel, SkillsPanel, TerminalPanel, GitSectionHeader, GitFileList, GitFile, GitCommitArea |
+| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DashboardLayout, SidebarColumn, ChatHeader, Box, ScrollArea, SplitLayout, Backdrop, IconButton, Toolbar |
+| **Pages**       | LoginPage, SetupWizard, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsCodeInput, ClusterSummaryCard, ClusterSummaryRow |
 | **Utility**     | Spinner, Icon, AppShellFull |
 
 **CSS primitives** in `styles.css` cover typography (h1-h6, p, code, pre, blockquote, kbd, mark), links, lists, images (`data-rounded`, `data-avatar`), layout (`data-stack`, `data-hstack`, `data-grid`, `data-align`, `data-justify`, `data-wrap`, `data-center`, `data-spacer`), cards (`data-card`), badges (`data-badge`), dividers, and utilities (`data-truncate`, `data-muted`, `data-mono`, `data-sr-only`).
@@ -156,12 +156,11 @@ Components communicate state through `data-*` attributes, which themes target vi
 | `data-error` | `true` | TextInput |
 | `data-streaming` | `true` | MessageBubble, ChatInput |
 | `data-open` | `true` | Sidebar, SidebarColumn |
-| `data-expanded` | `true` | Panel, ChatInputWrap, ExpandButton, GitPanel |
+| `data-expanded` | `true` | Panel, GitPanel |
 | `data-role` | `user`, `assistant` | MessageBubble, MessageContent |
-| `data-mode` | `act`, `plan` | ModeButton |
 | `data-has-image` | `true` | QueuedItem |
 | `data-match` | `true` | SearchSnippet lines |
-| `data-danger` | `true` | ContextMenu items, BottomSheet items, ToolbarButton |
+| `data-danger` | `true` | ContextMenu items, BottomSheet items |
 | `data-staged` | `true` | GitSectionHeader, GitFile |
 | `data-state` | `M`, `A`, `D`, `??` | GitFile |
 | `data-selected` | `true` | AutocompletePopup items, GitFile |
@@ -202,6 +201,16 @@ Components communicate state through `data-*` attributes, which themes target vi
 | `data-schema-field-name` | | SchemaField name span |
 | `data-schema-field-type` | | SchemaField type span |
 | `data-schema-field-desc` | | SchemaField description span |
+| `data-header` | | Generic header primitive (SidebarHeader, ChatHeader, GitPanel, GitSectionHeader, SettingsSection, SettingsCardFull, SettingsSubsection) |
+| `data-list-item` | | Generic list item primitive (NavLink, ConversationItem, GitFile) |
+| `data-side-panel` | | Generic side panel primitive (GitPanel, TerminalPanel) |
+| `data-terminal-panel` | | TerminalPanel |
+| `data-terminal-tabs` | | TerminalPanel tab bar |
+| `data-terminal-tab` | | TerminalPanel individual tab |
+| `data-settings-subsection-header` | | SettingsSubsection header |
+| `data-settings-subsection-body` | | SettingsSubsection body |
+| `data-dir` | `true` | FileTree directory items |
+| `data-working` | `true` | InstanceCard |
 
 ## CSS Custom Properties
 

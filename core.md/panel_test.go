@@ -1,30 +1,11 @@
 package coremd
 
 import (
-	"strings"
 	"testing"
 
 	gui "github.com/readmedotmd/gui.md"
 	guitesting "github.com/readmedotmd/gui.md/testing"
 )
-
-func TestServicesPanel(t *testing.T) {
-	t.Run("delegates_to_panel", func(t *testing.T) {
-		action := gui.Span()(gui.Text("act"))
-		screen := guitesting.Render(ServicesPanel("Services", []gui.Node{action}, gui.Text("svc1")))
-		screen.Assert(t).
-			TextVisible("Services").
-			TextVisible("act").
-			TextVisible("svc1")
-	})
-}
-
-func TestRunnerPanel(t *testing.T) {
-	t.Run("renders_title_and_runners", func(t *testing.T) {
-		screen := guitesting.Render(RunnerPanel("Runners", gui.Text("r1")))
-		screen.Assert(t).TextVisible("Runners").TextVisible("r1")
-	})
-}
 
 func TestGitPanel(t *testing.T) {
 	t.Run("expanded_with_branch_and_buttons", func(t *testing.T) {
@@ -38,8 +19,10 @@ func TestGitPanel(t *testing.T) {
 			OnClose:   func() {},
 		}, nil, gui.Text("diff")))
 		screen.Assert(t).
-			HTMLContains(`class="gp"`).
+			HTMLContains(`class="git-panel git-panel-expanded gp"`).
 			HTMLContains(`data-expanded="true"`).
+			HTMLContains("data-side-panel").
+			HTMLContains("data-header").
 			TextVisible("main").
 			TextVisible("diff")
 		// Should have refresh, expand, close buttons
@@ -56,6 +39,7 @@ func TestGitPanel(t *testing.T) {
 		screen := guitesting.Render(GitPanel(GitPanelProps{Branch: "dev"}, nil, nil))
 		screen.Assert(t).
 			HTMLNotContains("data-expanded").
+			HTMLContains("data-side-panel").
 			TextVisible("dev")
 	})
 	t.Run("with_tabs", func(t *testing.T) {
@@ -100,6 +84,7 @@ func TestTerminalPanel(t *testing.T) {
 		screen := guitesting.Render(TerminalPanel("tp", tabs, func() {}, gui.Text("$ ls")))
 		screen.Assert(t).
 			HTMLContains(`class="terminal-panel tp"`).
+			HTMLContains("data-side-panel").
 			TextVisible("bash").
 			TextVisible("node").
 			TextVisible("$ ls").
@@ -112,32 +97,20 @@ func TestTerminalPanel(t *testing.T) {
 	})
 }
 
-func TestFileBrowser(t *testing.T) {
-	t.Run("renders_heading_and_items", func(t *testing.T) {
-		items := []FileTreeItem{
-			{Name: "src", IsDir: true},
-			{Name: "main.go", IsDir: false},
-		}
-		screen := guitesting.Render(FileBrowser("Explorer", items))
-		screen.Assert(t).
-			TextVisible("Explorer").
-			TextVisible("src").
-			TextVisible("main.go")
-	})
-}
-
 func TestGitSectionHeader(t *testing.T) {
 	t.Run("staged", func(t *testing.T) {
 		screen := guitesting.Render(GitSectionHeader("gsh", "Staged Changes", true))
 		screen.Assert(t).
-			HTMLContains(`class="gsh"`).
+			HTMLContains(`class="git-section-header git-staged-header gsh"`).
 			HTMLContains(`data-staged="true"`).
+			HTMLContains("data-header").
 			TextVisible("Staged Changes")
 	})
 	t.Run("unstaged", func(t *testing.T) {
 		screen := guitesting.Render(GitSectionHeader("", "Unstaged", false))
 		screen.Assert(t).
 			HTMLNotContains("data-staged").
+			HTMLContains("data-header").
 			TextVisible("Unstaged")
 	})
 }
@@ -146,7 +119,7 @@ func TestGitFileList(t *testing.T) {
 	t.Run("renders_children", func(t *testing.T) {
 		screen := guitesting.Render(GitFileList("gfl", gui.Text("f1"), gui.Text("f2")))
 		screen.Assert(t).
-			HTMLContains(`class="gfl"`).
+			HTMLContains(`class="git-file-list gfl"`).
 			TextVisible("f1").
 			TextVisible("f2")
 	})
@@ -163,7 +136,8 @@ func TestGitFile(t *testing.T) {
 			Desc:     "modified",
 		}))
 		screen.Assert(t).
-			HTMLContains(`class="gf"`).
+			HTMLContains(`class="git-file gf"`).
+			HTMLContains("data-list-item").
 			HTMLContains(`data-state="M"`).
 			HTMLContains(`data-staged="true"`).
 			HTMLContains(`data-selected="true"`).
@@ -175,6 +149,7 @@ func TestGitFile(t *testing.T) {
 		screen := guitesting.Render(GitFile(GitFileProps{Path: "f.go", State: "A"}))
 		screen.Assert(t).
 			HTMLContains(`data-state="A"`).
+			HTMLContains("data-list-item").
 			HTMLNotContains("data-staged").
 			HTMLNotContains("data-selected").
 			TextVisible("f.go")
@@ -185,7 +160,7 @@ func TestGitCommitArea(t *testing.T) {
 	t.Run("with_input_and_actions", func(t *testing.T) {
 		screen := guitesting.Render(GitCommitArea("gca", gui.Text("textarea"), gui.Text("commit"), gui.Text("cancel")))
 		screen.Assert(t).
-			HTMLContains(`class="gca"`).
+			HTMLContains(`class="git-commit-area gca"`).
 			TextVisible("textarea").
 			TextVisible("commit").
 			TextVisible("cancel")
@@ -193,60 +168,5 @@ func TestGitCommitArea(t *testing.T) {
 	t.Run("nil_input_no_actions", func(t *testing.T) {
 		screen := guitesting.Render(GitCommitArea("", nil))
 		screen.Assert(t).HasElement("div")
-	})
-}
-
-func TestDiffCommentButton(t *testing.T) {
-	t.Run("renders_plus_button", func(t *testing.T) {
-		clicked := false
-		screen := guitesting.Render(DiffCommentButton("dcb", func() { clicked = true }))
-		screen.Assert(t).
-			HTMLContains(`class="dcb"`).
-			HasElement("button").
-			TextVisible("+")
-		ref := screen.QueryAllByTag("button")[0]
-		screen.Click(ref)
-		if !clicked {
-			t.Error("expected onclick to fire")
-		}
-	})
-}
-
-func TestDiffInlineComment(t *testing.T) {
-	t.Run("with_input", func(t *testing.T) {
-		screen := guitesting.Render(DiffInlineComment("dic", gui.Text("comment")))
-		screen.Assert(t).
-			HTMLContains(`class="dic"`).
-			TextVisible("comment")
-	})
-	t.Run("nil_input", func(t *testing.T) {
-		screen := guitesting.Render(DiffInlineComment("", nil))
-		screen.Assert(t).HasElement("div")
-	})
-}
-
-func TestServiceActionButton(t *testing.T) {
-	t.Run("with_variant_and_icon", func(t *testing.T) {
-		screen := guitesting.Render(ServiceActionButton("sab", "icon-play", "start", func() {}))
-		screen.Assert(t).
-			HTMLContains(`class="sab"`).
-			HTMLContains(`data-variant="start"`).
-			HasElement("button")
-	})
-	t.Run("no_variant_no_icon", func(t *testing.T) {
-		screen := guitesting.Render(ServiceActionButton("", "", "", nil))
-		html := screen.HTML()
-		if strings.Contains(html, "data-variant") {
-			t.Errorf("expected no data-variant, got: %s", html)
-		}
-	})
-}
-
-func TestRunnerPanelEmpty(t *testing.T) {
-	t.Run("renders_message", func(t *testing.T) {
-		screen := guitesting.Render(RunnerPanelEmpty("rpe", "No runners"))
-		screen.Assert(t).
-			HTMLContains(`class="rpe"`).
-			TextVisible("No runners")
 	})
 }

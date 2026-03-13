@@ -21,6 +21,7 @@ func TestNavLink(t *testing.T) {
 		screen.Assert(t).
 			HTMLContains(`class="nav-link nl"`).
 			HTMLContains(`data-active="true"`).
+			HTMLContains("data-list-item").
 			HasElement("button").
 			TextVisible("Home")
 		ref := screen.QueryAllByTag("button")[0]
@@ -96,75 +97,3 @@ func TestBottomTabBar(t *testing.T) {
 	})
 }
 
-func TestChatBackButton(t *testing.T) {
-	t.Run("renders_back_arrow", func(t *testing.T) {
-		clicked := false
-		screen := guitesting.Render(ChatBackButton("cbb", func() { clicked = true }))
-		screen.Assert(t).
-			HTMLContains(`class="chat-back-btn cbb"`).
-			HasElement("button").
-			TextVisible("\u2190")
-		ref := screen.QueryAllByTag("button")[0]
-		screen.Click(ref)
-		if !clicked {
-			t.Error("expected onclick to fire")
-		}
-	})
-	t.Run("nil_onclick", func(t *testing.T) {
-		screen := guitesting.Render(ChatBackButton("", nil))
-		screen.Assert(t).HasElement("button")
-	})
-}
-
-func TestHamburgerButton(t *testing.T) {
-	t.Run("renders_hamburger", func(t *testing.T) {
-		screen := guitesting.Render(HamburgerButton("hb", func() {}))
-		screen.Assert(t).
-			HTMLContains(`class="hb"`).
-			HasElement("button").
-			TextVisible("\u2630")
-	})
-}
-
-func TestChatToolbar(t *testing.T) {
-	t.Run("with_desktop_and_mobile", func(t *testing.T) {
-		desktop := gui.Text("desktop-tools")
-		mobile := gui.Text("mobile-trigger")
-		screen := guitesting.Render(ChatToolbar("ct", desktop, mobile))
-		screen.Assert(t).
-			HTMLContains(`class="chat-toolbar ct"`).
-			TextVisible("desktop-tools").
-			TextVisible("mobile-trigger")
-	})
-	t.Run("nil_children", func(t *testing.T) {
-		screen := guitesting.Render(ChatToolbar("", nil, nil))
-		html := screen.HTML()
-		// Should render outer div with no child divs
-		if strings.Count(html, "<div>") > 1 {
-			t.Errorf("expected no child divs for nil nodes, got: %s", html)
-		}
-	})
-}
-
-func TestToolbarButton(t *testing.T) {
-	t.Run("danger_with_icon_and_label", func(t *testing.T) {
-		screen := guitesting.Render(ToolbarButton("tbb", "icon-trash", "Delete", true, func() {}))
-		screen.Assert(t).
-			HTMLContains(`class="chat-toolbar-btn chat-toolbar-btn-danger tbb"`).
-			HTMLContains(`data-danger="true"`).
-			HasElement("button").
-			TextVisible("Delete")
-		iElems := screen.QueryAllByTag("i")
-		if len(iElems) == 0 {
-			t.Error("expected icon element")
-		}
-	})
-	t.Run("not_danger_no_icon", func(t *testing.T) {
-		screen := guitesting.Render(ToolbarButton("", "", "Save", false, nil))
-		screen.Assert(t).
-			HTMLContains(`class="chat-toolbar-btn"`).
-			HTMLNotContains("data-danger").
-			HTMLNotContains("chat-toolbar-btn-danger").
-			TextVisible("Save")
-	})
-}

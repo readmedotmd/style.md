@@ -4,16 +4,6 @@ import (
 	gui "github.com/readmedotmd/gui.md"
 )
 
-// ServicesPanel renders a panel containing service rows.
-func ServicesPanel(title string, headerActions []gui.Node, services ...gui.Node) gui.Node {
-	return Panel(PanelProps{Title: title}, headerActions, services...)
-}
-
-// RunnerPanel renders a panel containing runner rows.
-func RunnerPanel(title string, runners ...gui.Node) gui.Node {
-	return Panel(PanelProps{Title: title}, nil, runners...)
-}
-
 // GitPanelProps configures the GitPanel component.
 type GitPanelProps struct {
 	Class     string
@@ -28,10 +18,23 @@ type GitPanelProps struct {
 
 // GitPanel renders a git panel with branch, tabs, header actions, and content.
 //
+// CSS classes:
+//   - .git-panel: outer container
+//   - .git-panel-header: header row
+//   - .git-header-actions: action buttons wrapper
+//   - .git-tab-bar: tab bar (via TabBar)
+//
 // Data attributes:
 //   - data-expanded: "true" (when expanded)
+//   - data-side-panel: on the outer container
+//   - data-header: on the header row
 func GitPanel(props GitPanelProps, headerActions []gui.Node, content gui.Node) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	base := "git-panel"
+	if props.Expanded {
+		base = "git-panel git-panel-expanded"
+	}
+	attrs := collectAttrs(optClass(joinClass(base, props.Class)))
+	attrs = append(attrs, dataAttr("side-panel", ""))
 	if props.Expanded {
 		attrs = append(attrs, dataAttr("expanded", "true"))
 	}
@@ -42,24 +45,24 @@ func GitPanel(props GitPanelProps, headerActions []gui.Node, content gui.Node) g
 	}
 	actions := []gui.Node{}
 	if props.OnRefresh != nil {
-		actions = append(actions, gui.Button(gui.OnClick(props.OnRefresh))(gui.Text("\u21bb")))
+		actions = append(actions, gui.Button(gui.Class("git-header-btn"), gui.OnClick(props.OnRefresh))(gui.Text("\u21bb")))
 	}
 	if props.OnExpand != nil {
-		actions = append(actions, gui.Button(gui.OnClick(props.OnExpand))(gui.Text("\u2922")))
+		actions = append(actions, gui.Button(gui.Class("git-header-btn"), gui.OnClick(props.OnExpand))(gui.Text("\u2922")))
 	}
 	if props.OnClose != nil {
-		actions = append(actions, gui.Button(gui.OnClick(props.OnClose))(gui.Text("\u00d7")))
+		actions = append(actions, gui.Button(gui.Class("git-header-btn"), gui.OnClick(props.OnClose))(gui.Text("\u00d7")))
 	}
 	actions = append(actions, headerActions...)
 	if len(actions) > 0 {
-		headerChildren = append(headerChildren, gui.Div()(actions...))
+		headerChildren = append(headerChildren, gui.Div(gui.Class("git-header-actions"))(actions...))
 	}
 
 	panelChildren := []gui.Node{
-		gui.Div()(headerChildren...),
+		gui.Div(gui.Class("git-panel-header"), dataAttr("header", ""))(headerChildren...),
 	}
 	if len(props.Tabs) > 0 {
-		panelChildren = append(panelChildren, TabBar("", props.Tabs))
+		panelChildren = append(panelChildren, TabBar("git-tab-bar", props.Tabs))
 	}
 	if content != nil {
 		panelChildren = append(panelChildren, gui.Div()(content))
@@ -103,16 +106,20 @@ type TerminalTab struct {
 
 // TerminalPanel renders a terminal panel with tabs and content.
 //
-// Data attributes on tabs:
+// Data attributes:
+//   - data-terminal-panel: on the outer container
+//   - data-side-panel: on the outer container
+//   - data-terminal-tabs: on the tab bar
+//   - data-terminal-tab: on each tab
 //   - data-active: "true" (on the active tab)
 func TerminalPanel(class string, tabs []TerminalTab, onAddTab func(), terminalContent gui.Node) gui.Node {
 	tabNodes := make([]gui.Node, len(tabs))
 	for i, tab := range tabs {
-		tabAttrs := []gui.Attr{}
+		tabAttrs := []gui.Attr{dataAttr("terminal-tab", "")}
 		if tab.Active {
 			tabAttrs = append(tabAttrs, dataAttr("active", "true"))
 		}
-		tabChildren := []gui.Node{gui.Text(tab.Title)}
+		tabChildren := []gui.Node{gui.Span()(gui.Text(tab.Title))}
 		if tab.OnClose != nil {
 			tabChildren = append(tabChildren, gui.Button(gui.OnClick(tab.OnClose))(gui.Text("x")))
 		}
@@ -125,16 +132,13 @@ func TerminalPanel(class string, tabs []TerminalTab, onAddTab func(), terminalCo
 	addBtn := gui.Button(gui.OnClick(onAddTab))(gui.Text("+"))
 	tabBarChildren := append(tabNodes, addBtn)
 
-	return gui.Div(collectAttrs(optClass(joinClass("terminal-panel", class)))...)(
-		gui.Div()(tabBarChildren...),
-		gui.Div()(terminalContent),
-	)
-}
+	panelAttrs := collectAttrs(optClass(joinClass("terminal-panel", class)))
+	panelAttrs = append(panelAttrs, dataAttr("terminal-panel", ""))
+	panelAttrs = append(panelAttrs, dataAttr("side-panel", ""))
 
-// FileBrowser renders a file browser panel with a heading and file tree items.
-func FileBrowser(heading string, items []FileTreeItem) gui.Node {
-	return Panel(PanelProps{Title: heading}, nil,
-		FileTree("", items),
+	return gui.Div(panelAttrs...)(
+		gui.Div(dataAttr("terminal-tabs", ""))(tabBarChildren...),
+		gui.Div()(terminalContent),
 	)
 }
 
@@ -142,10 +146,20 @@ func FileBrowser(heading string, items []FileTreeItem) gui.Node {
 
 // GitSectionHeader renders a "Staged Changes" / "Unstaged Changes" label.
 //
+// CSS classes:
+//   - .git-section-header
+//   - .git-staged-header (when staged) or .git-unstaged-header
+//
 // Data attributes:
 //   - data-staged: "true" (when staged is true)
+//   - data-header: on the element
 func GitSectionHeader(class, label string, staged bool) gui.Node {
-	attrs := collectAttrs(optClass(class))
+	stateClass := "git-unstaged-header"
+	if staged {
+		stateClass = "git-staged-header"
+	}
+	attrs := collectAttrs(optClass(joinClass("git-section-header "+stateClass, class)))
+	attrs = append(attrs, dataAttr("header", ""))
 	if staged {
 		attrs = append(attrs, dataAttr("staged", "true"))
 	}
@@ -153,8 +167,11 @@ func GitSectionHeader(class, label string, staged bool) gui.Node {
 }
 
 // GitFileList renders a scrollable list of git files.
+//
+// CSS classes:
+//   - .git-file-list
 func GitFileList(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("git-file-list", class)))...)(children...)
 }
 
 // GitFileProps configures the GitFile component.
@@ -174,8 +191,10 @@ type GitFileProps struct {
 //   - data-state: "M", "A", "D", "??"
 //   - data-staged: "true" (when staged)
 //   - data-selected: "true" (when selected)
+//   - data-list-item: on the element
 func GitFile(props GitFileProps) gui.Node {
-	attrs := collectAttrs(optClass(props.Class))
+	attrs := collectAttrs(optClass(joinClass("git-file", props.Class)))
+	attrs = append(attrs, dataAttr("list-item", ""))
 	if props.State != "" {
 		attrs = append(attrs, dataAttr("state", props.State))
 	}
@@ -189,16 +208,19 @@ func GitFile(props GitFileProps) gui.Node {
 		attrs = append(attrs, gui.OnClick(props.OnClick))
 	}
 	children := []gui.Node{
-		gui.Span()(gui.Text(props.State)),
-		gui.Span()(gui.Text(props.Path)),
+		gui.Span(gui.Class("git-file-state"))(gui.Text(props.State)),
+		gui.Span(gui.Class("git-file-path"))(gui.Text(props.Path)),
 	}
 	if props.Desc != "" {
-		children = append(children, gui.Span()(gui.Text(props.Desc)))
+		children = append(children, gui.Span(gui.Class("git-file-desc"))(gui.Text(props.Desc)))
 	}
 	return gui.Div(attrs...)(children...)
 }
 
 // GitCommitArea renders the commit message form area with textarea + buttons.
+//
+// CSS classes:
+//   - .git-commit-area
 func GitCommitArea(class string, input gui.Node, actions ...gui.Node) gui.Node {
 	children := []gui.Node{}
 	if input != nil {
@@ -207,47 +229,5 @@ func GitCommitArea(class string, input gui.Node, actions ...gui.Node) gui.Node {
 	if len(actions) > 0 {
 		children = append(children, gui.Div()(actions...))
 	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
-}
-
-// DiffCommentButton renders a gutter button to add inline comment on a diff line.
-func DiffCommentButton(class string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	return gui.Button(attrs...)(gui.Text("+"))
-}
-
-// DiffInlineComment renders an inline comment input below a diff line.
-func DiffInlineComment(class string, input gui.Node) gui.Node {
-	children := []gui.Node{}
-	if input != nil {
-		children = append(children, input)
-	}
-	return gui.Div(collectAttrs(optClass(class))...)(children...)
-}
-
-// ServiceActionButton renders a colored action button for services (start/stop/restart).
-//
-// Data attributes:
-//   - data-variant: "start", "stop", "restart" or custom variant
-func ServiceActionButton(class, icon, variant string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(class))
-	if variant != "" {
-		attrs = append(attrs, dataAttr("variant", variant))
-	}
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	children := []gui.Node{}
-	if icon != "" {
-		children = append(children, gui.I(gui.Class(icon))())
-	}
-	return gui.Button(attrs...)(children...)
-}
-
-// RunnerPanelEmpty renders an empty state for the runner panel.
-func RunnerPanelEmpty(class, message string) gui.Node {
-	return gui.Div(collectAttrs(optClass(class))...)(gui.Text(message))
+	return gui.Div(collectAttrs(optClass(joinClass("git-commit-area", class)))...)(children...)
 }

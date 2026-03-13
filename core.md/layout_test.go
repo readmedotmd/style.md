@@ -10,8 +10,7 @@ import (
 
 // TestSimpleContainers tests components that are simple div/element wrappers
 // with optional class and children: AppShell, AppShellBody, ModalBackdrop,
-// ModalBody, ModalFooter, DashboardLayout, CenterColumn, ChatArea,
-// MessageList, ChatInputArea, ChatInputRow.
+// ModalBody, ModalFooter, DashboardLayout.
 func TestSimpleContainers(t *testing.T) {
 	type testCase struct {
 		name   string
@@ -26,11 +25,6 @@ func TestSimpleContainers(t *testing.T) {
 		{"ModalBody", "modal-body", ModalBody, "div"},
 		{"ModalFooter", "modal-footer", ModalFooter, "div"},
 		{"DashboardLayout", "dashboard-layout", DashboardLayout, "div"},
-		{"CenterColumn", "center-col", CenterColumn, "div"},
-		{"ChatArea", "chat-area", ChatArea, "div"},
-		{"MessageList", "message-list", MessageList, "div"},
-		{"ChatInputArea", "chat-input-area", ChatInputArea, "div"},
-		{"ChatInputRow", "chat-input-row", ChatInputRow, "div"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name+"/with_class_and_children", func(t *testing.T) {
@@ -172,20 +166,6 @@ func TestModal(t *testing.T) {
 	})
 }
 
-func TestDragHandle(t *testing.T) {
-	t.Run("renders_nested_divs", func(t *testing.T) {
-		screen := guitesting.Render(DragHandle("grip"))
-		screen.Assert(t).
-			HTMLContains(`class="drag-handle grip"`).
-			HasElement("div")
-		// Should have an inner div
-		refs := screen.QueryAllByTag("div")
-		if len(refs) < 2 {
-			t.Errorf("expected at least 2 divs (outer+inner), got %d", len(refs))
-		}
-	})
-}
-
 func TestSidebarColumn(t *testing.T) {
 	t.Run("open", func(t *testing.T) {
 		screen := guitesting.Render(SidebarColumn("col", true, gui.Text("nav")))
@@ -197,28 +177,6 @@ func TestSidebarColumn(t *testing.T) {
 	t.Run("closed", func(t *testing.T) {
 		screen := guitesting.Render(SidebarColumn("col", false))
 		screen.Assert(t).HTMLNotContains("data-open")
-	})
-}
-
-func TestSidebarOverlay(t *testing.T) {
-	t.Run("with_onclick", func(t *testing.T) {
-		clicked := false
-		screen := guitesting.Render(SidebarOverlay("overlay", func() { clicked = true }))
-		screen.Assert(t).HTMLContains(`class="sidebar-overlay overlay"`)
-		ref := screen.QueryAllByTag("div")[0]
-		screen.Click(ref)
-		if !clicked {
-			t.Error("expected onclick to fire")
-		}
-	})
-	t.Run("nil_onclick", func(t *testing.T) {
-		screen := guitesting.Render(SidebarOverlay("overlay", nil))
-		screen.Assert(t).HasElement("div")
-		// Should not have onclick in HTML
-		html := screen.HTML()
-		if strings.Contains(html, "onclick") {
-			t.Errorf("expected no onclick, got: %s", html)
-		}
 	})
 }
 
@@ -240,20 +198,6 @@ func TestChatHeader(t *testing.T) {
 		title := gui.Span()(gui.Text("Room"))
 		screen := guitesting.Render(ChatHeader("", title, nil))
 		screen.Assert(t).HTMLContains(`class="chat-header"`).TextVisible("Room")
-	})
-}
-
-func TestChatInputWrap(t *testing.T) {
-	t.Run("expanded", func(t *testing.T) {
-		screen := guitesting.Render(ChatInputWrap("wrap", true, gui.Text("input")))
-		screen.Assert(t).
-			HTMLContains(`class="chat-input-wrap wrap"`).
-			HTMLContains(`data-expanded="true"`).
-			TextVisible("input")
-	})
-	t.Run("not_expanded", func(t *testing.T) {
-		screen := guitesting.Render(ChatInputWrap("wrap", false))
-		screen.Assert(t).HTMLNotContains("data-expanded")
 	})
 }
 
