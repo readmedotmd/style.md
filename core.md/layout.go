@@ -264,10 +264,52 @@ func IconButton(class, icon, ariaLabel string, onClick func()) gui.Node {
 	return gui.Button(attrs...)(gui.I(gui.Class(icon))())
 }
 
+// ToolbarButton renders a toolbar button with an icon and label.
+//
+// Data attributes:
+//   - data-toolbar-button
+func ToolbarButton(class, icon, label string, onClick func()) gui.Node {
+	attrs := collectAttrs(optClass(joinClass("toolbar-button", class)), dataAttr("toolbar-button", ""))
+	if onClick != nil {
+		attrs = append(attrs, gui.OnClick(onClick))
+	}
+	children := []gui.Node{}
+	if icon != "" {
+		children = append(children, gui.I(gui.Class(icon))())
+	}
+	children = append(children, gui.Span()(gui.Text(label)))
+	return gui.Button(attrs...)(children...)
+}
+
 // Toolbar renders a horizontal row of small action buttons.
 //
 // Data attributes:
 //   - data-toolbar
 func Toolbar(class string, children ...gui.Node) gui.Node {
 	return gui.Div(collectAttrs(optClass(joinClass("toolbar", class)), dataAttr("toolbar", ""))...)(children...)
+}
+
+// ResizeHandleDirection specifies the drag direction of a resize handle.
+type ResizeHandleDirection string
+
+const (
+	ResizeHorizontal ResizeHandleDirection = "horizontal"
+	ResizeVertical   ResizeHandleDirection = "vertical"
+)
+
+// ResizeHandle renders a draggable divider between panels.
+//
+// Data attributes:
+//   - data-resize-handle
+//   - data-direction: "horizontal" or "vertical"
+func ResizeHandle(class string, direction ResizeHandleDirection) gui.Node {
+	dir := direction
+	if dir == "" {
+		dir = ResizeVertical
+	}
+	return gui.Div(collectAttrs(
+		optClass(joinClass("resize-handle", class)),
+		dataAttr("resize-handle", ""),
+		dataAttr("direction", string(dir)),
+	)...)()
 }

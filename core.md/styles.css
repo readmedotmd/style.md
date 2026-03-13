@@ -25,6 +25,16 @@
   --core-radius: 6px;
   --core-space: 8px;
   --core-transition: 150ms ease;
+  /* Layout widths */
+  --core-width-sidebar: 300px;
+  --core-width-panel: 300px;
+  --core-width-git-panel: 420px;
+  --core-width-modal: 480px;
+  --core-width-search: 600px;
+  --core-width-message: 680px;
+  --core-width-content: 720px;
+  --core-width-expanded: 960px;
+  --core-width-login: 400px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -406,33 +416,7 @@ div:has(> button[data-active]) > button[data-active="true"] {
     border-top: 1px solid var(--core-border);
 }
 
-/* ─── Login Page ─── */
-.login-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
-.login-card {
-  background: var(--core-surface);
-  border: 1px solid var(--core-border);
-  border-radius: 12px;
-  padding: 40px;
-}
-.login-title {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--core-text);
-}
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.login-error {
-  color: var(--core-danger);
-  font-size: 13px;
-}
+/* ─── Login Page ─── (merged; app-layout rules are below in the app section) */
 
 /* ─── Sidebar: open/closed ─── */
 aside[data-open="true"] { display: block; }
@@ -1012,7 +996,7 @@ button.cluster-refresh-btn:not([data-variant]):hover { color: var(--core-text); 
 
 /* ─── Cluster Stats Page ─── */
 .cluster-page { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
-.cluster-page > div { padding: 32px 24px; max-width: 720px; width: 100%; margin: 0 auto; overflow-y: auto; flex: 1; }
+.cluster-page > div { padding: 32px 24px; max-width: var(--core-width-content); width: 100%; margin: 0 auto; overflow-y: auto; flex: 1; }
 .cluster-page .empty-state { color: var(--core-text-muted); text-align: center; padding: 48px 0; }
 .cluster-summary { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
 .cluster-summary-card {
@@ -1038,7 +1022,7 @@ button.cluster-refresh-btn:not([data-variant]):hover { color: var(--core-text); 
 
 /* ─── Sidebar Column ─── */
 .sidebar-col {
-  width: 300px; flex-shrink: 0; display: flex; flex-direction: column;
+  width: var(--core-width-sidebar); flex-shrink: 0; display: flex; flex-direction: column;
   background: var(--core-surface); border-right: 1px solid var(--core-border); overflow: hidden;
 }
 .sidebar-col .sidebar { width: 100%; border-right: none; flex: 1; min-height: 0; }
@@ -1122,7 +1106,7 @@ button.cluster-refresh-btn:not([data-variant]):hover { color: var(--core-text); 
 }
 
 /* ─── Messages ─── */
-.message { max-width: 680px; font-size: 0.95rem; line-height: 1.65; overflow-wrap: break-word; }
+.message { max-width: var(--core-width-message); font-size: 0.95rem; line-height: 1.65; overflow-wrap: break-word; }
 .message p { margin: 0 0 8px 0; }
 .message p:last-child { margin-bottom: 0; }
 .message ul, .message ol { margin: 4px 0 10px 0; padding-left: 1.5em; }
@@ -1324,7 +1308,7 @@ button.mode-btn[data-mode="plan"]:hover { background: color-mix(in srgb, var(--c
 
 /* ─── Panels ─── */
 .panel {
-  width: 300px; flex-shrink: 0; background: var(--core-surface); border-left: 1px solid var(--core-border);
+  width: var(--core-width-panel); flex-shrink: 0; background: var(--core-surface); border-left: 1px solid var(--core-border);
   overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px;
 }
 .panel h3 { font-size: 0.7rem; font-weight: 600; color: var(--core-text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
@@ -1361,7 +1345,7 @@ button.mode-btn[data-mode="plan"]:hover { background: color-mix(in srgb, var(--c
 }
 .search-card {
   position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 600px; max-height: 70vh; background: var(--core-surface); border: 1px solid var(--core-border);
+  width: var(--core-width-search); max-height: 70vh; background: var(--core-surface); border: 1px solid var(--core-border);
   border-radius: calc(var(--core-radius) * 2); z-index: 91; display: flex; flex-direction: column;
   box-shadow: 0 24px 64px rgba(0,0,0,0.35); overflow: hidden;
 }
@@ -1459,7 +1443,7 @@ button.mode-btn[data-mode="plan"]:hover { background: color-mix(in srgb, var(--c
   align-items: flex-end; z-index: 1000; background: rgba(0,0,0,0.5);
 }
 .modal {
-  width: 90%; max-width: 480px; max-height: 85vh;
+  width: 90%; max-width: var(--core-width-modal); max-height: 85vh;
   display: flex; flex-direction: column;
   overflow: hidden; position: relative;
 }
@@ -1515,7 +1499,7 @@ button.svc-logs-btn i { font-size: 0.85rem; }
 
 /* ─── Git Panel ─── */
 .git-panel {
-  width: 420px; min-width: 320px; transition: all 0.2s; padding: 16px 20px;
+  width: var(--core-width-git-panel); min-width: 320px; transition: all 0.2s; padding: 16px 20px;
   gap: 12px; overflow-x: hidden;
 }
 .git-panel button.btn,
@@ -1526,7 +1510,7 @@ button.svc-logs-btn i { font-size: 0.85rem; }
 }
 .git-panel-expanded {
   position: fixed; top: 48px; left: 50%; transform: translateX(-50%);
-  width: 80vw; max-width: 960px; height: calc(100vh - 64px);
+  width: 80vw; max-width: var(--core-width-expanded); height: calc(100vh - 64px);
   z-index: 100; background: var(--core-surface); border: 1px solid var(--core-border);
   border-radius: var(--core-radius); box-shadow: 0 8px 32px rgba(0,0,0,0.5);
   overflow-y: auto;
@@ -1658,7 +1642,7 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
 
 /* ─── Settings Page ─── */
 .settings-page {
-  padding: 32px 24px; max-width: 720px; width: 100%; margin: 0 auto;
+  padding: 32px 24px; max-width: var(--core-width-content); width: 100%; margin: 0 auto;
   display: flex; flex-direction: column; gap: 20px; padding-bottom: 64px;
 }
 .settings-page-header h2 { font-size: 1.25rem; font-weight: 700; color: var(--core-text); }
@@ -1845,7 +1829,7 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
 
 /* ─── Users Page ─── */
 .users-page {
-  padding: 32px; max-width: 960px; display: flex; flex-direction: column;
+  padding: 32px; max-width: var(--core-width-expanded); display: flex; flex-direction: column;
   gap: 24px; overflow-y: auto; flex: 1;
 }
 .users-page h2 { font-size: 1.25rem; font-weight: 700; color: var(--core-text); }
@@ -1889,14 +1873,256 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
   display: flex; align-items: center; justify-content: center;
   flex: 1; min-height: 0; background: var(--core-bg); padding: 24px;
 }
+.login-card,
 .login-page > div,
 [data-login-page] > div {
   background: var(--core-surface); border: 1px solid var(--core-border);
-  border-radius: 12px; padding: 40px; width: 100%; max-width: 400px;
+  border-radius: 12px; padding: 40px; width: 100%; max-width: var(--core-width-login);
   display: flex; flex-direction: column; gap: 16px; text-align: center;
 }
+.login-title,
 .login-page > div > h2,
 [data-login-page] > div > h2 { color: var(--core-text); font-size: 24px; font-weight: 600; }
+.login-form { display: flex; flex-direction: column; gap: 16px; }
+.login-error { color: var(--core-danger); font-size: 13px; }
+
+/* ─── Devbox Card ─── */
+.devbox-card {
+  padding: 10px 16px; cursor: pointer; border-left: 3px solid transparent;
+  transition: background var(--core-transition);
+}
+.devbox-card:hover { background: color-mix(in srgb, var(--core-surface) 80%, var(--core-border)); }
+.devbox-card[data-active="true"] {
+  background: color-mix(in srgb, var(--core-accent) 10%, var(--core-surface));
+  border-left-color: var(--core-accent);
+}
+.devbox-card > div:first-child {
+  display: flex; align-items: center; gap: 8px; justify-content: space-between;
+}
+.devbox-card > div:first-child > span:first-child {
+  font-size: 0.85rem; font-weight: 600; color: var(--core-text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.devbox-card > div:nth-child(2) {
+  font-size: 0.7rem; color: var(--core-text-muted); margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.devbox-card > div:last-child {
+  display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap;
+}
+
+/* ─── Action Tag ─── */
+.action-tag {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; font-size: 0.65rem; font-weight: 500;
+  border-radius: calc(var(--core-radius) * 0.75);
+  background: color-mix(in srgb, var(--core-border) 40%, transparent);
+  color: var(--core-text-muted); border: none; cursor: pointer;
+  transition: background var(--core-transition), color var(--core-transition);
+}
+.action-tag:hover {
+  background: color-mix(in srgb, var(--core-accent) 15%, transparent);
+  color: var(--core-text);
+}
+
+/* ─── System Stats ─── */
+.system-stats {
+  display: flex; align-items: center; gap: 12px; font-size: 0.75rem;
+  color: var(--core-text-muted); font-family: var(--core-font-mono);
+}
+.system-stats > div {
+  display: flex; align-items: center; gap: 4px;
+}
+.system-stats i { font-size: 0.7rem; }
+.system-stats span { white-space: nowrap; }
+
+/* ─── Toolbar Button ─── */
+.toolbar-button {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; font-size: 0.75rem; font-weight: 500;
+  color: var(--core-text-muted); background: none; border: none;
+  border-radius: var(--core-radius); cursor: pointer;
+  transition: background var(--core-transition), color var(--core-transition);
+  white-space: nowrap;
+}
+.toolbar-button:hover {
+  background: color-mix(in srgb, var(--core-border) 50%, transparent);
+  color: var(--core-text);
+}
+.toolbar-button i { font-size: 0.8rem; }
+.toolbar-button span { line-height: 1; }
+
+/* ─── Diff Panel ─── */
+.diff-panel {
+  display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid var(--core-border); border-radius: var(--core-radius);
+  background: var(--core-surface);
+}
+[data-diff-panel-header] {
+  padding: 8px 12px; font-size: 0.75rem; font-family: var(--core-font-mono);
+  color: var(--core-text-muted); background: color-mix(in srgb, var(--core-border) 30%, var(--core-surface));
+  border-bottom: 1px solid var(--core-border);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+[data-diff-panel-body] {
+  flex: 1; overflow: auto; font-family: var(--core-font-mono);
+  font-size: 0.8rem; line-height: 1.5;
+}
+
+/* ─── Attachment Button ─── */
+.attachment-button {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; padding: 0;
+  background: none; border: none; border-radius: var(--core-radius);
+  color: var(--core-text-muted); cursor: pointer;
+  transition: background var(--core-transition), color var(--core-transition);
+}
+.attachment-button:hover {
+  background: color-mix(in srgb, var(--core-border) 50%, transparent);
+  color: var(--core-text);
+}
+.attachment-button i { font-size: 1rem; }
+
+/* ─── Mode Toggle ─── */
+.mode-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 6px 16px; font-size: 0.8rem; font-weight: 600;
+  border: 2px solid var(--core-border); border-radius: calc(var(--core-radius) * 1.5);
+  background: none; color: var(--core-text-muted); cursor: pointer;
+  transition: border-color var(--core-transition), color var(--core-transition), background var(--core-transition);
+}
+.mode-toggle:hover {
+  border-color: var(--core-accent);
+  color: var(--core-text);
+}
+.mode-toggle[data-active="true"] {
+  border-color: var(--core-accent);
+  background: color-mix(in srgb, var(--core-accent) 15%, transparent);
+  color: var(--core-accent);
+}
+
+/* ─── Resize Handle ─── */
+.resize-handle {
+  flex-shrink: 0; background: transparent;
+  transition: background var(--core-transition);
+}
+.resize-handle:hover {
+  background: color-mix(in srgb, var(--core-accent) 40%, transparent);
+}
+.resize-handle[data-direction="vertical"] {
+  height: 4px; cursor: row-resize; width: 100%;
+}
+.resize-handle[data-direction="horizontal"] {
+  width: 4px; cursor: col-resize; height: 100%;
+}
+
+/* ─── Password Field ─── */
+.password-field {
+  position: relative; display: flex; align-items: center;
+}
+.password-field input {
+  flex: 1; padding-right: 36px;
+}
+[data-password-toggle] {
+  position: absolute; right: 4px;
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; padding: 0;
+  background: none; border: none; border-radius: var(--core-radius);
+  color: var(--core-text-muted); cursor: pointer;
+  transition: color var(--core-transition);
+}
+[data-password-toggle]:hover { color: var(--core-text); }
+[data-password-toggle] i { font-size: 0.85rem; }
+
+/* ─── Secret Field ─── */
+.secret-field {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 0;
+}
+[data-secret-key] {
+  font-family: var(--core-font-mono); font-size: 0.8rem; font-weight: 500;
+  color: var(--core-text); min-width: 0;
+  background: color-mix(in srgb, var(--core-border) 30%, transparent);
+  padding: 4px 10px; border-radius: var(--core-radius);
+}
+[data-secret-value] {
+  display: flex; align-items: center; gap: 4px;
+  font-family: var(--core-font-mono); font-size: 0.85rem;
+  color: var(--core-text-muted); flex: 1; min-width: 0;
+  background: color-mix(in srgb, var(--core-border) 20%, transparent);
+  padding: 4px 10px; border-radius: var(--core-radius);
+}
+[data-secret-copy] {
+  display: flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; padding: 0;
+  background: none; border: none; border-radius: var(--core-radius);
+  color: var(--core-text-muted); cursor: pointer;
+}
+[data-secret-copy]:hover { color: var(--core-text); }
+[data-secret-scope] {
+  font-size: 0.7rem; font-weight: 500; padding: 2px 8px;
+  border-radius: var(--core-radius);
+  background: color-mix(in srgb, var(--core-accent) 15%, transparent);
+  color: var(--core-accent);
+}
+[data-secret-remove] {
+  display: flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; padding: 0;
+  background: none; border: none; border-radius: var(--core-radius);
+  color: var(--core-text-muted); cursor: pointer; font-size: 1rem;
+}
+[data-secret-remove]:hover { color: var(--core-danger); }
+
+/* ─── Environment Card ─── */
+.env-card {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 12px 16px;
+  background: var(--core-surface); border: 1px solid var(--core-border);
+  border-radius: var(--core-radius);
+}
+[data-env-card-name] {
+  font-weight: 600; font-size: 0.85rem; color: var(--core-text);
+}
+[data-env-card-info] {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0;
+}
+[data-env-card-stats] { display: flex; gap: 6px; align-items: center; }
+[data-env-card-tags] { display: flex; gap: 6px; align-items: center; }
+[data-env-card-actions] { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+
+/* ─── Stat Chip ─── */
+.stat-chip {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 2px 8px; font-size: 0.7rem; font-weight: 500;
+  border-radius: 9999px; color: var(--core-text-muted);
+  background: color-mix(in srgb, var(--core-border) 40%, transparent);
+}
+.stat-chip i { font-size: 0.65rem; }
+
+/* ─── Variable Chip ─── */
+.variable-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 12px; font-size: 0.75rem; font-weight: 500;
+  font-family: var(--core-font-mono);
+  border-radius: 9999px; border: 1px solid var(--core-border);
+  background: var(--core-surface); color: var(--core-text); cursor: pointer;
+  transition: border-color var(--core-transition), background var(--core-transition);
+}
+.variable-chip:hover {
+  border-color: var(--core-accent);
+  background: color-mix(in srgb, var(--core-accent) 8%, var(--core-surface));
+}
+.variable-chip i { font-size: 0.7rem; color: var(--core-text-muted); }
+
+/* ─── Help Text ─── */
+.help-text {
+  font-size: 0.8rem; line-height: 1.6; color: var(--core-text-muted);
+  padding: 12px 16px;
+  background: color-mix(in srgb, var(--core-border) 20%, transparent);
+  border-radius: var(--core-radius);
+}
+.help-text a { color: var(--core-accent); text-decoration: underline; }
+.help-text strong { color: var(--core-text); font-weight: 600; }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    Responsive Breakpoints

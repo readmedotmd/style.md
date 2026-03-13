@@ -354,3 +354,60 @@ func TestToolbar(t *testing.T) {
 		s.Assert(t).HTMLContains(`class="toolbar"`).HTMLContains(`data-toolbar`)
 	})
 }
+
+func TestToolbarButton(t *testing.T) {
+	t.Run("with_icon_and_click", func(t *testing.T) {
+		clicked := false
+		s := guitesting.Render(ToolbarButton("tb-cls", "icon-terminal", "Terminal", func() { clicked = true }))
+		a := s.Assert(t)
+		a.HasElement("button")
+		a.HTMLContains(`class="toolbar-button tb-cls"`)
+		a.HTMLContains(`data-toolbar-button`)
+		a.HTMLContains(`class="icon-terminal"`)
+		a.TextVisible("Terminal")
+
+		btn := s.GetByRole("button")
+		s.Click(btn)
+		if !clicked {
+			t.Error("expected onClick to fire")
+		}
+	})
+
+	t.Run("no_icon_no_click", func(t *testing.T) {
+		s := guitesting.Render(ToolbarButton("", "", "Run", nil))
+		a := s.Assert(t)
+		a.HasElement("button")
+		a.HTMLContains(`class="toolbar-button"`)
+		a.HTMLContains(`data-toolbar-button`)
+		a.TextVisible("Run")
+		a.HasNoElement("i")
+		html := s.HTML()
+		if strings.Contains(html, "onclick") {
+			t.Errorf("expected no onclick, got: %s", html)
+		}
+	})
+}
+
+func TestResizeHandle(t *testing.T) {
+	t.Run("vertical", func(t *testing.T) {
+		s := guitesting.Render(ResizeHandle("rh", ResizeVertical))
+		a := s.Assert(t)
+		a.HasElement("div")
+		a.HTMLContains(`class="resize-handle rh"`)
+		a.HTMLContains(`data-resize-handle`)
+		a.HTMLContains(`data-direction="vertical"`)
+	})
+
+	t.Run("horizontal", func(t *testing.T) {
+		s := guitesting.Render(ResizeHandle("", ResizeHorizontal))
+		a := s.Assert(t)
+		a.HTMLContains(`class="resize-handle"`)
+		a.HTMLContains(`data-direction="horizontal"`)
+	})
+
+	t.Run("default_direction", func(t *testing.T) {
+		s := guitesting.Render(ResizeHandle("", ""))
+		a := s.Assert(t)
+		a.HTMLContains(`data-direction="vertical"`)
+	})
+}

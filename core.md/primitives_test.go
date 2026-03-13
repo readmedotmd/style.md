@@ -82,3 +82,23 @@ func TestAnimate(t *testing.T) {
 		s.Assert(t).HTMLContains(`class="animate"`).HTMLContains(`data-animate="spin"`)
 	})
 }
+
+func TestHelpText(t *testing.T) {
+	t.Run("with_class_and_children", func(t *testing.T) {
+		s := guitesting.Render(HelpText("ht", gui.Text("Create a token at "), gui.A()(gui.Text("github.com"))))
+		a := s.Assert(t)
+		a.HasElement("div")
+		a.HTMLContains(`class="help-text ht"`)
+		a.HTMLContains(`data-help-text`)
+		a.TextVisible("Create a token at")
+		a.TextVisible("github.com")
+	})
+
+	t.Run("empty_class", func(t *testing.T) {
+		s := guitesting.Render(HelpText("", gui.Text("info")))
+		a := s.Assert(t)
+		a.HTMLContains(`class="help-text"`)
+		a.HTMLContains(`data-help-text`)
+		a.TextVisible("info")
+	})
+}

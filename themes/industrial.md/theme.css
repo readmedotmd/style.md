@@ -413,5 +413,204 @@
 [data-theme="industrial"] [data-schema-field-name] { text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
 [data-theme="industrial"] [data-schema-field-type] { color: var(--core-accent); }
 
+/* ─── Action Tag ─── */
+[data-theme="industrial"] [data-action-tag] {
+  border: 2px solid var(--core-border);
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: 10px;
+  font-family: var(--core-font);
+  box-shadow: none;
+}
+[data-theme="industrial"] [data-action-tag]:hover {
+  border-color: var(--core-accent);
+  color: var(--core-accent);
+  box-shadow: var(--ind-shadow-sm);
+}
+
+/* ─── System Stats ─── */
+[data-theme="industrial"] [data-system-stats] {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Toolbar Button ─── */
+[data-theme="industrial"] [data-toolbar-button] {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: 11px;
+  font-family: var(--core-font);
+  border: 2px solid transparent;
+  box-shadow: none;
+}
+[data-theme="industrial"] [data-toolbar-button]:hover {
+  border-color: var(--core-border);
+  box-shadow: var(--ind-shadow-sm);
+}
+[data-theme="industrial"] [data-toolbar-button]:active {
+  box-shadow: none;
+  transform: translate(1px, 1px);
+}
+
+/* ─── Devbox Card ─── */
+[data-theme="industrial"] .devbox-card {
+  border-left-width: 3px;
+}
+[data-theme="industrial"] .devbox-card:hover {
+  background: color-mix(in srgb, var(--core-border) 15%, var(--core-surface));
+}
+[data-theme="industrial"] .devbox-card[data-active="true"] {
+  border-left-color: var(--core-accent);
+  background: color-mix(in srgb, var(--core-accent) 10%, var(--core-surface));
+}
+
+/* ─── Diff Panel ─── */
+[data-theme="industrial"] [data-diff-panel] {
+  border-width: 2px;
+  border-radius: var(--core-radius);
+}
+[data-theme="industrial"] [data-diff-panel-header] {
+  background: var(--ind-dark);
+  color: var(--core-accent);
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 11px;
+  border-bottom-width: 2px;
+}
+[data-theme="industrial"] [data-diff-panel-body] {
+  font-family: 'Space Mono', monospace;
+}
+
+/* ─── Attachment Button ─── */
+[data-theme="industrial"] [data-attachment-button] {
+  border: 2px solid transparent;
+  box-shadow: none;
+}
+[data-theme="industrial"] [data-attachment-button]:hover {
+  border-color: var(--core-border);
+  box-shadow: var(--ind-shadow-sm);
+}
+
+/* ─── Mode Toggle ─── */
+[data-theme="industrial"] [data-mode-toggle] {
+  border-width: 2px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: 11px;
+  font-family: var(--core-font);
+  box-shadow: var(--ind-shadow-sm);
+}
+[data-theme="industrial"] [data-mode-toggle]:hover {
+  box-shadow: var(--ind-shadow-md);
+}
+[data-theme="industrial"] [data-mode-toggle]:active {
+  box-shadow: 1px 1px 0 var(--core-border);
+  transform: translate(2px, 2px);
+}
+[data-theme="industrial"] [data-mode-toggle][data-active="true"] {
+  border-color: var(--core-accent);
+  background: color-mix(in srgb, var(--core-accent) 15%, transparent);
+}
+
+/* ─── Resize Handle ─── */
+[data-theme="industrial"] [data-resize-handle] {
+  background: var(--core-border);
+}
+[data-theme="industrial"] [data-resize-handle]:hover {
+  background: var(--core-accent);
+}
+[data-theme="industrial"] [data-resize-handle][data-direction="vertical"] { height: 3px; }
+[data-theme="industrial"] [data-resize-handle][data-direction="horizontal"] { width: 3px; }
+
+/* ─── Password Field ─── */
+[data-theme="industrial"] [data-password-field] input {
+  font-family: 'Space Mono', monospace;
+}
+[data-theme="industrial"] [data-password-toggle] {
+  border: 2px solid transparent;
+}
+[data-theme="industrial"] [data-password-toggle]:hover {
+  border-color: var(--core-border);
+}
+
+/* ─── Secret Field ─── */
+[data-theme="industrial"] [data-secret-key] {
+  font-family: 'Space Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: 11px;
+  border: 2px solid var(--core-border);
+}
+[data-theme="industrial"] [data-secret-value] {
+  font-family: 'Space Mono', monospace;
+  border: 2px solid var(--core-border);
+}
+[data-theme="industrial"] [data-secret-scope] {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: 10px;
+  border: 2px solid var(--core-accent);
+}
+
+/* ─── Environment Card ─── */
+[data-theme="industrial"] [data-env-card] {
+  border-width: 2px;
+  box-shadow: var(--ind-shadow-sm);
+}
+[data-theme="industrial"] [data-env-card]:hover {
+  box-shadow: var(--ind-shadow-md);
+}
+[data-theme="industrial"] [data-env-card-name] {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+/* ─── Stat Chip ─── */
+[data-theme="industrial"] [data-stat-chip] {
+  border: 2px solid var(--core-border);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+}
+
+/* ─── Variable Chip ─── */
+[data-theme="industrial"] [data-variable-chip] {
+  border-width: 2px;
+  border-radius: 3px;
+  font-family: 'Space Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: 11px;
+  box-shadow: var(--ind-shadow-sm);
+}
+[data-theme="industrial"] [data-variable-chip]:hover {
+  box-shadow: var(--ind-shadow-md);
+}
+
+/* ─── Help Text ─── */
+[data-theme="industrial"] [data-help-text] {
+  border: 2px solid var(--core-border);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+}
+[data-theme="industrial"] [data-help-text] a {
+  font-weight: 700;
+  text-decoration-thickness: 2px;
+}
+
 /* ─── Animate ─── */
 [data-theme="industrial"] [data-animate="pulse"] { animation-timing-function: steps(4, end); }

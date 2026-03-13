@@ -137,3 +137,89 @@ func TestSchemaField(t *testing.T) {
 		a.HTMLNotContains("class=")
 	})
 }
+
+func TestPasswordField(t *testing.T) {
+	t.Run("hidden_password", func(t *testing.T) {
+		s := guitesting.Render(PasswordField(PasswordFieldProps{
+			Class:       "pf",
+			Placeholder: "Enter password",
+			Value:       "secret",
+			Visible:     false,
+		}))
+		a := s.Assert(t)
+		a.HTMLContains(`class="password-field pf"`)
+		a.HTMLContains(`data-password-field`)
+		a.HTMLNotContains(`data-visible`)
+		a.HTMLContains(`type="password"`)
+		a.HTMLContains(`data-password-toggle`)
+		a.HTMLContains(`class="icon-eye"`)
+	})
+
+	t.Run("visible_password", func(t *testing.T) {
+		s := guitesting.Render(PasswordField(PasswordFieldProps{
+			Visible: true,
+		}))
+		a := s.Assert(t)
+		a.HTMLContains(`data-visible="true"`)
+		a.HTMLContains(`type="text"`)
+		a.HTMLContains(`class="icon-eye-off"`)
+	})
+
+	t.Run("toggle_click", func(t *testing.T) {
+		toggled := false
+		s := guitesting.Render(PasswordField(PasswordFieldProps{
+			OnToggle: func() { toggled = true },
+		}))
+		btns := s.QueryAllByTag("button")
+		for _, b := range btns {
+			s.Click(b)
+			break
+		}
+		if !toggled {
+			t.Error("expected OnToggle to fire")
+		}
+	})
+}
+
+func TestSecretField(t *testing.T) {
+	t.Run("full_props", func(t *testing.T) {
+		copied := false
+		removed := false
+		s := guitesting.Render(SecretField(SecretFieldProps{
+			Class:    "sf",
+			KeyName:  "API_KEY",
+			Scope:    "agent",
+			OnCopy:   func() { copied = true },
+			OnRemove: func() { removed = true },
+		}))
+		a := s.Assert(t)
+		a.HTMLContains(`class="secret-field sf"`)
+		a.HTMLContains(`data-secret-field`)
+		a.HTMLContains(`data-secret-key`)
+		a.HTMLContains(`data-secret-value`)
+		a.HTMLContains(`data-secret-scope`)
+		a.HTMLContains(`data-secret-copy`)
+		a.HTMLContains(`data-secret-remove`)
+		a.TextVisible("API_KEY")
+		a.TextVisible("agent")
+
+		removeBtn := s.GetByText("\u00d7")
+		s.Click(removeBtn)
+		if !removed {
+			t.Error("expected OnRemove to fire")
+		}
+		_ = copied
+	})
+
+	t.Run("minimal", func(t *testing.T) {
+		s := guitesting.Render(SecretField(SecretFieldProps{
+			KeyName: "TOKEN",
+		}))
+		a := s.Assert(t)
+		a.HTMLContains(`data-secret-field`)
+		a.TextVisible("TOKEN")
+		a.HTMLNotContains("data-secret-scope")
+		a.HTMLNotContains("data-secret-copy")
+		a.HTMLNotContains("data-secret-remove")
+	})
+}

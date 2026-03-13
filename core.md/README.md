@@ -127,16 +127,16 @@ coremd.SrOnly("screen only") // Screen reader only
 
 | Category        | Components | File |
 |-----------------|------------|------|
-| **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly, MarkdownContent, SectionHeader, Collapsible, Animate | `primitives.go` |
+| **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly, MarkdownContent, SectionHeader, Collapsible, Animate, HelpText | `primitives.go` |
 | **Buttons**     | Button (primary, danger, toolbar; medium, small) | `button.go` |
-| **Forms**       | FormGroup, TextInput, NumberInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, EditableVariableRow, SchemaField, ErrorMessage, SuccessMessage | `form.go` |
-| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, MessageQueueBar, QueuedItem | `input.go` |
-| **Display**     | MessageBubble, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent | `display.go` |
-| **Lists**       | ConversationItem, InstanceCard, InstanceList, ServiceRow, RunnerRow, FileTree | `list.go` |
+| **Forms**       | FormGroup, TextInput, NumberInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, EditableVariableRow, PasswordField, SecretField, SchemaField, ErrorMessage, SuccessMessage | `form.go` |
+| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, MessageQueueBar, QueuedItem, AttachmentButton, ModeToggle | `input.go` |
+| **Display**     | MessageBubble, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent, ActionTag, SystemStats, DiffPanel, StatChip, VariableChip | `display.go` |
+| **Lists**       | ConversationItem, InstanceCard, InstanceList, ServiceRow, RunnerRow, FileTree, DevboxCard, EnvironmentCard | `list.go` |
 | **Navigation**  | NavLink, TabBar, BottomTabBar | `navigation.go` |
 | **Overlay**     | SearchOverlay, ContextMenu, BottomSheet, SearchResult, SearchResultContent, SearchSnippet | `overlay.go` |
 | **Panels**      | GitPanel, SkillsPanel, TerminalPanel, GitSectionHeader, GitFileList, GitFile, GitCommitArea | `panel.go` |
-| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DashboardLayout, SidebarColumn, ChatHeader, Box, ScrollArea, SplitLayout, Backdrop, IconButton, Toolbar | `layout.go` |
+| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DashboardLayout, SidebarColumn, ChatHeader, Box, ScrollArea, SplitLayout, Backdrop, IconButton, ToolbarButton, Toolbar, ResizeHandle | `layout.go` |
 | **Pages**       | LoginPage, SetupWizard, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsCodeInput, ClusterSummaryCard, ClusterSummaryRow | `page.go` |
 | **Utility**     | Spinner, Icon, AppShellFull | `utility.go` |
 
@@ -174,6 +174,8 @@ coremd.Button(coremd.ButtonProps{Class: "my-btn"}, gui.Text("OK"))
 | Backdrop | `backdrop` | layout.go |
 | IconButton | `icon-button` | layout.go |
 | Toolbar | `toolbar` | layout.go |
+| ToolbarButton | `toolbar-button` | layout.go |
+| ResizeHandle | `resize-handle` | layout.go |
 | Button | `btn` | button.go |
 | NavLink | `nav-link` | navigation.go |
 | TabBar | `tab-bar` | navigation.go |
@@ -188,6 +190,11 @@ coremd.Button(coremd.ButtonProps{Class: "my-btn"}, gui.Text("OK"))
 | DataTable | `data-table` | display.go |
 | EmptyState | `empty-state` | display.go |
 | ClusterStatsBar | `cluster-stats-bar` | display.go |
+| ActionTag | `action-tag` | display.go |
+| SystemStats | `system-stats` | display.go |
+| DiffPanel | `diff-panel` | display.go |
+| StatChip | `stat-chip` | display.go |
+| VariableChip | `variable-chip` | display.go |
 | ChatInput | `chat-input` | input.go |
 | AutocompletePopup | `autocomplete-popup` | input.go |
 | MessageQueue | `message-queue` | input.go |
@@ -195,16 +202,22 @@ coremd.Button(coremd.ButtonProps{Class: "my-btn"}, gui.Text("OK"))
 | PastePreview | `paste-preview` | input.go |
 | MessageQueueBar | `message-queue` | input.go |
 | QueuedItem | `queued-item` | input.go |
+| AttachmentButton | `attachment-button` | input.go |
+| ModeToggle | `mode-toggle` | input.go |
 | Checkbox | `checkbox` | form.go |
 | FeatureRow | `feature-row` | form.go |
 | VariableRow | `variable-row` | form.go |
 | ErrorMessage | `error-message` | form.go |
 | SuccessMessage | `success-message` | form.go |
+| PasswordField | `password-field` | form.go |
+| SecretField | `secret-field` | form.go |
 | TextArea | `text-area` | form.go |
 | SearchOverlay | `search-overlay` | overlay.go |
 | ContextMenu | `context-menu` | overlay.go |
 | BottomSheet | `bottom-sheet` | overlay.go |
 | ConversationItem | `conv-item` | list.go |
+| DevboxCard | `devbox-card` | list.go |
+| EnvironmentCard | `env-card` | list.go |
 | GitPanel | `git-panel` | panel.go |
 | TerminalPanel | `terminal-panel` | panel.go |
 | GitSectionHeader | `git-section-header` | panel.go |
@@ -240,6 +253,7 @@ coremd.Button(coremd.ButtonProps{Class: "my-btn"}, gui.Text("OK"))
 | SectionHeader | `section-header` | primitives.go |
 | Collapsible | `collapsible` | primitives.go |
 | Animate | `animate` | primitives.go |
+| HelpText | `help-text` | primitives.go |
 
 Components **without** a base class (styled via element selectors or `data-*` attributes only): FormGroup, TextInput, SelectInput.
 
@@ -316,6 +330,19 @@ Components use `data-*` attributes for state, which CSS themes can target:
 | `data-settings-subsection-body` | | SettingsSubsection body |
 | `data-dir` | `true` | FileTree directory items |
 | `data-working` | `true` | InstanceCard |
+| `data-password-field` | | PasswordField |
+| `data-password-toggle` | | PasswordField toggle button |
+| `data-visible` | `true` | PasswordField (visible mode) |
+| `data-secret-field` | | SecretField |
+| `data-secret-key` | | SecretField key display |
+| `data-secret-value` | | SecretField value display |
+| `data-secret-scope` | | SecretField scope display |
+| `data-secret-copy` | | SecretField copy button |
+| `data-secret-remove` | | SecretField remove button |
+| `data-env-card` | | EnvironmentCard |
+| `data-stat-chip` | | StatChip |
+| `data-variable-chip` | | VariableChip |
+| `data-help-text` | | HelpText |
 
 ## CSS Custom Properties
 
@@ -338,6 +365,17 @@ Override these tokens to customize the base styles:
   --core-radius:     6px;
   --core-space:      8px;
   --core-transition: 150ms ease;
+
+  /* Layout widths */
+  --core-width-sidebar:  300px;
+  --core-width-panel:    300px;
+  --core-width-git-panel: 420px;
+  --core-width-modal:    480px;
+  --core-width-search:   600px;
+  --core-width-message:  680px;
+  --core-width-content:  720px;
+  --core-width-expanded: 960px;
+  --core-width-login:    400px;
 }
 ```
 

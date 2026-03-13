@@ -453,6 +453,167 @@
 [data-theme="devbox"] [data-schema-field-name] { letter-spacing: -0.01em; }
 [data-theme="devbox"] [data-schema-field-type] { color: var(--core-accent); }
 
+/* ─── Action Tag ─── */
+[data-theme="devbox"] [data-action-tag] {
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 11px;
+  box-shadow: none;
+  border: none;
+  transition: all var(--core-transition);
+}
+[data-theme="devbox"] [data-action-tag]:hover {
+  background: var(--dbx-active-bg);
+  color: var(--core-accent);
+  box-shadow: none;
+  transform: none;
+}
+
+/* ─── System Stats ─── */
+[data-theme="devbox"] [data-system-stats] {
+  font-family: var(--core-font-mono);
+}
+
+/* ─── Toolbar Button ─── */
+[data-theme="devbox"] [data-toolbar-button] {
+  font-weight: 500;
+  font-size: 12px;
+  border-radius: 6px;
+  box-shadow: none;
+  border: none;
+}
+[data-theme="devbox"] [data-toolbar-button]:hover {
+  background: var(--dbx-hover-bg);
+  box-shadow: none;
+  transform: none;
+}
+
+/* ─── Devbox Card ─── */
+[data-theme="devbox"] .devbox-card:hover {
+  background: var(--dbx-hover-bg);
+}
+[data-theme="devbox"] .devbox-card[data-active="true"] {
+  background: var(--dbx-active-bg);
+  border-left-color: var(--dbx-active-border);
+}
+
+/* ─── Diff Panel ─── */
+[data-theme="devbox"] [data-diff-panel] {
+  border-radius: var(--core-radius);
+  box-shadow: var(--dbx-shadow-sm);
+}
+[data-theme="devbox"] [data-diff-panel-header] {
+  font-family: var(--core-font-mono);
+  font-weight: 500;
+}
+[data-theme="devbox"] [data-diff-panel-body] {
+  font-family: var(--core-font-mono);
+}
+
+/* ─── Attachment Button ─── */
+[data-theme="devbox"] [data-attachment-button] {
+  border-radius: 6px;
+  box-shadow: none;
+  border: none;
+}
+[data-theme="devbox"] [data-attachment-button]:hover {
+  background: var(--dbx-hover-bg);
+  color: var(--core-accent);
+  box-shadow: none;
+  transform: none;
+}
+
+/* ─── Mode Toggle ─── */
+[data-theme="devbox"] [data-mode-toggle] {
+  border-width: 2px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  box-shadow: none;
+}
+[data-theme="devbox"] [data-mode-toggle]:hover {
+  border-color: var(--core-accent);
+  box-shadow: none;
+  transform: none;
+}
+[data-theme="devbox"] [data-mode-toggle]:active {
+  box-shadow: none;
+  transform: none;
+}
+[data-theme="devbox"] [data-mode-toggle][data-active="true"] {
+  border-color: var(--core-accent);
+  background: rgba(34, 197, 94, 0.12);
+  color: var(--core-accent);
+}
+
+/* ─── Resize Handle ─── */
+[data-theme="devbox"] [data-resize-handle]:hover {
+  background: rgba(34, 197, 94, 0.3);
+}
+
+/* ─── Password Field ─── */
+[data-theme="devbox"] [data-password-field] input {
+  border-radius: 8px;
+}
+[data-theme="devbox"] [data-password-toggle] {
+  border-radius: 6px;
+}
+[data-theme="devbox"] [data-password-toggle]:hover {
+  color: var(--core-accent);
+}
+
+/* ─── Secret Field ─── */
+[data-theme="devbox"] [data-secret-key] {
+  font-family: var(--core-font-mono);
+  border-radius: 6px;
+}
+[data-theme="devbox"] [data-secret-value] {
+  font-family: var(--core-font-mono);
+  border-radius: 6px;
+}
+[data-theme="devbox"] [data-secret-scope] {
+  border-radius: 9999px;
+  font-weight: 600;
+}
+
+/* ─── Environment Card ─── */
+[data-theme="devbox"] [data-env-card] {
+  box-shadow: var(--dbx-shadow-sm);
+  transition: box-shadow var(--core-transition);
+}
+[data-theme="devbox"] [data-env-card]:hover {
+  box-shadow: var(--dbx-shadow-md);
+}
+
+/* ─── Stat Chip ─── */
+[data-theme="devbox"] [data-stat-chip] {
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+/* ─── Variable Chip ─── */
+[data-theme="devbox"] [data-variable-chip] {
+  font-family: var(--core-font-mono);
+  border-radius: 9999px;
+  box-shadow: none;
+  border: none;
+}
+[data-theme="devbox"] [data-variable-chip]:hover {
+  background: var(--dbx-active-bg);
+  color: var(--core-accent);
+  box-shadow: none;
+  transform: none;
+}
+
+/* ─── Help Text ─── */
+[data-theme="devbox"] [data-help-text] {
+  border-radius: var(--core-radius);
+}
+[data-theme="devbox"] [data-help-text] a {
+  color: var(--core-accent);
+  font-weight: 500;
+}
+
 /* ─── Animate ─── */
 [data-theme="devbox"] [data-animate="pulse"] { animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
 

@@ -262,3 +262,80 @@ func TestQueuedItem_NoActions(t *testing.T) {
 		t.Errorf("expected no buttons, got %d", len(btns))
 	}
 }
+
+// ---------------------------------------------------------------------------
+// AttachmentButton
+// ---------------------------------------------------------------------------
+
+func TestAttachmentButton(t *testing.T) {
+	t.Run("with_click_and_custom_icon", func(t *testing.T) {
+		clicked := false
+		s := guitesting.Render(AttachmentButton("ab-cls", "icon-clip", func() { clicked = true }))
+		a := s.Assert(t)
+		a.HasElement("button")
+		a.HTMLContains(`class="attachment-button ab-cls"`)
+		a.HTMLContains(`data-attachment-button`)
+		a.HTMLContains(`class="icon-clip"`)
+
+		btn := s.GetByRole("button")
+		s.Click(btn)
+		if !clicked {
+			t.Error("expected onClick to fire")
+		}
+	})
+
+	t.Run("default_icon_no_click", func(t *testing.T) {
+		s := guitesting.Render(AttachmentButton("", "", nil))
+		a := s.Assert(t)
+		a.HTMLContains(`class="attachment-button"`)
+		a.HTMLContains(`data-attachment-button`)
+		a.HTMLContains(`class="icon-paperclip"`)
+		html := s.HTML()
+		if strings.Contains(html, "onclick") {
+			t.Errorf("expected no onclick, got: %s", html)
+		}
+	})
+}
+
+// ---------------------------------------------------------------------------
+// ModeToggle
+// ---------------------------------------------------------------------------
+
+func TestModeToggle(t *testing.T) {
+	t.Run("active_with_click", func(t *testing.T) {
+		clicked := false
+		s := guitesting.Render(ModeToggle(ModeToggleProps{
+			Class:   "mt-cls",
+			Label:   "Act",
+			Active:  true,
+			OnClick: func() { clicked = true },
+		}))
+		a := s.Assert(t)
+		a.HasElement("button")
+		a.HTMLContains(`class="mode-toggle mt-cls"`)
+		a.HTMLContains(`data-mode-toggle`)
+		a.HTMLContains(`data-active="true"`)
+		a.TextVisible("Act")
+
+		btn := s.GetByRole("button")
+		s.Click(btn)
+		if !clicked {
+			t.Error("expected onClick to fire")
+		}
+	})
+
+	t.Run("inactive_default_label", func(t *testing.T) {
+		s := guitesting.Render(ModeToggle(ModeToggleProps{}))
+		a := s.Assert(t)
+		a.HTMLContains(`class="mode-toggle"`)
+		a.HTMLContains(`data-mode-toggle`)
+		a.HTMLNotContains("data-active")
+		a.TextVisible("Act")
+	})
+
+	t.Run("custom_label", func(t *testing.T) {
+		s := guitesting.Render(ModeToggle(ModeToggleProps{Label: "Plan"}))
+		a := s.Assert(t)
+		a.TextVisible("Plan")
+	})
+}

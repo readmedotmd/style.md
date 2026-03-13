@@ -190,6 +190,70 @@ func ClusterStatsBar(class string, stats []ClusterStat, onClick func()) gui.Node
 	return gui.Div(attrs...)(children...)
 }
 
+// ActionTag renders a small clickable tag link (e.g. "browser", "vscode", "readme").
+//
+// Data attributes:
+//   - data-action-tag
+func ActionTag(class, label string, onClick func()) gui.Node {
+	attrs := collectAttrs(optClass(joinClass("action-tag", class)), dataAttr("action-tag", ""))
+	if onClick != nil {
+		attrs = append(attrs, gui.OnClick(onClick))
+	}
+	return gui.Button(attrs...)(gui.Text(label))
+}
+
+// SystemStatItem represents a single metric in a SystemStats bar.
+type SystemStatItem struct {
+	Icon  string
+	Label string
+	Value string
+}
+
+// SystemStats renders a compact stats indicator bar (e.g. CPU, memory, disk).
+//
+// Data attributes:
+//   - data-system-stats
+func SystemStats(class string, items []SystemStatItem) gui.Node {
+	children := make([]gui.Node, len(items))
+	for i, item := range items {
+		itemChildren := []gui.Node{}
+		if item.Icon != "" {
+			itemChildren = append(itemChildren, gui.I(gui.Class(item.Icon))())
+		}
+		if item.Label != "" {
+			itemChildren = append(itemChildren, gui.Span()(gui.Text(item.Label)))
+		}
+		itemChildren = append(itemChildren, gui.Span()(gui.Text(item.Value)))
+		children[i] = gui.Div()(itemChildren...)
+	}
+	return gui.Div(collectAttrs(optClass(joinClass("system-stats", class)), dataAttr("system-stats", ""))...)(children...)
+}
+
+// DiffPanelProps configures the DiffPanel component.
+type DiffPanelProps struct {
+	Class    string
+	FilePath string
+	Language string
+}
+
+// DiffPanel renders a panel wrapper for a file diff with a file path header and diff content.
+//
+// Data attributes:
+//   - data-diff-panel
+//   - data-lang: language (when non-empty)
+func DiffPanel(props DiffPanelProps, children ...gui.Node) gui.Node {
+	attrs := collectAttrs(optClass(joinClass("diff-panel", props.Class)), dataAttr("diff-panel", ""))
+	if props.Language != "" {
+		attrs = append(attrs, dataAttr("lang", props.Language))
+	}
+	panelChildren := []gui.Node{}
+	if props.FilePath != "" {
+		panelChildren = append(panelChildren, gui.Div(dataAttr("diff-panel-header", ""))(gui.Text(props.FilePath)))
+	}
+	panelChildren = append(panelChildren, gui.Div(dataAttr("diff-panel-body", ""))(children...))
+	return gui.Div(attrs...)(panelChildren...)
+}
+
 // MessageContent renders a wrapper for rendered markdown inside a message bubble.
 //
 // Data attributes:
@@ -200,4 +264,43 @@ func MessageContent(class, role string, children ...gui.Node) gui.Node {
 		attrs = append(attrs, dataAttr("role", role))
 	}
 	return gui.Div(attrs...)(children...)
+}
+
+// StatChip renders a small icon+value chip (e.g. count indicators like "2 vars", "4 services").
+//
+// Data attributes:
+//   - data-stat-chip
+func StatChip(class, icon, value string) gui.Node {
+	attrs := collectAttrs(optClass(joinClass("stat-chip", class)), dataAttr("stat-chip", ""))
+	children := []gui.Node{}
+	if icon != "" {
+		children = append(children, gui.I(gui.Class(icon))())
+	}
+	children = append(children, gui.Span()(gui.Text(value)))
+	return gui.Span(attrs...)(children...)
+}
+
+// VariableChipProps configures the VariableChip component.
+type VariableChipProps struct {
+	Class   string
+	Icon    string
+	Label   string
+	OnClick func()
+}
+
+// VariableChip renders a pill-shaped variable reference button (e.g. "GITHUB_TOKEN" with lock icon).
+//
+// Data attributes:
+//   - data-variable-chip
+func VariableChip(props VariableChipProps) gui.Node {
+	attrs := collectAttrs(optClass(joinClass("variable-chip", props.Class)), dataAttr("variable-chip", ""))
+	if props.OnClick != nil {
+		attrs = append(attrs, gui.OnClick(props.OnClick))
+	}
+	children := []gui.Node{}
+	if props.Icon != "" {
+		children = append(children, gui.I(gui.Class(props.Icon))())
+	}
+	children = append(children, gui.Span()(gui.Text(props.Label)))
+	return gui.Button(attrs...)(children...)
 }

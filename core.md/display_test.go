@@ -185,3 +185,141 @@ func TestMessageContent_NoRole(t *testing.T) {
 	s := guitesting.Render(MessageContent("", "", gui.Text("x")))
 	s.Assert(t).HTMLNotContains(`data-role`).TextVisible("x")
 }
+
+func TestActionTag(t *testing.T) {
+	t.Run("with_click", func(t *testing.T) {
+		clicked := false
+		s := guitesting.Render(ActionTag("at-cls", "browser", func() { clicked = true }))
+		a := s.Assert(t)
+		a.HasElement("button")
+		a.HTMLContains(`class="action-tag at-cls"`)
+		a.HTMLContains(`data-action-tag`)
+		a.TextVisible("browser")
+
+		btn := s.GetByRole("button")
+		s.Click(btn)
+		if !clicked {
+			t.Error("expected onClick to fire")
+		}
+	})
+
+	t.Run("no_click", func(t *testing.T) {
+		s := guitesting.Render(ActionTag("", "vscode", nil))
+		a := s.Assert(t)
+		a.HTMLContains(`class="action-tag"`)
+		a.HTMLContains(`data-action-tag`)
+		a.TextVisible("vscode")
+		html := s.HTML()
+		if strings.Contains(html, "onclick") {
+			t.Errorf("expected no onclick, got: %s", html)
+		}
+	})
+}
+
+func TestSystemStats(t *testing.T) {
+	t.Run("with_items", func(t *testing.T) {
+		items := []SystemStatItem{
+			{Icon: "icon-cpu", Label: "CPU", Value: "42%"},
+			{Label: "Mem", Value: "880MB"},
+			{Value: "9.0G / 14.8G"},
+		}
+		s := guitesting.Render(SystemStats("ss", items))
+		a := s.Assert(t)
+		a.HTMLContains(`class="system-stats ss"`)
+		a.HTMLContains(`data-system-stats`)
+		a.TextVisible("42%")
+		a.TextVisible("880MB")
+		a.TextVisible("9.0G / 14.8G")
+		a.HasElement("i") // icon-cpu
+	})
+
+	t.Run("empty", func(t *testing.T) {
+		s := guitesting.Render(SystemStats("", []SystemStatItem{}))
+		a := s.Assert(t)
+		a.HTMLContains(`class="system-stats"`)
+		a.HTMLContains(`data-system-stats`)
+	})
+}
+
+func TestDiffPanel(t *testing.T) {
+	t.Run("with_file_path_and_content", func(t *testing.T) {
+		s := guitesting.Render(DiffPanel(DiffPanelProps{
+			Class:    "dp",
+			FilePath: "core.md/styles.css",
+			Language: "css",
+		}, gui.Text("+new line")))
+		a := s.Assert(t)
+		a.HTMLContains(`class="diff-panel dp"`)
+		a.HTMLContains(`data-diff-panel`)
+		a.HTMLContains(`data-lang="css"`)
+		a.HTMLContains(`data-diff-panel-header`)
+		a.HTMLContains(`data-diff-panel-body`)
+		a.TextVisible("core.md/styles.css")
+		a.TextVisible("+new line")
+	})
+
+	t.Run("no_file_path_no_lang", func(t *testing.T) {
+		s := guitesting.Render(DiffPanel(DiffPanelProps{}, gui.Text("content")))
+		a := s.Assert(t)
+		a.HTMLContains(`class="diff-panel"`)
+		a.HTMLContains(`data-diff-panel`)
+		a.HTMLNotContains("data-lang")
+		a.HTMLNotContains("data-diff-panel-header")
+		a.HTMLContains(`data-diff-panel-body`)
+		a.TextVisible("content")
+	})
+}
+
+func TestStatChip(t *testing.T) {
+	t.Run("with_icon", func(t *testing.T) {
+		s := guitesting.Render(StatChip("sc", "icon-var", "4"))
+		a := s.Assert(t)
+		a.HasElement("span")
+		a.HTMLContains(`class="stat-chip sc"`)
+		a.HTMLContains(`data-stat-chip`)
+		a.HTMLContains(`class="icon-var"`)
+		a.TextVisible("4")
+	})
+
+	t.Run("no_icon", func(t *testing.T) {
+		s := guitesting.Render(StatChip("", "", "12"))
+		a := s.Assert(t)
+		a.HTMLContains(`class="stat-chip"`)
+		a.HTMLContains(`data-stat-chip`)
+		a.HasNoElement("i")
+		a.TextVisible("12")
+	})
+}
+
+func TestVariableChip(t *testing.T) {
+	t.Run("with_click_and_icon", func(t *testing.T) {
+		clicked := false
+		s := guitesting.Render(VariableChip(VariableChipProps{
+			Class:   "vc",
+			Icon:    "icon-lock",
+			Label:   "API_KEY",
+			OnClick: func() { clicked = true },
+		}))
+		a := s.Assert(t)
+		a.HasElement("button")
+		a.HTMLContains(`class="variable-chip vc"`)
+		a.HTMLContains(`data-variable-chip`)
+		a.HTMLContains(`class="icon-lock"`)
+		a.TextVisible("API_KEY")
+
+		btn := s.GetByRole("button")
+		s.Click(btn)
+		if !clicked {
+			t.Error("expected onClick to fire")
+		}
+	})
+
+	t.Run("no_icon_no_click", func(t *testing.T) {
+		s := guitesting.Render(VariableChip(VariableChipProps{Label: "TOKEN"}))
+		a := s.Assert(t)
+		a.HTMLContains(`class="variable-chip"`)
+		a.HTMLContains(`data-variable-chip`)
+		a.HasNoElement("i")
+		a.TextVisible("TOKEN")
+	})
+}

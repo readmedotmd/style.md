@@ -317,6 +317,89 @@ func EditableVariableRow(props EditableVariableRowProps) gui.Node {
 	return gui.Div(attrs...)(children...)
 }
 
+// PasswordFieldProps configures the PasswordField component.
+type PasswordFieldProps struct {
+	Class       string
+	Placeholder string
+	Value       string
+	ID          string
+	Name        string
+	Visible     bool
+	OnInput     func(gui.Event)
+	OnToggle    func()
+}
+
+// PasswordField renders a password input with a visibility toggle button.
+//
+// Data attributes:
+//   - data-password-field
+//   - data-visible: "true" (when password is visible)
+func PasswordField(props PasswordFieldProps) gui.Node {
+	attrs := collectAttrs(optClass(joinClass("password-field", props.Class)), dataAttr("password-field", ""))
+	if props.Visible {
+		attrs = append(attrs, dataAttr("visible", "true"))
+	}
+	inputType := "password"
+	if props.Visible {
+		inputType = "text"
+	}
+	input := TextInput(TextInputProps{
+		Placeholder: props.Placeholder,
+		Value:       props.Value,
+		Type:        inputType,
+		ID:          props.ID,
+		Name:        props.Name,
+		OnInput:     props.OnInput,
+	})
+	toggleAttrs := []gui.Attr{dataAttr("password-toggle", "")}
+	if props.OnToggle != nil {
+		toggleAttrs = append(toggleAttrs, gui.OnClick(props.OnToggle))
+	}
+	icon := "icon-eye"
+	if props.Visible {
+		icon = "icon-eye-off"
+	}
+	toggle := gui.Button(toggleAttrs...)(gui.I(gui.Class(icon))())
+	return gui.Div(attrs...)(input, toggle)
+}
+
+// SecretFieldProps configures the SecretField component.
+type SecretFieldProps struct {
+	Class    string
+	KeyName  string
+	Value    string
+	Scope    string
+	OnCopy   func()
+	OnRemove func()
+}
+
+// SecretField renders a masked secret value row with key name, masked value, copy button, scope badge, and remove button.
+//
+// Data attributes:
+//   - data-secret-field
+func SecretField(props SecretFieldProps) gui.Node {
+	attrs := collectAttrs(optClass(joinClass("secret-field", props.Class)), dataAttr("secret-field", ""))
+
+	children := []gui.Node{
+		gui.Span(dataAttr("secret-key", ""))(gui.Text(props.KeyName)),
+	}
+
+	valueChildren := []gui.Node{gui.Span()(gui.Text("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"))}
+	if props.OnCopy != nil {
+		valueChildren = append(valueChildren, gui.Button(gui.OnClick(props.OnCopy), dataAttr("secret-copy", ""))(gui.I(gui.Class("icon-copy"))()))
+	}
+	children = append(children, gui.Div(dataAttr("secret-value", ""))(valueChildren...))
+
+	if props.Scope != "" {
+		children = append(children, gui.Span(dataAttr("secret-scope", ""))(gui.Text(props.Scope)))
+	}
+	if props.OnRemove != nil {
+		children = append(children, gui.Button(gui.OnClick(props.OnRemove), dataAttr("secret-remove", ""))(gui.Text("\u00d7")))
+	}
+
+	return gui.Div(attrs...)(children...)
+}
+
 // SchemaFieldProps configures the SchemaField component.
 type SchemaFieldProps struct {
 	Class       string

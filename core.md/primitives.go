@@ -336,3 +336,11 @@ func Truncate(class string, children ...gui.Node) gui.Node {
 func SrOnly(text string) gui.Node {
 	return gui.Span(dataAttr("sr-only", ""))(gui.Text(text))
 }
+
+// HelpText renders an informational text block for guidance or instructions.
+//
+// Data attributes:
+//   - data-help-text
+func HelpText(class string, children ...gui.Node) gui.Node {
+	return gui.Div(collectAttrs(optClass(joinClass("help-text", class)), dataAttr("help-text", ""))...)(children...)
+}

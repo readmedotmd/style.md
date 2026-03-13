@@ -106,16 +106,16 @@ Set `data-mode="dark"` on `<html>`, or let themes auto-detect via `prefers-color
 
 | Category        | Components |
 |-----------------|------------|
-| **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly, MarkdownContent, SectionHeader, Collapsible, Animate |
+| **Primitives**  | Stack, HStack, Grid, Center, Spacer, Card, Badge, Divider, Heading, Paragraph, CodeBlock, InlineCode, Link, Image, UnorderedList, OrderedList, Quote, Muted, Mono, Truncate, SrOnly, MarkdownContent, SectionHeader, Collapsible, Animate, HelpText |
 | **Buttons**     | Button (primary, danger, toolbar; medium, small) |
-| **Forms**       | FormGroup, TextInput, NumberInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, EditableVariableRow, SchemaField, ErrorMessage, SuccessMessage |
-| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, MessageQueueBar, QueuedItem |
-| **Display**     | MessageBubble, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent |
-| **Lists**       | ConversationItem, InstanceCard, InstanceList, ServiceRow, RunnerRow, FileTree |
+| **Forms**       | FormGroup, TextInput, NumberInput, TextArea, SelectInput, Checkbox, FeatureRow, VariableRow, EditableVariableRow, SchemaField, PasswordField, SecretField, ErrorMessage, SuccessMessage |
+| **Input**       | ChatInput, AutocompletePopup, MessageQueue, SearchInputField, PastePreview, MessageQueueBar, QueuedItem, AttachmentButton, ModeToggle |
+| **Display**     | MessageBubble, QuestionPrompt, StatusBadge, StatusDot, LabelBadge, UsageBadge, DiffViewer, DataTable, EmptyState, ClusterStatsBar, MessageContent, ActionTag, SystemStats, DiffPanel, StatChip, VariableChip |
+| **Lists**       | ConversationItem, InstanceCard, InstanceList, ServiceRow, RunnerRow, FileTree, DevboxCard, EnvironmentCard |
 | **Navigation**  | NavLink, TabBar, BottomTabBar |
 | **Overlay**     | SearchOverlay, ContextMenu, BottomSheet, SearchResult, SearchResultContent, SearchSnippet |
 | **Panels**      | GitPanel, SkillsPanel, TerminalPanel, GitSectionHeader, GitFileList, GitFile, GitCommitArea |
-| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DashboardLayout, SidebarColumn, ChatHeader, Box, ScrollArea, SplitLayout, Backdrop, IconButton, Toolbar |
+| **Layout**      | AppShell, Navbar, Sidebar, Panel, Modal, ModalBackdrop, DashboardLayout, SidebarColumn, ChatHeader, Box, ScrollArea, SplitLayout, Backdrop, IconButton, ToolbarButton, Toolbar, ResizeHandle |
 | **Pages**       | LoginPage, SetupWizard, SettingsCard, SettingsPage, SettingsCardFull, SettingsSection, SettingsSubsection, SettingsForm, SettingsCodeInput, ClusterSummaryCard, ClusterSummaryRow |
 | **Utility**     | Spinner, Icon, AppShellFull |
 
@@ -211,6 +211,19 @@ Components communicate state through `data-*` attributes, which themes target vi
 | `data-settings-subsection-body` | | SettingsSubsection body |
 | `data-dir` | `true` | FileTree directory items |
 | `data-working` | `true` | InstanceCard |
+| `data-password-field` | | PasswordField |
+| `data-password-toggle` | | PasswordField toggle button |
+| `data-visible` | `true` | PasswordField (visible mode) |
+| `data-secret-field` | | SecretField |
+| `data-secret-key` | | SecretField key display |
+| `data-secret-value` | | SecretField value display |
+| `data-secret-scope` | | SecretField scope display |
+| `data-secret-copy` | | SecretField copy button |
+| `data-secret-remove` | | SecretField remove button |
+| `data-env-card` | | EnvironmentCard |
+| `data-stat-chip` | | StatChip |
+| `data-variable-chip` | | VariableChip |
+| `data-help-text` | | HelpText |
 
 ## CSS Custom Properties
 
@@ -233,6 +246,17 @@ Themes override these tokens defined in `core.md/styles.css`:
   --core-radius:     6px;
   --core-space:      8px;
   --core-transition: 150ms ease;
+
+  /* Layout widths */
+  --core-width-sidebar:  300px;
+  --core-width-panel:    300px;
+  --core-width-git-panel: 420px;
+  --core-width-modal:    480px;
+  --core-width-search:   600px;
+  --core-width-message:  680px;
+  --core-width-content:  720px;
+  --core-width-expanded: 960px;
+  --core-width-login:    400px;
 }
 ```
 
