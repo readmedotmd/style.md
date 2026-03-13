@@ -685,6 +685,29 @@ hr {
 /* ─── Context Menu ─── */
 [data-danger="true"] { color: var(--core-danger); }
 
+.context-menu {
+  background: var(--core-surface);
+  border: 1px solid var(--core-border);
+  border-radius: var(--core-radius);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+.context-menu > button {
+  border: none;
+  background: none;
+  color: var(--core-text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.context-menu > button:hover {
+  background: var(--core-surface);
+}
+.context-menu > button[data-danger="true"] {
+  color: var(--core-danger);
+}
+div:has(~ .context-menu) > .modal-backdrop {
+  background: transparent;
+}
+
 /* ─── Box ─── */
 [data-box] { display: block; }
 [data-pad="xs"] { padding: 4px; }
