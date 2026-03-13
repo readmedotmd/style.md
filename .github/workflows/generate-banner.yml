@@ -31,8 +31,8 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           mkdir -p .github
-          curl -sfG "$GENERATE_URL" \
-            --data-urlencode "api_key=$API_KEY" \
+          curl -sfG "$GENERATE_URL/banner" \
+            -H "X-API-Key: $API_KEY" \
             --data-urlencode "name=$REPO_NAME" \
             --data-urlencode "tagline=$REPO_DESC" \
             --data-urlencode "version=$VERSION" \
