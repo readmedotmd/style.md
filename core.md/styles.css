@@ -2217,7 +2217,8 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
   .chat-usage-btn { display: none; }
   .toolbar-desktop { display: none; }
   .toolbar-mobile { display: flex; }
-  .settings-page { padding: 0; gap: 14px; padding-bottom: 64px; }
+  .settings-page { padding: 16px 0 64px; gap: 14px; }
+  .settings-page-header { padding: 0 14px; }
   .settings-card { border-left: none; border-right: none; border-radius: 0; }
   .settings-card > [data-settings-card-header] { border-radius: 0; padding: 10px 14px; }
   .settings-card > [data-settings-card-body] { padding: 14px; gap: 12px; }
