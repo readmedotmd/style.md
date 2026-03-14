@@ -6,6 +6,198 @@ import (
 	guitesting "github.com/readmedotmd/gui.md/testing"
 )
 
+func TestFormGroup(t *testing.T) {
+	t.Run("with_label_and_children", func(t *testing.T) {
+		s := guitesting.Render(FormGroup(FormGroupProps{
+			Class: "fg",
+			Label: "Email",
+		}, TextInput(TextInputProps{Placeholder: "you@example.com"})))
+		a := s.Assert(t)
+		a.HasElement("label")
+		a.HTMLContains(`data-form-group`)
+		a.HTMLContains(`class="fg"`)
+		a.TextVisible("Email")
+		a.HasElement("input")
+	})
+	t.Run("empty_class", func(t *testing.T) {
+		s := guitesting.Render(FormGroup(FormGroupProps{Label: "Name"}))
+		a := s.Assert(t)
+		a.HTMLContains(`data-form-group`)
+		a.TextVisible("Name")
+	})
+}
+
+func TestTextArea(t *testing.T) {
+	t.Run("with_all_props", func(t *testing.T) {
+		s := guitesting.Render(TextArea(TextareaProps{
+			Class:       "ta",
+			Placeholder: "Type here",
+			Value:       "hello",
+			ID:          "msg",
+			AutoGrow:    true,
+			Fixed:       true,
+			Rows:        5,
+		}))
+		a := s.Assert(t)
+		a.HasElement("textarea")
+		a.HTMLContains(`class="text-area ta"`)
+		a.HTMLContains(`data-auto-grow="true"`)
+		a.HTMLContains(`data-fixed="true"`)
+		a.HTMLContains(`placeholder="Type here"`)
+		a.HTMLContains(`id="msg"`)
+		a.HTMLContains(`rows="5"`)
+		a.TextVisible("hello")
+	})
+	t.Run("minimal", func(t *testing.T) {
+		s := guitesting.Render(TextArea(TextareaProps{}))
+		a := s.Assert(t)
+		a.HasElement("textarea")
+		a.HTMLContains(`class="text-area"`)
+		a.HTMLNotContains("data-auto-grow")
+		a.HTMLNotContains("data-fixed")
+		a.HTMLNotContains("placeholder=")
+		a.HTMLNotContains("rows=")
+	})
+}
+
+func TestSelectInput(t *testing.T) {
+	t.Run("with_options", func(t *testing.T) {
+		s := guitesting.Render(SelectInput(SelectProps{
+			Class: "sel",
+			ID:    "color",
+		},
+			SelectOption("r", "Red", false),
+			SelectOption("g", "Green", true),
+		))
+		a := s.Assert(t)
+		a.HasElement("select")
+		a.HTMLContains(`class="sel"`)
+		a.HTMLContains(`id="color"`)
+		a.HasElement("option")
+		a.TextVisible("Red")
+		a.TextVisible("Green")
+		a.HTMLContains(`selected="true"`)
+	})
+	t.Run("minimal", func(t *testing.T) {
+		s := guitesting.Render(SelectInput(SelectProps{}))
+		a := s.Assert(t)
+		a.HasElement("select")
+		a.HTMLNotContains("id=")
+	})
+}
+
+func TestSelectOption(t *testing.T) {
+	t.Run("selected", func(t *testing.T) {
+		s := guitesting.Render(SelectOption("val", "Label", true))
+		a := s.Assert(t)
+		a.HasElement("option")
+		a.HTMLContains(`value="val"`)
+		a.HTMLContains(`selected="true"`)
+		a.TextVisible("Label")
+	})
+	t.Run("not_selected", func(t *testing.T) {
+		s := guitesting.Render(SelectOption("v", "L", false))
+		a := s.Assert(t)
+		a.HTMLContains(`value="v"`)
+		a.HTMLNotContains("selected")
+	})
+}
+
+func TestFeatureRow(t *testing.T) {
+	t.Run("checked_with_all_props", func(t *testing.T) {
+		s := guitesting.Render(FeatureRow(FeatureRowProps{
+			Class:       "fr",
+			Name:        "Dark Mode",
+			Description: "Enable dark theme",
+			Checked:     true,
+		}))
+		a := s.Assert(t)
+		a.HTMLContains(`class="feature-row fr"`)
+		a.HTMLContains(`data-feature-info`)
+		a.HTMLContains(`data-feature-name`)
+		a.HTMLContains(`data-feature-desc`)
+		a.HTMLContains(`checked`)
+		a.TextVisible("Dark Mode")
+		a.TextVisible("Enable dark theme")
+	})
+	t.Run("unchecked_minimal", func(t *testing.T) {
+		s := guitesting.Render(FeatureRow(FeatureRowProps{
+			Name: "Feature",
+		}))
+		a := s.Assert(t)
+		a.HTMLContains(`class="feature-row"`)
+		a.HTMLNotContains("checked")
+		a.TextVisible("Feature")
+	})
+}
+
+func TestVariableRow(t *testing.T) {
+	t.Run("masked_with_remove", func(t *testing.T) {
+		removed := false
+		s := guitesting.Render(VariableRow(VariableRowProps{
+			Class:    "vr",
+			Key:      "SECRET",
+			Value:    "hidden",
+			Masked:   true,
+			OnRemove: func() { removed = true },
+		}))
+		a := s.Assert(t)
+		a.HTMLContains(`class="variable-row vr"`)
+		a.HTMLContains(`data-masked="true"`)
+		a.TextVisible("SECRET")
+		a.TextVisible("••••••••")
+		a.HTMLNotContains("hidden")
+		a.TextVisible("Remove")
+
+		ref := s.GetByText("Remove")
+		s.Click(ref)
+		if !removed {
+			t.Error("expected OnRemove to fire")
+		}
+	})
+	t.Run("unmasked_no_remove", func(t *testing.T) {
+		s := guitesting.Render(VariableRow(VariableRowProps{
+			Key:   "PORT",
+			Value: "8080",
+		}))
+		a := s.Assert(t)
+		a.HTMLNotContains("data-masked")
+		a.TextVisible("PORT")
+		a.TextVisible("8080")
+		a.HTMLNotContains("Remove")
+	})
+}
+
+func TestErrorMessage(t *testing.T) {
+	t.Run("with_class", func(t *testing.T) {
+		s := guitesting.Render(ErrorMessage("err", "Something went wrong"))
+		a := s.Assert(t)
+		a.HasElement("div")
+		a.HTMLContains(`class="error-message err"`)
+		a.HTMLContains(`role="alert"`)
+		a.TextVisible("Something went wrong")
+	})
+	t.Run("empty_class", func(t *testing.T) {
+		s := guitesting.Render(ErrorMessage("", "fail"))
+		s.Assert(t).HTMLContains(`class="error-message"`)
+	})
+}
+
+func TestSuccessMessage(t *testing.T) {
+	t.Run("with_class", func(t *testing.T) {
+		s := guitesting.Render(SuccessMessage("ok", "Saved successfully"))
+		a := s.Assert(t)
+		a.HasElement("div")
+		a.HTMLContains(`class="success-message ok"`)
+		a.HTMLContains(`role="status"`)
+		a.TextVisible("Saved successfully")
+	})
+	t.Run("empty_class", func(t *testing.T) {
+		s := guitesting.Render(SuccessMessage("", "done"))
+		s.Assert(t).HTMLContains(`class="success-message"`)
+	})
+}
+
 func TestNumberInput(t *testing.T) {
 	t.Run("renders_number_type", func(t *testing.T) {
 		s := guitesting.Render(NumberInput(TextInputProps{

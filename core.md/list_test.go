@@ -8,6 +8,84 @@ import (
 	guitesting "github.com/readmedotmd/gui.md/testing"
 )
 
+func TestInstanceList(t *testing.T) {
+	t.Run("with_title_actions_children", func(t *testing.T) {
+		actions := []gui.Node{gui.Button()(gui.Text("New"))}
+		s := guitesting.Render(InstanceList(
+			InstanceListProps{Class: "il", Title: "Instances"},
+			actions,
+			gui.Div()(gui.Text("child1")),
+			gui.Div()(gui.Text("child2")),
+		))
+		a := s.Assert(t)
+		a.HTMLContains(`class="il"`)
+		a.TextVisible("Instances")
+		a.TextVisible("New")
+		a.TextVisible("child1")
+		a.TextVisible("child2")
+	})
+	t.Run("minimal", func(t *testing.T) {
+		s := guitesting.Render(InstanceList(InstanceListProps{Title: "List"}, nil))
+		s.Assert(t).TextVisible("List")
+	})
+}
+
+func TestServiceRow(t *testing.T) {
+	t.Run("with_all_props", func(t *testing.T) {
+		s := guitesting.Render(ServiceRow(ServiceRowProps{
+			Class:  "sr",
+			Name:   "postgres",
+			Image:  "postgres:15",
+			Status: StatusRunning,
+			Ports:  []string{"5432", "5433"},
+		}, gui.Button()(gui.Text("Restart"))))
+		a := s.Assert(t)
+		a.HTMLContains(`class="sr"`)
+		a.TextVisible("postgres")
+		a.TextVisible("postgres:15")
+		a.TextVisible("5432")
+		a.TextVisible("5433")
+		a.TextVisible("Restart")
+	})
+	t.Run("minimal", func(t *testing.T) {
+		s := guitesting.Render(ServiceRow(ServiceRowProps{
+			Name:   "redis",
+			Status: StatusStopped,
+		}))
+		a := s.Assert(t)
+		a.TextVisible("redis")
+	})
+}
+
+func TestRunnerRow(t *testing.T) {
+	t.Run("with_processes", func(t *testing.T) {
+		s := guitesting.Render(RunnerRow(RunnerRowProps{
+			Class:        "rr",
+			Name:         "worker-1",
+			Description:  "Background worker",
+			ProcessCount: 3,
+			Processes: []RunnerProcess{
+				{Title: "proc-a", Actions: []gui.Node{gui.Button()(gui.Text("Stop"))}},
+				{Title: "proc-b"},
+			},
+		}, gui.Button()(gui.Text("Kill All"))))
+		a := s.Assert(t)
+		a.HTMLContains(`class="rr"`)
+		a.TextVisible("worker-1")
+		a.TextVisible("Background worker")
+		a.TextVisible("3 processes")
+		a.TextVisible("proc-a")
+		a.TextVisible("proc-b")
+		a.TextVisible("Stop")
+		a.TextVisible("Kill All")
+	})
+	t.Run("minimal", func(t *testing.T) {
+		s := guitesting.Render(RunnerRow(RunnerRowProps{Name: "runner"}))
+		a := s.Assert(t)
+		a.TextVisible("runner")
+	})
+}
+
 func TestDevboxCard(t *testing.T) {
 	t.Run("active_with_all_props", func(t *testing.T) {
 		clicked := false
