@@ -752,8 +752,11 @@ div:has(~ .context-menu) > .modal-backdrop {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
+  flex-shrink: 0;
 }
+.toolbar-desktop { display: flex; align-items: center; gap: 2px; }
+.toolbar-mobile { display: none; }
 /* ─── Header ─── */
 [data-header] {
   display: flex;
@@ -1093,9 +1096,12 @@ button.cluster-refresh-btn:not([data-variant]):hover { color: var(--core-text); 
 /* ─── Chat Area ─── */
 .chat-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
 .chat-header {
+  display: flex; align-items: center;
   padding: 0 24px; height: 52px;
   background: var(--core-surface);
   font-weight: 600; font-size: 0.95rem; color: var(--core-text);
+  border-bottom: 1px solid var(--core-border);
+  flex-shrink: 0;
 }
 .chat-header > div:first-child {
   display: flex; align-items: center; gap: 8px;
@@ -2208,7 +2214,9 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
   .chat-input-area { padding: 10px 16px 16px; }
   .chat-header { padding: 0 16px; overflow: hidden; }
   .chat-usage-btn { display: none; }
-  .settings-page { padding: 16px 12px 64px; gap: 14px; }
+  .toolbar-desktop { display: none; }
+  .toolbar-mobile { display: flex; }
+  .settings-page { padding: 0; gap: 14px; padding-bottom: 64px; }
   .settings-card { border-left: none; border-right: none; border-radius: 0; }
   .settings-card > [data-settings-card-header] { border-radius: 0; padding: 10px 14px; }
   .settings-card > [data-settings-card-body] { padding: 14px; gap: 12px; }
@@ -2251,5 +2259,6 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
   .settings-env-row > div:last-of-type { justify-content: flex-end; }
   .settings-s3-grid, .settings-s3-grid-2 { grid-template-columns: 1fr; }
   .env-card { flex-direction: column; align-items: stretch; gap: 8px; }
-  [data-env-card-actions] { justify-content: flex-start; }
+  [data-env-card-actions] { justify-content: flex-start; flex-wrap: wrap; gap: 4px; }
+  [data-env-card-actions] .btn[data-variant="toolbar"] { font-size: 0.7rem; padding: 4px 8px; }
 }
