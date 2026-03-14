@@ -10,16 +10,14 @@ import (
 func SearchOverlay(class string, tabs []TabBarTab, input gui.Node, results ...gui.Node) gui.Node {
 	panelChildren := []gui.Node{}
 	if len(tabs) > 0 {
-		panelChildren = append(panelChildren, TabBar("", tabs))
+		panelChildren = append(panelChildren, TabBar("search-mode-tabs", tabs))
 	}
 	if input != nil {
 		panelChildren = append(panelChildren, input)
 	}
-	panelChildren = append(panelChildren, gui.Div()(results...))
+	panelChildren = append(panelChildren, results...)
 
-	return gui.Div(collectAttrs(optClass(joinClass("search-overlay", class)))...)(
-		gui.Div()(panelChildren...),
-	)
+	return gui.Div(collectAttrs(optClass(joinClass("search-card", class)))...)(panelChildren...)
 }
 
 // ContextMenuItem represents a single item in a context menu.

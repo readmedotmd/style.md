@@ -14,7 +14,8 @@ func TestSearchOverlay(t *testing.T) {
 		input := gui.Span()(gui.Text("search-input"))
 		screen := guitesting.Render(SearchOverlay("so", tabs, input, gui.Text("result1")))
 		screen.Assert(t).
-			HTMLContains(`class="search-overlay so"`).
+			HTMLContains(`class="search-card so"`).
+			HTMLContains(`class="tab-bar search-mode-tabs"`).
 			TextVisible("Files").
 			TextVisible("search-input").
 			TextVisible("result1")

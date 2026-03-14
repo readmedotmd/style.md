@@ -24,7 +24,7 @@ func TestSimpleContainers(t *testing.T) {
 		{"ModalBackdrop", "modal-backdrop", ModalBackdrop, "div"},
 		{"ModalBody", "modal-body", ModalBody, "div"},
 		{"ModalFooter", "modal-footer", ModalFooter, "div"},
-		{"DashboardLayout", "dashboard-layout", DashboardLayout, "div"},
+		{"DashboardLayout", "dashboard", DashboardLayout, "div"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name+"/with_class_and_children", func(t *testing.T) {

@@ -127,7 +127,7 @@ func ModalFooter(class string, children ...gui.Node) gui.Node {
 
 // DashboardLayout renders a flex row container for sidebar + center column + right panels.
 func DashboardLayout(class string, children ...gui.Node) gui.Node {
-	return gui.Div(collectAttrs(optClass(joinClass("dashboard-layout", class)))...)(children...)
+	return gui.Div(collectAttrs(optClass(joinClass("dashboard", class)))...)(children...)
 }
 
 // SidebarColumn renders a fixed-width sidebar column wrapper.
