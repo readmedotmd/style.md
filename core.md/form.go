@@ -258,18 +258,40 @@ func VariableRow(props VariableRowProps) gui.Node {
 	return gui.Div(attrs...)(children...)
 }
 
-// ErrorMessage renders an error message.
-func ErrorMessage(class, text string) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("error-message", class)))
-	attrs = append(attrs, gui.Attr_("role", "alert"))
+// FeedbackVariant determines the type of feedback message.
+type FeedbackVariant string
+
+const (
+	FeedbackError   FeedbackVariant = "error"
+	FeedbackSuccess FeedbackVariant = "success"
+)
+
+// FeedbackMessage renders a feedback message (error or success).
+//
+// Data attributes:
+//   - data-variant: "error" or "success"
+func FeedbackMessage(class string, variant FeedbackVariant, text string) gui.Node {
+	base := "feedback-message"
+	attrs := collectAttrs(optClass(joinClass(base, class)))
+	attrs = append(attrs, dataAttr("variant", string(variant)))
+	if variant == FeedbackError {
+		attrs = append(attrs, gui.Attr_("role", "alert"))
+	} else {
+		attrs = append(attrs, gui.Attr_("role", "status"))
+	}
 	return gui.Div(attrs...)(gui.Text(text))
 }
 
-// SuccessMessage renders a success message.
+// ErrorMessage renders an error feedback message.
+// Convenience wrapper around FeedbackMessage.
+func ErrorMessage(class, text string) gui.Node {
+	return FeedbackMessage(class, FeedbackError, text)
+}
+
+// SuccessMessage renders a success feedback message.
+// Convenience wrapper around FeedbackMessage.
 func SuccessMessage(class, text string) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("success-message", class)))
-	attrs = append(attrs, gui.Attr_("role", "status"))
-	return gui.Div(attrs...)(gui.Text(text))
+	return FeedbackMessage(class, FeedbackSuccess, text)
 }
 
 // EditableVariableRowProps configures the EditableVariableRow component.

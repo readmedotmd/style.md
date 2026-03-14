@@ -377,12 +377,12 @@
 /* ─── Backdrop ─── */
 [data-theme="industrial"] [data-backdrop] { background: rgba(0, 0, 0, 0.6); }
 
-/* ─── Icon Button ─── */
-[data-theme="industrial"] [data-icon-button] {
+/* ─── Ghost Button ─── */
+[data-theme="industrial"] .btn[data-variant="ghost"] {
   font-family: var(--core-font);
   border: 2px solid transparent;
 }
-[data-theme="industrial"] [data-icon-button]:hover {
+[data-theme="industrial"] .btn[data-variant="ghost"]:hover {
   border-color: var(--core-border);
   box-shadow: var(--ind-shadow-sm);
 }
@@ -438,7 +438,7 @@
 }
 
 /* ─── Toolbar Button ─── */
-[data-theme="industrial"] [data-toolbar-button] {
+[data-theme="industrial"] .btn[data-variant="toolbar"] {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-weight: 700;
@@ -447,11 +447,11 @@
   border: 2px solid transparent;
   box-shadow: none;
 }
-[data-theme="industrial"] [data-toolbar-button]:hover {
+[data-theme="industrial"] .btn[data-variant="toolbar"]:hover {
   border-color: var(--core-border);
   box-shadow: var(--ind-shadow-sm);
 }
-[data-theme="industrial"] [data-toolbar-button]:active {
+[data-theme="industrial"] .btn[data-variant="toolbar"]:active {
   box-shadow: none;
   transform: translate(1px, 1px);
 }
@@ -487,12 +487,12 @@
   font-family: 'Space Mono', monospace;
 }
 
-/* ─── Attachment Button ─── */
-[data-theme="industrial"] [data-attachment-button] {
+/* ─── Ghost Button (compact) ─── */
+[data-theme="industrial"] .btn[data-variant="ghost"][data-size="small"] {
   border: 2px solid transparent;
   box-shadow: none;
 }
-[data-theme="industrial"] [data-attachment-button]:hover {
+[data-theme="industrial"] .btn[data-variant="ghost"][data-size="small"]:hover {
   border-color: var(--core-border);
   box-shadow: var(--ind-shadow-sm);
 }

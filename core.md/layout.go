@@ -249,38 +249,6 @@ func Backdrop(class string, onClick func()) gui.Node {
 	return gui.Div(attrs...)()
 }
 
-// IconButton renders a compact icon-only button (ghost variant).
-//
-// Data attributes:
-//   - data-icon-button
-func IconButton(class, icon, ariaLabel string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("icon-button", class)), dataAttr("icon-button", ""))
-	if ariaLabel != "" {
-		attrs = append(attrs, gui.Attr_("aria-label", ariaLabel))
-	}
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	return gui.Button(attrs...)(gui.I(gui.Class(icon))())
-}
-
-// ToolbarButton renders a toolbar button with an icon and label.
-//
-// Data attributes:
-//   - data-toolbar-button
-func ToolbarButton(class, icon, label string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("toolbar-button", class)), dataAttr("toolbar-button", ""))
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	children := []gui.Node{}
-	if icon != "" {
-		children = append(children, gui.I(gui.Class(icon))())
-	}
-	children = append(children, gui.Span()(gui.Text(label)))
-	return gui.Button(attrs...)(children...)
-}
-
 // Toolbar renders a horizontal row of small action buttons.
 //
 // Data attributes:

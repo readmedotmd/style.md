@@ -168,34 +168,39 @@ func TestVariableRow(t *testing.T) {
 	})
 }
 
-func TestErrorMessage(t *testing.T) {
-	t.Run("with_class", func(t *testing.T) {
-		s := guitesting.Render(ErrorMessage("err", "Something went wrong"))
+func TestFeedbackMessage(t *testing.T) {
+	t.Run("error_variant", func(t *testing.T) {
+		s := guitesting.Render(FeedbackMessage("err", FeedbackError, "Something went wrong"))
 		a := s.Assert(t)
 		a.HasElement("div")
-		a.HTMLContains(`class="error-message err"`)
+		a.HTMLContains(`class="feedback-message err"`)
+		a.HTMLContains(`data-variant="error"`)
 		a.HTMLContains(`role="alert"`)
 		a.TextVisible("Something went wrong")
 	})
-	t.Run("empty_class", func(t *testing.T) {
-		s := guitesting.Render(ErrorMessage("", "fail"))
-		s.Assert(t).HTMLContains(`class="error-message"`)
-	})
-}
-
-func TestSuccessMessage(t *testing.T) {
-	t.Run("with_class", func(t *testing.T) {
-		s := guitesting.Render(SuccessMessage("ok", "Saved successfully"))
+	t.Run("success_variant", func(t *testing.T) {
+		s := guitesting.Render(FeedbackMessage("ok", FeedbackSuccess, "Saved successfully"))
 		a := s.Assert(t)
 		a.HasElement("div")
-		a.HTMLContains(`class="success-message ok"`)
+		a.HTMLContains(`class="feedback-message ok"`)
+		a.HTMLContains(`data-variant="success"`)
 		a.HTMLContains(`role="status"`)
 		a.TextVisible("Saved successfully")
 	})
 	t.Run("empty_class", func(t *testing.T) {
-		s := guitesting.Render(SuccessMessage("", "done"))
-		s.Assert(t).HTMLContains(`class="success-message"`)
+		s := guitesting.Render(FeedbackMessage("", FeedbackError, "fail"))
+		s.Assert(t).HTMLContains(`class="feedback-message"`)
 	})
+}
+
+func TestErrorMessage(t *testing.T) {
+	s := guitesting.Render(ErrorMessage("err", "bad"))
+	s.Assert(t).HTMLContains(`data-variant="error"`).HTMLContains(`role="alert"`).TextVisible("bad")
+}
+
+func TestSuccessMessage(t *testing.T) {
+	s := guitesting.Render(SuccessMessage("ok", "done"))
+	s.Assert(t).HTMLContains(`data-variant="success"`).HTMLContains(`role="status"`).TextVisible("done")
 }
 
 func TestNumberInput(t *testing.T) {

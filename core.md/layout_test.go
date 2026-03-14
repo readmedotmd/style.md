@@ -310,14 +310,20 @@ func TestBackdrop(t *testing.T) {
 	})
 }
 
-func TestIconButton(t *testing.T) {
-	t.Run("with_all_props", func(t *testing.T) {
+func TestGhostButton(t *testing.T) {
+	t.Run("with_icon_and_aria_label", func(t *testing.T) {
 		clicked := false
-		s := guitesting.Render(IconButton("ib-cls", "icon-close", "Close", func() { clicked = true }))
+		s := guitesting.Render(Button(ButtonProps{
+			Class:     "ib-cls",
+			Variant:   ButtonGhost,
+			Icon:      "icon-close",
+			AriaLabel: "Close",
+			OnClick:   func() { clicked = true },
+		}))
 		a := s.Assert(t)
 		a.HasElement("button")
-		a.HTMLContains(`class="icon-button ib-cls"`)
-		a.HTMLContains(`data-icon-button`)
+		a.HTMLContains(`class="btn ib-cls"`)
+		a.HTMLContains(`data-variant="ghost"`)
 		a.HTMLContains(`aria-label="Close"`)
 		a.HTMLContains(`class="icon-close"`)
 		ref := s.QueryAllByTag("button")[0]
@@ -326,16 +332,15 @@ func TestIconButton(t *testing.T) {
 			t.Error("expected onclick to fire")
 		}
 	})
-	t.Run("nil_onclick_empty_label", func(t *testing.T) {
-		s := guitesting.Render(IconButton("", "icon-menu", "", nil))
+	t.Run("no_aria_label", func(t *testing.T) {
+		s := guitesting.Render(Button(ButtonProps{
+			Variant: ButtonGhost,
+			Icon:    "icon-menu",
+		}))
 		a := s.Assert(t)
 		a.HasElement("button")
-		a.HTMLContains(`data-icon-button`)
+		a.HTMLContains(`data-variant="ghost"`)
 		a.HTMLNotContains("aria-label")
-		html := s.HTML()
-		if strings.Contains(html, "onclick") {
-			t.Errorf("expected no onclick, got: %s", html)
-		}
 	})
 }
 
@@ -358,11 +363,16 @@ func TestToolbar(t *testing.T) {
 func TestToolbarButton(t *testing.T) {
 	t.Run("with_icon_and_click", func(t *testing.T) {
 		clicked := false
-		s := guitesting.Render(ToolbarButton("tb-cls", "icon-terminal", "Terminal", func() { clicked = true }))
+		s := guitesting.Render(Button(ButtonProps{
+			Class:   "tb-cls",
+			Variant: ButtonToolbar,
+			Icon:    "icon-terminal",
+			OnClick: func() { clicked = true },
+		}, gui.Text("Terminal")))
 		a := s.Assert(t)
 		a.HasElement("button")
-		a.HTMLContains(`class="toolbar-button tb-cls"`)
-		a.HTMLContains(`data-toolbar-button`)
+		a.HTMLContains(`class="btn tb-cls"`)
+		a.HTMLContains(`data-variant="toolbar"`)
 		a.HTMLContains(`class="icon-terminal"`)
 		a.TextVisible("Terminal")
 
@@ -373,18 +383,13 @@ func TestToolbarButton(t *testing.T) {
 		}
 	})
 
-	t.Run("no_icon_no_click", func(t *testing.T) {
-		s := guitesting.Render(ToolbarButton("", "", "Run", nil))
+	t.Run("no_icon", func(t *testing.T) {
+		s := guitesting.Render(Button(ButtonProps{Variant: ButtonToolbar}, gui.Text("Run")))
 		a := s.Assert(t)
 		a.HasElement("button")
-		a.HTMLContains(`class="toolbar-button"`)
-		a.HTMLContains(`data-toolbar-button`)
+		a.HTMLContains(`data-variant="toolbar"`)
 		a.TextVisible("Run")
 		a.HasNoElement("i")
-		html := s.HTML()
-		if strings.Contains(html, "onclick") {
-			t.Errorf("expected no onclick, got: %s", html)
-		}
 	})
 }
 

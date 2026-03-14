@@ -39,9 +39,48 @@ func TestButton_Variants(t *testing.T) {
 		screen := guitesting.Render(Button(ButtonProps{Variant: ButtonToolbar}, gui.Text("T")))
 		screen.Assert(t).HTMLContains(`data-variant="toolbar"`)
 	})
+	t.Run("ghost", func(t *testing.T) {
+		screen := guitesting.Render(Button(ButtonProps{Variant: ButtonGhost}))
+		screen.Assert(t).HTMLContains(`data-variant="ghost"`)
+	})
 	t.Run("default_no_variant_attr", func(t *testing.T) {
 		screen := guitesting.Render(Button(ButtonProps{}, gui.Text("X")))
 		screen.Assert(t).HTMLNotContains("data-variant")
+	})
+}
+
+func TestButton_Icon(t *testing.T) {
+	t.Run("icon_prepended_to_children", func(t *testing.T) {
+		screen := guitesting.Render(Button(ButtonProps{Icon: "icon-star"}, gui.Text("Star")))
+		screen.Assert(t).
+			HasElement("i").
+			HTMLContains(`class="icon-star"`).
+			TextVisible("Star")
+	})
+	t.Run("icon_only", func(t *testing.T) {
+		screen := guitesting.Render(Button(ButtonProps{
+			Variant: ButtonGhost,
+			Icon:    "icon-close",
+		}))
+		screen.Assert(t).
+			HasElement("i").
+			HTMLContains(`class="icon-close"`).
+			HTMLContains(`data-variant="ghost"`)
+	})
+	t.Run("no_icon", func(t *testing.T) {
+		screen := guitesting.Render(Button(ButtonProps{}, gui.Text("Plain")))
+		screen.Assert(t).HasNoElement("i")
+	})
+}
+
+func TestButton_AriaLabel(t *testing.T) {
+	t.Run("with_aria_label", func(t *testing.T) {
+		screen := guitesting.Render(Button(ButtonProps{AriaLabel: "Close"}))
+		screen.Assert(t).HTMLContains(`aria-label="Close"`)
+	})
+	t.Run("without_aria_label", func(t *testing.T) {
+		screen := guitesting.Render(Button(ButtonProps{}))
+		screen.Assert(t).HTMLNotContains("aria-label")
 	})
 }
 

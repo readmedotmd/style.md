@@ -729,8 +729,8 @@ div:has(~ .context-menu) > .modal-backdrop {
   z-index: 50;
 }
 
-/* ─── Icon Button ─── */
-[data-icon-button] {
+/* ─── Ghost Button (icon-only) ─── */
+.btn[data-variant="ghost"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -742,7 +742,7 @@ div:has(~ .context-menu) > .modal-backdrop {
   border-radius: var(--core-radius);
   transition: background var(--core-transition), color var(--core-transition);
 }
-[data-icon-button]:hover {
+.btn[data-variant="ghost"]:hover {
   background: var(--core-surface);
   color: var(--core-text);
 }
@@ -1946,7 +1946,7 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
 .system-stats span { white-space: nowrap; }
 
 /* ─── Toolbar Button ─── */
-.toolbar-button {
+.btn[data-variant="toolbar"] {
   display: inline-flex; align-items: center; gap: 4px;
   padding: 4px 10px; font-size: 0.75rem; font-weight: 500;
   color: var(--core-text-muted); background: none; border: none;
@@ -1954,12 +1954,12 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
   transition: background var(--core-transition), color var(--core-transition);
   white-space: nowrap;
 }
-.toolbar-button:hover {
+.btn[data-variant="toolbar"]:hover {
   background: color-mix(in srgb, var(--core-border) 50%, transparent);
   color: var(--core-text);
 }
-.toolbar-button i { font-size: 0.8rem; }
-.toolbar-button span { line-height: 1; }
+.btn[data-variant="toolbar"] i { font-size: 0.8rem; }
+.btn[data-variant="toolbar"] span { line-height: 1; }
 
 /* ─── Diff Panel ─── */
 .diff-panel {
@@ -1978,19 +1978,11 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
   font-size: 0.8rem; line-height: 1.5;
 }
 
-/* ─── Attachment Button ─── */
-.attachment-button {
-  display: inline-flex; align-items: center; justify-content: center;
+/* ─── Ghost Button (compact, e.g. attachment) ─── */
+.btn[data-variant="ghost"][data-size="small"] {
   width: 32px; height: 32px; padding: 0;
-  background: none; border: none; border-radius: var(--core-radius);
-  color: var(--core-text-muted); cursor: pointer;
-  transition: background var(--core-transition), color var(--core-transition);
 }
-.attachment-button:hover {
-  background: color-mix(in srgb, var(--core-border) 50%, transparent);
-  color: var(--core-text);
-}
-.attachment-button i { font-size: 1rem; }
+.btn[data-variant="ghost"] i { font-size: 1rem; }
 
 /* ─── Mode Toggle ─── */
 .mode-toggle {

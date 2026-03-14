@@ -416,12 +416,12 @@
   backdrop-filter: blur(4px);
 }
 
-/* ─── Icon Button ─── */
-[data-theme="devbox"] [data-icon-button] {
+/* ─── Ghost Button ─── */
+[data-theme="devbox"] .btn[data-variant="ghost"] {
   font-family: var(--core-font);
   border-radius: 6px;
 }
-[data-theme="devbox"] [data-icon-button]:hover {
+[data-theme="devbox"] .btn[data-variant="ghost"]:hover {
   background: rgba(34, 197, 94, 0.08);
   color: var(--core-accent);
 }
@@ -475,14 +475,14 @@
 }
 
 /* ─── Toolbar Button ─── */
-[data-theme="devbox"] [data-toolbar-button] {
+[data-theme="devbox"] .btn[data-variant="toolbar"] {
   font-weight: 500;
   font-size: 12px;
   border-radius: 6px;
   box-shadow: none;
   border: none;
 }
-[data-theme="devbox"] [data-toolbar-button]:hover {
+[data-theme="devbox"] .btn[data-variant="toolbar"]:hover {
   background: var(--dbx-hover-bg);
   box-shadow: none;
   transform: none;
@@ -510,15 +510,13 @@
   font-family: var(--core-font-mono);
 }
 
-/* ─── Attachment Button ─── */
-[data-theme="devbox"] [data-attachment-button] {
+/* ─── Ghost Button (compact) ─── */
+[data-theme="devbox"] .btn[data-variant="ghost"][data-size="small"] {
   border-radius: 6px;
   box-shadow: none;
   border: none;
 }
-[data-theme="devbox"] [data-attachment-button]:hover {
-  background: var(--dbx-hover-bg);
-  color: var(--core-accent);
+[data-theme="devbox"] .btn[data-variant="ghost"][data-size="small"]:hover {
   box-shadow: none;
   transform: none;
 }

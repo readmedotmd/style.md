@@ -185,22 +185,6 @@ func QueuedItem(class, text string, hasImage bool, onSend func(), onRemove func(
 	return gui.Div(attrs...)(children...)
 }
 
-// AttachmentButton renders a compact icon button for attaching files.
-//
-// Data attributes:
-//   - data-attachment-button
-func AttachmentButton(class, icon string, onClick func()) gui.Node {
-	attrs := collectAttrs(optClass(joinClass("attachment-button", class)), dataAttr("attachment-button", ""))
-	if onClick != nil {
-		attrs = append(attrs, gui.OnClick(onClick))
-	}
-	iconClass := icon
-	if iconClass == "" {
-		iconClass = "icon-paperclip"
-	}
-	return gui.Button(attrs...)(gui.I(gui.Class(iconClass))())
-}
-
 // ModeToggleProps configures the ModeToggle component.
 type ModeToggleProps struct {
 	Class   string
