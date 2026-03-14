@@ -2155,7 +2155,8 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
 
 /* ─── Tablet (max-width: 768px) ─── */
 @media (max-width: 768px) {
-  .nav-links { display: none; }
+  .navbar > .nav-links { display: none; }
+  .hamburger-btn, .hamburger-btn:not([data-variant]) { display: none; }
   .cluster-stats-bar { display: none; }
   .dashboard.mobile-chat-active ~ .bottom-tab-bar,
   .dashboard.mobile-chat-active ~ .bottom-tabbar { display: none; }
