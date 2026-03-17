@@ -612,5 +612,15 @@
   text-decoration-thickness: 2px;
 }
 
+[data-theme="industrial"] .settings-sidebar-item {
+  border-radius: 0; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.8rem;
+}
+[data-theme="industrial"] .settings-sidebar-item.active,
+[data-theme="industrial"] .settings-sidebar-item[data-active="true"] {
+  background: var(--core-accent); color: #000; box-shadow: 3px 3px 0 var(--core-text);
+}
+[data-theme="industrial"] .settings-workspace-stack { border-width: 2px; border-radius: 0; }
+[data-theme="industrial"] .settings-workspace-stack-actions button { border-radius: 0; border-width: 2px; }
+
 /* ─── Animate ─── */
 [data-theme="industrial"] [data-animate="pulse"] { animation-timing-function: steps(4, end); }

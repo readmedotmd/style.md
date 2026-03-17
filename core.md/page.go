@@ -88,6 +88,56 @@ func SettingsPage(class string, children ...gui.Node) gui.Node {
 	return gui.Div(collectAttrs(optClass(joinClass("settings-page", class)))...)(children...)
 }
 
+// SettingsLayout renders a settings page with sidebar navigation + content area.
+// On mobile (<768px), the sidebar collapses to horizontal wrapped pills.
+//
+// CSS classes:
+//   - .settings-layout: outer flex container
+//   - .settings-sidebar: left nav column
+//   - .settings-content: right content area
+func SettingsLayout(class string, sidebar gui.Node, content gui.Node) gui.Node {
+	return gui.Div(collectAttrs(optClass(joinClass("settings-layout", class)))...)(
+		gui.Div(gui.Class("settings-sidebar"))(sidebar),
+		gui.Div(gui.Class("settings-content"))(content),
+	)
+}
+
+// SettingsSidebarSection renders a section title in the settings sidebar.
+//
+// CSS classes:
+//   - .settings-sidebar-section-title
+func SettingsSidebarSection(title string) gui.Node {
+	return gui.Div(gui.Class("settings-sidebar-section-title"))(gui.Text(title))
+}
+
+// SettingsSidebarItem renders a clickable nav item in the settings sidebar.
+//
+// CSS classes:
+//   - .settings-sidebar-item
+//   - .settings-sidebar-item.active (when active)
+//
+// Data attributes:
+//   - data-active: "true" (when active)
+func SettingsSidebarItem(class string, icon string, label string, active bool, onClick func()) gui.Node {
+	cls := "settings-sidebar-item"
+	if active {
+		cls += " active"
+	}
+	attrs := collectAttrs(optClass(joinClass(cls, class)))
+	if active {
+		attrs = append(attrs, dataAttr("active", "true"))
+	}
+	if onClick != nil {
+		attrs = append(attrs, gui.OnClick(onClick))
+	}
+	children := []gui.Node{}
+	if icon != "" {
+		children = append(children, gui.I(gui.Class(icon))())
+	}
+	children = append(children, gui.Span()(gui.Text(label)))
+	return gui.Button(attrs...)(children...)
+}
+
 // settingsBlock is a shared internal helper for settings card/section/subsection pattern:
 // header(icon + title + optional description) + body(children).
 func settingsBlock(class, icon, title, description string, headerAttr, bodyAttr gui.Attr, children ...gui.Node) gui.Node {

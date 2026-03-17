@@ -821,3 +821,7 @@
 [data-theme="devbox"] .auth-btn:hover {
   box-shadow: var(--dbx-shadow-md);
 }
+[data-theme="devbox"] .settings-sidebar-item.active,
+[data-theme="devbox"] .settings-sidebar-item[data-active="true"] {
+  background: var(--dbx-active-bg, var(--core-accent));
+}
