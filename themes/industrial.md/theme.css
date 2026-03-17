@@ -622,6 +622,12 @@
 [data-theme="industrial"] .settings-workspace-stack { border-width: 2px; border-radius: 0; }
 [data-theme="industrial"] .settings-workspace-stack-actions button { border-radius: 0; border-width: 2px; }
 
+[data-theme="industrial"] .sidebar-group-header {
+  border-radius: 0; letter-spacing: 0.05em;
+  border-bottom-width: 2px;
+}
+[data-theme="industrial"] .sidebar-group-count { border-radius: 0; border-width: 2px; }
+
 [data-theme="industrial"] button.nav-link,
 [data-theme="industrial"] button.nav-link:not([data-variant]),
 [data-theme="industrial"] .bottom-tab-bar > button,

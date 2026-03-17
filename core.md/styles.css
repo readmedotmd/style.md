@@ -1893,6 +1893,25 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
 }
 .settings-workspace-add:hover { background: var(--core-surface-hover, rgba(128,128,128,0.1)); }
 
+/* ─── Sidebar Group Accordion ─── */
+.sidebar-group { display: flex; flex-direction: column; }
+.sidebar-group-header {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px; cursor: pointer; user-select: none;
+  font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.03em; color: var(--core-text-muted);
+  border-bottom: 1px solid var(--core-border);
+}
+.sidebar-group-header:hover { color: var(--core-text); background: var(--core-surface-hover, rgba(128,128,128,0.1)); }
+.sidebar-group-header > span:first-child { font-size: 0.7rem; width: 0.8rem; text-align: center; flex-shrink: 0; }
+.sidebar-group-name { flex: 1; }
+.sidebar-group-count {
+  font-size: 0.7rem; font-weight: 500; color: var(--core-text-muted);
+  background: var(--core-surface); border: 1px solid var(--core-border);
+  border-radius: 99px; padding: 0 6px; line-height: 1.5;
+}
+.sidebar-group-body { display: flex; flex-direction: column; }
+
 /* ─── Settings Overlay ─── */
 .settings-overlay-row { display: flex; flex-direction: column; gap: 6px; }
 .settings-overlay-header { display: flex; gap: 8px; align-items: center; }
