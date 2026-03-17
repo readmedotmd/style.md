@@ -250,18 +250,18 @@
 }
 
 /* ─── Tab Bar ─── */
-[data-theme="industrial"] div:has(> button[data-active]) {
+[data-theme="industrial"] .tab-bar {
   border-bottom-width: 2px;
 }
 
-[data-theme="industrial"] div:has(> button[data-active]) > button {
+[data-theme="industrial"] .tab-bar > button {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 700;
   font-size: 11px;
 }
 
-[data-theme="industrial"] div:has(> button[data-active]) > button[data-active="true"] {
+[data-theme="industrial"] .tab-bar > button[data-active="true"] {
   border-bottom-width: 3px;
 }
 

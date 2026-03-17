@@ -269,11 +269,11 @@
 }
 
 /* ─── Tab Bar ─── */
-[data-theme="devbox"] div:has(> button[data-active]) {
+[data-theme="devbox"] .tab-bar {
   border-bottom-width: 1px;
 }
 
-[data-theme="devbox"] div:has(> button[data-active]) > button {
+[data-theme="devbox"] .tab-bar > button {
   font-weight: 500;
   font-size: 13px;
   transition: color var(--core-transition);
@@ -283,12 +283,12 @@
   background: transparent;
 }
 
-[data-theme="devbox"] div:has(> button[data-active]) > button:hover {
+[data-theme="devbox"] .tab-bar > button:hover {
   box-shadow: none;
   transform: none;
 }
 
-[data-theme="devbox"] div:has(> button[data-active]) > button[data-active="true"] {
+[data-theme="devbox"] .tab-bar > button[data-active="true"] {
   font-weight: 600;
   border-bottom: 2px solid var(--core-accent);
   color: var(--core-accent);

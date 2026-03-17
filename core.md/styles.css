@@ -365,12 +365,12 @@ tbody tr:last-child td { border-bottom: none; }
 tbody tr:hover { background: var(--core-surface); }
 
 /* ─── Navigation: Tab Bar ─── */
-div:has(> button[data-active]) {
+.tab-bar {
   display: flex;
   gap: 0;
   border-bottom: 1px solid var(--core-border);
 }
-div:has(> button[data-active]) > button {
+.tab-bar > button {
   border: none;
   border-bottom: 2px solid transparent;
   border-radius: 0;
@@ -380,11 +380,11 @@ div:has(> button[data-active]) > button {
   font-weight: 500;
   color: var(--core-text-muted);
 }
-div:has(> button[data-active]) > button:hover {
+.tab-bar > button:hover {
   color: var(--core-text);
   background: none;
 }
-div:has(> button[data-active]) > button[data-active="true"] {
+.tab-bar > button[data-active="true"] {
   color: var(--core-accent);
   border-bottom-color: var(--core-accent);
 }
