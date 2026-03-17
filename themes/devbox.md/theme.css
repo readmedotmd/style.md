@@ -825,3 +825,10 @@
 [data-theme="devbox"] .settings-sidebar-item[data-active="true"] {
   background: var(--dbx-active-bg, var(--core-accent));
 }
+
+/* ─── Mobile Breakpoints ─── */
+@media (max-width: 768px) {
+  .page-chat #bottom-tabbar {
+    display: none;
+  }
+}
