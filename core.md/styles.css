@@ -1313,6 +1313,11 @@ button.mode-btn[data-mode="act"] { background: transparent; color: var(--core-su
 button.mode-btn[data-mode="act"]:hover { background: color-mix(in srgb, var(--core-success) 10%, transparent); }
 button.mode-btn[data-mode="plan"] { background: transparent; color: var(--core-warning); border: 1px solid var(--core-warning); }
 button.mode-btn[data-mode="plan"]:hover { background: color-mix(in srgb, var(--core-warning) 10%, transparent); }
+.chat-input-row .mode-toggle {
+  padding: 0 14px; font-size: 0.9rem; line-height: 1;
+  border-radius: var(--core-radius);
+  min-height: unset; height: 42px; box-sizing: border-box;
+}
 
 /* ─── Panels ─── */
 .panel {
@@ -2314,6 +2319,7 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
   .chat-input-wrap { flex: 1 1 100%; order: -1; }
   .chat-input-wrap[data-expanded="true"] .chat-input { max-height: 50vh; min-height: 150px; }
   button.mode-btn, button.attach-btn { flex: 1; justify-content: center; }
+  .chat-input-row .mode-toggle { min-height: 44px; flex: 1; justify-content: center; }
   .chat-input-row button.btn[data-variant="primary"],
   .chat-input-row button.btn[data-variant="danger"] { flex: 1; justify-content: center; }
   button.nav-link { min-height: 44px; display: inline-flex; align-items: center; border: none; border-bottom: none; box-shadow: none; }

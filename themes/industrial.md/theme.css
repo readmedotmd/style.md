@@ -622,5 +622,20 @@
 [data-theme="industrial"] .settings-workspace-stack { border-width: 2px; border-radius: 0; }
 [data-theme="industrial"] .settings-workspace-stack-actions button { border-radius: 0; border-width: 2px; }
 
+[data-theme="industrial"] button.nav-link,
+[data-theme="industrial"] button.nav-link:not([data-variant]),
+[data-theme="industrial"] .bottom-tab-bar > button,
+[data-theme="industrial"] .bottom-tab-bar > button:not([data-variant]),
+[data-theme="industrial"] .bottom-tabbar > button,
+[data-theme="industrial"] .bottom-tabbar > button:not([data-variant]) {
+  box-shadow: none; border-width: 0; text-transform: none; letter-spacing: normal;
+}
+[data-theme="industrial"] button.nav-link:hover,
+[data-theme="industrial"] .bottom-tab-bar > button:hover,
+[data-theme="industrial"] .bottom-tabbar > button:hover { box-shadow: none; }
+[data-theme="industrial"] button.nav-link:active,
+[data-theme="industrial"] .bottom-tab-bar > button:active,
+[data-theme="industrial"] .bottom-tabbar > button:active { box-shadow: none; transform: none; }
+
 /* ─── Animate ─── */
 [data-theme="industrial"] [data-animate="pulse"] { animation-timing-function: steps(4, end); }
