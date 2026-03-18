@@ -147,9 +147,9 @@ func PastePreview(class string, items []PastePreviewItem) gui.Node {
 		if item.OnRemove != nil {
 			removeAttrs = append(removeAttrs, gui.OnClick(item.OnRemove))
 		}
-		children[i] = gui.Div()(
-			gui.Img(gui.Src(item.Src), gui.Alt("paste preview"))(),
-			gui.Button(removeAttrs...)(gui.Text("\u00d7")),
+		children[i] = gui.Div(gui.Class("paste-preview-item"))(
+			gui.Img(gui.Src(item.Src), gui.Alt("paste preview"), gui.Class("paste-preview-img"))(),
+			gui.Button(append(removeAttrs, gui.Class("paste-remove-btn"))...)(gui.Text("\u00d7")),
 		)
 	}
 	return gui.Div(collectAttrs(optClass(joinClass("paste-preview", class)))...)(children...)

@@ -1247,6 +1247,8 @@ button.cluster-refresh-btn:not([data-variant]):hover { color: var(--core-text); 
 .paste-preview:empty { display: none; padding: 0; border: none; }
 .paste-preview-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .paste-preview-img { max-height: 72px; max-width: 108px; border-radius: 4px; object-fit: contain; }
+[data-message-image] { max-width: 100%; max-height: 320px; border-radius: var(--core-radius); object-fit: contain; display: block; }
+@media (max-width: 600px) { [data-message-image] { max-height: 180px; } }
 .paste-remove-btn {
   background: none; border: none; color: var(--core-text-muted); cursor: pointer;
   font-size: 1rem; padding: 0 4px; transition: color 0.15s;
@@ -2246,7 +2248,7 @@ button.git-tab-item[data-active="true"] { color: var(--core-accent); border-bott
   .hamburger-btn, .hamburger-btn:not([data-variant]) { display: none; }
   .cluster-stats-bar { display: none; }
   .dashboard.mobile-chat-active ~ .bottom-tab-bar,
-  .dashboard.mobile-chat-active ~ .bottom-tabbar { display: none; }
+  .dashboard.mobile-chat-active ~ .bottom-tabbar { display: none !important; }
   .app:has(.dashboard.mobile-chat-active) > .navbar { display: none; }
   .app.app-scrollable, .app[data-scrollable="true"] { overflow: hidden; }
   .app.app-scrollable .settings-page, .app[data-scrollable="true"] .settings-page,
