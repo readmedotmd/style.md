@@ -1065,6 +1065,7 @@ button.cluster-refresh-btn:not([data-variant]):hover { color: var(--core-text); 
 [data-instance-card] {
   padding: 10px; border-radius: var(--core-radius); cursor: pointer;
   transition: background 0.1s; margin-bottom: 2px;
+  touch-action: pan-y;
 }
 [data-instance-card]:hover { background: var(--core-surface); }
 [data-instance-card][data-active="true"] { background: var(--core-surface); border-left: 2px solid var(--core-accent); padding-left: 8px; }
