@@ -418,8 +418,6 @@ tbody tr:hover { background: var(--core-surface); }
 
 /* ─── Login Page ─── (merged; app-layout rules are below in the app section) */
 
-/* ─── Sidebar: open/closed ─── */
-aside[data-open="true"] { display: block; }
 
 /* ─── Spinner ─── */
 @keyframes core-spin {
@@ -1051,7 +1049,7 @@ button.cluster-refresh-btn:not([data-variant]):hover { color: var(--core-text); 
   border-width: 1px; border-style: solid;
   display: inline-flex; align-items: center; gap: 4px;
 }
-.sidebar > div { flex: 1; overflow-y: auto; padding: 4px 8px 8px; }
+.sidebar > div { flex: 1; overflow-y: auto; padding: 4px 8px 8px; min-height: 0; }
 
 /* ─── Conversation Item ─── */
 .conv-item {
