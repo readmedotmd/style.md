@@ -309,7 +309,7 @@ span[data-status] {
 span[data-status="running"]  { background: color-mix(in srgb, var(--core-success) 15%, transparent); color: var(--core-success); }
 span[data-status="stopped"]  { background: var(--core-surface); color: var(--core-text-muted); }
 span[data-status="starting"] { background: color-mix(in srgb, var(--core-warning) 15%, transparent); color: var(--core-warning); }
-span[data-status="pending"]  { background: color-mix(in srgb, var(--core-accent) 15%, transparent); color: var(--core-accent); }
+span[data-status="pending"]  { background: color-mix(in srgb, #f97316 15%, transparent); color: #f97316; }
 span[data-status="error"]    { background: color-mix(in srgb, var(--core-danger) 15%, transparent); color: var(--core-danger); }
 
 /* Status dot (empty span with data-status) */
@@ -323,7 +323,7 @@ span[data-status]:empty {
 span[data-status="running"]:empty  { background: var(--core-success); }
 span[data-status="stopped"]:empty  { background: var(--core-text-muted); }
 span[data-status="starting"]:empty { background: var(--core-warning); }
-span[data-status="pending"]:empty  { background: var(--core-accent); }
+span[data-status="pending"]:empty  { background: #f97316; }
 span[data-status="error"]:empty    { background: var(--core-danger); }
 
 /* ─── Diff Viewer ─── */
@@ -1085,7 +1085,8 @@ button.cluster-refresh-btn:not([data-variant]):hover { color: var(--core-text); 
 }
 .status-badge[data-status="running"] { background: color-mix(in srgb, var(--core-success) 15%, transparent); color: var(--core-success); border: 1px solid var(--core-success); }
 .status-badge[data-status="stopped"] { background: color-mix(in srgb, var(--core-text-muted) 15%, transparent); color: var(--core-text-muted); border: 1px solid var(--core-text-muted); }
-.status-badge[data-status="starting"], .status-badge[data-status="pending"] { background: color-mix(in srgb, var(--core-warning) 15%, transparent); color: var(--core-warning); border: 1px solid var(--core-warning); }
+.status-badge[data-status="starting"] { background: color-mix(in srgb, var(--core-warning) 15%, transparent); color: var(--core-warning); border: 1px solid var(--core-warning); }
+.status-badge[data-status="pending"] { background: color-mix(in srgb, #f97316 15%, transparent); color: #f97316; border: 1px solid #f97316; }
 .status-badge[data-status="error"] { background: color-mix(in srgb, var(--core-danger) 15%, transparent); color: var(--core-danger); border: 1px solid var(--core-danger); }
 
 /* ─── Context Menu (positioning) ─── */
