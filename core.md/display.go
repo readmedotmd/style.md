@@ -177,10 +177,10 @@ func ClusterStatsBar(class string, stats []ClusterStat, onClick func()) gui.Node
 		if stat.Icon != "" {
 			itemChildren = append(itemChildren, gui.I(gui.Class(stat.Icon))())
 		}
-		itemChildren = append(itemChildren,
-			gui.Text(stat.Label+": "),
-			gui.Span()(gui.Text(stat.Value)),
-		)
+		if stat.Label != "" {
+			itemChildren = append(itemChildren, gui.Span()(gui.Text(stat.Label)))
+		}
+		itemChildren = append(itemChildren, gui.Span()(gui.Text(stat.Value)))
 		children[i] = gui.Div()(itemChildren...)
 	}
 	attrs := collectAttrs(optClass(joinClass("cluster-stats-bar", class)))

@@ -216,7 +216,7 @@ func FeatureRow(props FeatureRowProps) gui.Node {
 	if props.OnChange != nil {
 		inputAttrs = append(inputAttrs, gui.OnClick(props.OnChange))
 	}
-	return gui.Div(collectAttrs(optClass(joinClass("feature-row", props.Class)))...)(
+	return gui.Label(collectAttrs(optClass(joinClass("feature-row", props.Class)))...)(
 		gui.Div(dataAttr("feature-info", ""))(
 			gui.Div(dataAttr("feature-name", ""))(gui.Text(props.Name)),
 			gui.Div(dataAttr("feature-desc", ""))(gui.Text(props.Description)),
@@ -377,10 +377,15 @@ func PasswordField(props PasswordFieldProps) gui.Node {
 	if props.OnToggle != nil {
 		toggleAttrs = append(toggleAttrs, gui.OnClick(props.OnToggle))
 	}
-	icon := "icon-eye"
+	icon := "ri-eye-line"
 	if props.Visible {
-		icon = "icon-eye-off"
+		icon = "ri-eye-off-line"
 	}
+	label := "Show password"
+	if props.Visible {
+		label = "Hide password"
+	}
+	toggleAttrs = append(toggleAttrs, gui.Attr_("aria-label", label), gui.Attr_("type", "button"))
 	toggle := gui.Button(toggleAttrs...)(gui.I(gui.Class(icon))())
 	return gui.Div(attrs...)(input, toggle)
 }

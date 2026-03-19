@@ -826,6 +826,18 @@
   background: var(--dbx-active-bg, var(--core-accent));
 }
 
+/* ─── Workspace Card ─── */
+[data-theme="devbox"] .workspace-card {
+  box-shadow: var(--dbx-shadow-sm);
+  transition: border-color var(--core-transition), box-shadow var(--core-transition), background var(--core-transition);
+}
+[data-theme="devbox"] .workspace-card:hover {
+  box-shadow: var(--dbx-shadow-md);
+}
+[data-theme="devbox"] .workspace-card[data-selected="true"] {
+  box-shadow: var(--dbx-shadow-md);
+}
+
 /* ─── Mobile Breakpoints ─── */
 @media (max-width: 768px) {
   .page-chat #bottom-tabbar {

@@ -22,7 +22,7 @@ func LoginPage(class, title string, form gui.Node, errorMsg string) gui.Node {
 		cardChildren = append(cardChildren, gui.Div(gui.Class("login-error"))(gui.Text(errorMsg)))
 	}
 	if form != nil {
-		cardChildren = append(cardChildren, gui.Div(gui.Class("login-form"))(form))
+		cardChildren = append(cardChildren, gui.Form(gui.Class("login-form"))(form))
 	}
 	return gui.Div(collectAttrs(optClass(joinClass("login-page", class)))...)(
 		gui.Div(gui.Class("login-card"))(cardChildren...),
